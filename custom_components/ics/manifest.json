@@ -1,0 +1,9 @@
+{
+    "domain": "ics",
+    "name": "ics Calendar",
+    "documentation": "https://github.com/franc6/ics_calendar",
+    "requirements": ["ics", "arrow"],
+    "dependencies": [],
+    "codeowners": ["@franc6"]
+
+}
