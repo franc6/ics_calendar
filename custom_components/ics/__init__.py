@@ -1,2 +1,2 @@
-# ics Calendar for Home Assistant
+"""ics Calendar for Home Assistant"""
 from .calendar import VERSION
