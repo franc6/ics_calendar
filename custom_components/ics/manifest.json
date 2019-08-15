@@ -4,6 +4,7 @@
     "documentation": "https://github.com/franc6/ics_calendar",
     "requirements": ["ics", "arrow"],
     "dependencies": [],
+    "homeassistant": "0.97.0",
     "codeowners": ["@franc6"]
 
 }
