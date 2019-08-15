@@ -1,10 +1,11 @@
 # ics_calendar
 Provides an ICS (icalendar) calendar platform for Home Assistant
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![License][https://img.shields.io/github/license/franc6/ics_calendar.svg?style=for-the-badge]](LICENSE)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
 ## Installation
-You can install this through HACS by adding https://github.com/franc6/ics_calendar as a custom repository.
+You can install this through [HACS](https://github.com/custom-components/hacs) by adding https://github.com/franc6/ics_calendar as a custom repository.
 
 Otherwise, you can install it manually.
 
