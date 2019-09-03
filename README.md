@@ -14,10 +14,9 @@ Otherwise, you can install it manually.
 3. In the custom_components directory (folder) create a new folder called ics.
 4. Download all the files from the custom_components/ics/ directory (folder) in this repository.
 5. Place the files you downloaded in the new directory (folder) you created.
-6. Restart Home Assistant
-7. Choose:
-   - Add platform: ics to your HA configuration.
-   - In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "ics"
+6. Inside the new directory, run 'pip install -r requirements.txt'
+7. Restart Home Assistant
+8. Add platform: ics to your HA's calendar configuration.
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
