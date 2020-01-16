@@ -118,7 +118,7 @@ class ICSCalendarData:
         """Get all events in a specific time frame."""
         event_list = []
         try:
-            calendar = Calendar(urlopen(self.url).read().decode())
+            calendar = Calendar(urlopen(self.url).read().decode().replace('\0', ''))
             ar_start = arrow.get(start_date)
             ar_end = arrow.get(end_date)
 
@@ -156,7 +156,7 @@ class ICSCalendarData:
     def update(self):
         """Get the latest data."""
         try:
-            calendar = Calendar(urlopen(self.url).read().decode())
+            calendar = Calendar(urlopen(self.url).read().decode().replace('\0', ''))
             temp_event = None
             for event in calendar.timeline.at(arrow.utcnow()):
                 if event.all_day and not self.include_all_day:
