@@ -114,11 +114,30 @@ class ICSCalendarData:
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.event = None
 
+    def _downloadAndParseCalendar(self):
+        calendar = None
+        try:
+            calendar = Calendar(urlopen(self.url).read().decode().replace('\0', ''))
+        except HTTPError as http_error:
+            _LOGGER.error("%s: Failed to open url: %s",
+                          self.name, http_error.reason)
+        except ContentTooShortError as content_too_short_error:
+            _LOGGER.error("%s: Could not download calendar data: %s",
+                          self.name, content_too_short_error.reason)
+        except URLError as url_error:
+            _LOGGER.error("%s: Failed to open url: %s",
+                          self.name, url_error.reason)
+        # Any other errors are probably parse errors...
+        except Error as error:
+            _LOGGER.error("%s: Failed to parse iCalendar: %s",
+                          self.name, error.reason)
+        return calendar
+
     async def async_get_events(self, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
-        try:
-            calendar = Calendar(urlopen(self.url).read().decode().replace('\0', ''))
+        calendar = self._downloadAndParseCalendar()
+        if calendar is not None:
             ar_start = arrow.get(start_date)
             ar_end = arrow.get(end_date)
 
@@ -140,23 +159,13 @@ class ICSCalendarData:
                 # but a different format for self.event!
                 event_list.append(data)
 
-        except HTTPError as http_error:
-            _LOGGER.error("%s: Failed to open url: %s",
-                          self.name, http_error.reason)
-        except ContentTooShortError as content_too_short_error:
-            _LOGGER.error("%s: Could not download calendar data: %s",
-                          self.name, content_too_short_error.reason)
-        except URLError as url_error:
-            _LOGGER.error("%s: Failed to open url: %s",
-                          self.name, url_error.reason)
-
         return event_list
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data."""
-        try:
-            calendar = Calendar(urlopen(self.url).read().decode().replace('\0', ''))
+        calendar = self._downloadAndParseCalendar()
+        if calendar is not None:
             temp_event = None
             for event in calendar.timeline.at(arrow.utcnow()):
                 if event.all_day and not self.include_all_day:
@@ -180,15 +189,6 @@ class ICSCalendarData:
             # Note that we use get_hass_date for start and end, not just a plain formatted date!
             return True
 
-        except HTTPError as http_error:
-            _LOGGER.error("%s: Failed to open url: %s",
-                          self.name, http_error.reason)
-        except ContentTooShortError as content_too_short_error:
-            _LOGGER.error("%s: Could not download calendar data: %s",
-                          self.name, content_too_short_error.reason)
-        except URLError as url_error:
-            _LOGGER.error("%s: Failed to open url: %s",
-                          self.name, url_error.reason)
         return False
 
     @staticmethod
