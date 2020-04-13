@@ -116,7 +116,7 @@ class ICSCalendarData:
     def _downloadAndParseCalendar(self):
         calendar = None
         try:
-            calendar_data = urlopen(self.url).read().decode().replace('\0', ''))
+            calendar_data = urlopen(self.url).read().decode().replace('\0', '')
         except HTTPError as http_error:
             _LOGGER.error("%s: Failed to open url: %s",
                           self.name, http_error.reason)
