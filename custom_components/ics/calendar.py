@@ -1,11 +1,11 @@
 """Support for ICS Calendar."""
 import copy
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import urlopen
 
-from icalevents import icalevents
+from icalevents import icalparser
 import voluptuous as vol
 from homeassistant.components.calendar import (ENTITY_ID_FORMAT,
                                                PLATFORM_SCHEMA,
@@ -136,7 +136,7 @@ class ICSCalendarData:
         """Get all events in a specific time frame."""
         event_list = []
         calendar_data = self._downloadAndParseCalendar()
-        events = icalevents.events(string_content=calendar_data, start=start_date, end=end_date)
+        events = icalparser.parse_events(content=calendar_data, start=start_date, end=end_date)
         if events is not None:
             for event in events:
                 if event.all_day and not self.include_all_day:
@@ -161,12 +161,12 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data."""
-        now = datetime.datetime.now().astimezone()
+        now = datetime.now().astimezone()
         calendar_data = self._downloadAndParseCalendar()
-        events = icalevents.events(string_content=calendar_data, end=now)
+        events = icalparser.parse_events(content=calendar_data, end=now)
         if events is not None:
             temp_event = None
-            for event in events
+            for event in events:
                 if event.all_day and not self.include_all_day:
                     continue
                 else:
