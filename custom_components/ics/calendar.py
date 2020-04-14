@@ -147,8 +147,8 @@ class ICSCalendarData:
                 data = {
                     'uid': uid,
                     'title': event.summary,
-                    'start': self.get_date_formatted(event.start, event.all_day),
-                    'end': self.get_date_formatted(event.end, event.all_day),
+                    'start': self.get_date_formatted(event.start.astimezone(), event.all_day),
+                    'end': self.get_date_formatted(event.end.astimezone(), event.all_day),
                     'location': event.location,
                     'description': event.description
                 }
@@ -170,6 +170,8 @@ class ICSCalendarData:
                 if event.all_day and not self.include_all_day:
                     continue
                 else:
+                    event.start = event.start.astimezone()
+                    event.end = event.end.astimezone()
                     # This first case probably isn't needed; when writing this
                     # code, I noticed that if an event hasn't started yet, it
                     # won't be returned at all.  I've left the condition in,
@@ -197,7 +199,7 @@ class ICSCalendarData:
         return False
 
     @staticmethod
-    def get_date_formatted(dt_str, is_all_day):
+    def get_date_formatted(dt, is_all_day):
         """Return the formatted date"""
         # Note that all day events should have a time of 0, and the timezone
         # must be local.
