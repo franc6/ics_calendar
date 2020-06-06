@@ -88,9 +88,9 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         """Returns the name of the calendar entity"""
         return self._name
 
-    async def async_get_events(self, _, start_date, end_date):
+    async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
-        return await self.data.async_get_events(start_date, end_date)
+        return await self.data.async_get_events(hass, start_date, end_date)
 
     def update(self):
         """Update event data."""
@@ -133,7 +133,7 @@ class ICSCalendarData:
                           self.name, error.reason)
         return calendar
 
-    async def async_get_events(self, start_date, end_date):
+    async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
         calendar = await hass.async_add_job(self._downloadAndParseCalendar)
