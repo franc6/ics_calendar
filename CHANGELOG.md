@@ -1,3 +1,8 @@
+## 2.0.0-beta5
+- Fixed issue #15
+- Merged PR #14
+- Fixed issue #11
+
 ## 1.0.2 2020/02/04
 Fixed issue #7
 
