@@ -1,7 +1,9 @@
-## 1.0.3 2020/09/09
+## 1.0.4 2020/09/09
 - Fixed issue #15
 - Merged PR #14
 - Documented includeAllDay
+
+## 1.0.3.1 2020/06/05
 - Fixed #11
 - Fixed I/O to be async properly
 - Updated all dates to be local timezone if there's no timezone instead of UTC.
