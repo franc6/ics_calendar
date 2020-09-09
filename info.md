@@ -23,7 +23,7 @@ calendar:
         url: "https://url.to/calendar.ics"
       - name: "Name of another calendar"
         url: "https://url.to/other_calendar.ics"
-        includeAllDay: true
+        includeAllDay: True
 ```
 
 ## Configuration options
@@ -36,5 +36,6 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
+`includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
