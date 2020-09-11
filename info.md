@@ -14,6 +14,10 @@ custom_components/ics/manifest.json
 custom_components/ics/calendar.py
 ```
 
+## Authentication
+This calendar platform support HTTP Basic Auth and HTTP Digest Auth.  It does
+not support more advanced authentication methods.
+
 ## Example configuration.yaml
 ```yaml
 calendar:
@@ -23,7 +27,7 @@ calendar:
         url: "https://url.to/calendar.ics"
       - name: "Name of another calendar"
         url: "https://url.to/other_calendar.ics"
-        includeAllDay: true
+        includeAllDay: True
 ```
 
 ## Configuration options
@@ -36,5 +40,8 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
+`includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
+`username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
+`password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
