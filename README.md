@@ -1,7 +1,7 @@
 # ics_calendar
 Provides an ICS (icalendar) calendar platform for Home Assistant
 
-> **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server support CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
+> **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
 
 [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg?style=for-the-badge)](LICENSE)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
@@ -28,7 +28,7 @@ custom_components/ics/calendar.py
 ```
 
 ## Authentication
-This calendar platform support HTTP Basic Auth and HTTP Digest Auth.  It does
+This calendar platform supports HTTP Basic Auth and HTTP Digest Auth.  It does
 not support more advanced authentication methods.
 
 ## Example configuration.yaml
