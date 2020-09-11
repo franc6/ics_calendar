@@ -3,7 +3,7 @@ import copy
 import logging
 from datetime import timedelta
 from urllib.error import ContentTooShortError, HTTPError, URLError
-from urllib.request import urlopen
+from urllib.request import HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler, HTTPDigestAuthHandler, build_opener, install_opener, urlopen
 
 import arrow
 from ics import Calendar
@@ -13,12 +13,12 @@ from homeassistant.components.calendar import (ENTITY_ID_FORMAT,
                                                CalendarEventDevice,
                                                calculate_offset,
                                                is_offset_reached)
-from homeassistant.const import CONF_NAME, CONF_URL
+from homeassistant.const import CONF_NAME, CONF_PASSWORD, CONF_URL, CONF_USERNAME
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.util import Throttle
 
-VERSION = "1.0.0"
+VERSION = "1.0.5"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -36,7 +36,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
             vol.Schema({
                 vol.Required(CONF_URL): vol.Url(),
                 vol.Required(CONF_NAME): cv.string,
-                vol.Optional(CONF_INCLUDE_ALL_DAY, default=False): cv.boolean
+                vol.Optional(CONF_INCLUDE_ALL_DAY, default=False): cv.boolean,
+                vol.Optional(CONF_USERNAME, default=''): cv.string,
+                vol.Optional(CONF_PASSWORD, default=''): cv.string
             })
         ]))
 })
@@ -53,6 +55,8 @@ def setup_platform(hass, config, add_entities, _=None):
             CONF_NAME: calendar.get(CONF_NAME),
             CONF_URL: calendar.get(CONF_URL),
             CONF_INCLUDE_ALL_DAY: calendar.get(CONF_INCLUDE_ALL_DAY),
+            CONF_USERNAME: calendar.get(CONF_USERNAME),
+            CONF_PASSWORD: calendar.get(CONF_PASSWORD)
         }
         device_id = "{}".format(device_data[CONF_NAME])
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -113,6 +117,14 @@ class ICSCalendarData:
         self.url = device_data[CONF_URL]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.event = None
+        if device_data[CONF_USERNAME] != '' \
+            and device_data[CONF_PASSWORD] != '':
+            passman = HTTPPasswordMgrWithDefaultRealm()
+            passman.add_password(None, self.url, device_data[CONF_USERNAME], device_data[CONF_PASSWORD])
+            basicAuthHandler = HTTPBasicAuthHandler(passman)
+            digestAuthHandler = HTTPDigestAuthHandler(passman)
+            opener = build_opener(digestAuthHandler, basicAuthHandler)
+            install_opener(opener)
 
     def _downloadAndParseCalendar(self):
         calendar = None

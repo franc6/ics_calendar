@@ -1,6 +1,8 @@
 # ics_calendar
 Provides an ICS (icalendar) calendar platform for Home Assistant
 
+> **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server support CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
+
 [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg?style=for-the-badge)](LICENSE)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
@@ -25,6 +27,10 @@ custom_components/ics/manifest.json
 custom_components/ics/calendar.py
 ```
 
+## Authentication
+This calendar platform support HTTP Basic Auth and HTTP Digest Auth.  It does
+not support more advanced authentication methods.
+
 ## Example configuration.yaml
 ```yaml
 calendar:
@@ -35,6 +41,11 @@ calendar:
       - name: "Name of another calendar"
         url: "https://url.to/other_calendar.ics"
         includeAllDay: True
+      - name: "Name of a calendar that requires authentication"
+        url: "https://url.to/auth/calendar.ics"
+        includeAllDay: True
+        username: True
+        password: !secret auth_calendar
 ```
 
 ## Configuration options
@@ -48,5 +59,7 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
+`username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
+`password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)

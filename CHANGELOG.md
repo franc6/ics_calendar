@@ -1,3 +1,6 @@
+## 1.0.5 2020/09/11
+- Added support for HTTP Basic Auth and Digest Auth (see issue #13)
+
 ## 1.0.4 2020/09/09
 - Fixed issue #15
 - Merged PR #14
