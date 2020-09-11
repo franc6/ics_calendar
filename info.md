@@ -15,7 +15,7 @@ custom_components/ics/calendar.py
 ```
 
 ## Authentication
-This calendar platform support HTTP Basic Auth and HTTP Digest Auth.  It does
+This calendar platform supports HTTP Basic Auth and HTTP Digest Auth.  It does
 not support more advanced authentication methods.
 
 ## Example configuration.yaml
