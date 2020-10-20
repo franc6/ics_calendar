@@ -5,7 +5,7 @@ from datetime import timedelta
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler, HTTPDigestAuthHandler, build_opener, install_opener, urlopen
 
-import arrow
+from arrow import get as arrowget, utcnow
 from ics import Calendar
 import voluptuous as vol
 from homeassistant.components.calendar import (ENTITY_ID_FORMAT,
@@ -149,8 +149,8 @@ class ICSCalendarData:
         event_list = []
         calendar = await hass.async_add_job(self._downloadAndParseCalendar)
         if calendar is not None:
-            ar_start = arrow.get(start_date)
-            ar_end = arrow.get(end_date)
+            ar_start = arrowget(start_date)
+            ar_end = arrowget(end_date)
 
             for event in calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not self.include_all_day:
@@ -178,7 +178,7 @@ class ICSCalendarData:
         calendar = self._downloadAndParseCalendar()
         if calendar is not None:
             temp_event = None
-            for event in calendar.timeline.at(arrow.utcnow()):
+            for event in calendar.timeline.at(utcnow()):
                 if event.all_day and not self.include_all_day:
                     continue
                 if temp_event is None:
