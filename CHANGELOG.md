@@ -1,3 +1,6 @@
+## 2.0.0-beta7
+- Fixed #20
+
 ## 2.0.0-beta6
 - Added support for HTTP Basic Auth and Digest Auth (see issue #13)
 
