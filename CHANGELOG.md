@@ -1,3 +1,7 @@
+## 1.0.6 2020/10/20
+- Improved error handling, based on fixing #20 for the beta version
+- Updated imports for arrow (see issue #16)
+
 ## 1.0.5 2020/09/11
 - Added support for HTTP Basic Auth and Digest Auth (see issue #13)
 
