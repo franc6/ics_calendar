@@ -18,7 +18,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.util import Throttle
 
-VERSION = "1.0.5"
+VERSION = "1.0.6"
 
 _LOGGER = logging.getLogger(__name__)
 
