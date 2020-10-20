@@ -129,7 +129,8 @@ class ICSCalendarData:
            install_opener(opener)
 
 
-    def _downloadAndParseCalendar(self):
+    def _downloadCalendar(self):
+        calendar_data = None
         try:
             calendar_data = urlopen(self.url).read().decode().replace('\0', '')
         except HTTPError as http_error:
@@ -142,16 +143,19 @@ class ICSCalendarData:
             _LOGGER.error("%s: Failed to open url: %s",
                           self.name, url_error.reason)
         # Any other errors are probably parse errors...
-        except Error as error:
-            _LOGGER.error("%s: Failed to parse iCalendar: %s",
-                          self.name, error.reason)
+        except:
+            _LOGGER.error("%s: Failed to open url!", self.name)
         return calendar_data
 
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
-        calendar_data = await hass.async_add_job(self._downloadAndParseCalendar)
-        events = icalparser.parse_events(content=calendar_data, start=start_date, end=end_date)
+        calendar_data = await hass.async_add_job(self._downloadCalendar)
+        events = None
+        try:
+            events = icalparser.parse_events(content=calendar_data, start=start_date, end=end_date)
+        except:
+            _LOGGER.error("%s: Failed to parse ICS!", self.name)
         if events is not None:
             for event in events:
                 if event.all_day and not self.include_all_day:
@@ -177,8 +181,12 @@ class ICSCalendarData:
     def update(self):
         """Get the latest data."""
         now = datetime.now().astimezone()
-        calendar_data = self._downloadAndParseCalendar()
-        events = icalparser.parse_events(content=calendar_data, end=now)
+        calendar_data = self._downloadCalendar()
+        events = None
+        try:
+            events = icalparser.parse_events(content=calendar_data, end=now)
+        except:
+            _LOGGER.error("%s: Failed to parse ICS!", self.name)
         if events is not None:
             temp_event = None
             for event in events:
