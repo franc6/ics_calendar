@@ -140,9 +140,8 @@ class ICSCalendarData:
             _LOGGER.error("%s: Failed to open url: %s",
                           self.name, url_error.reason)
         # Any other errors are probably parse errors...
-        except Error as error:
-            _LOGGER.error("%s: Failed to parse iCalendar: %s",
-                          self.name, error.reason)
+        except:
+            _LOGGER.error("%s: Failed to parse ICS!", self.name)
         return calendar
 
     async def async_get_events(self, hass, start_date, end_date):
