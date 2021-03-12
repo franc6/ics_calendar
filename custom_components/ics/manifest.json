@@ -5,6 +5,6 @@
     "requirements": ["ics", "arrow"],
     "dependencies": [],
     "homeassistant": "0.97.0",
-    "codeowners": ["@franc6"]
-
+    "codeowners": ["@franc6"],
+    "version": "1.0.7"
 }
