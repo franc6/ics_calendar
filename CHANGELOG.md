@@ -1,3 +1,6 @@
+## 2.0.0-beta9
+- Fixed #30, thanks to dannytrigo.  I believe this one affected only the BETA
+
 ## 2.0.0-beta8
 - Added version key to manifest.json which is now required by Home Assitant
 
