@@ -1,4 +1,4 @@
-icalendar >= 4.0.8
+icalendar >= 4.0.7
 python-dateutil >= 2.7.0
 pytz >= 2021.1
 icalevents >= 0.1.25
