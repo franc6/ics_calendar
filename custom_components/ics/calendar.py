@@ -184,7 +184,7 @@ class ICSCalendarData:
         calendar_data = self._downloadCalendar()
         events = None
         try:
-            events = icalparser.parse_events(content=calendar_data, end=now)
+            events = icalparser.parse_events(content=calendar_data)
         except:
             _LOGGER.error("%s: Failed to parse ICS!", self.name)
         if events is not None:
@@ -195,15 +195,8 @@ class ICSCalendarData:
                 else:
                     event.start = event.start.astimezone()
                     event.end = event.end.astimezone()
-                    # This first case probably isn't needed; when writing this
-                    # code, I noticed that if an event hasn't started yet, it
-                    # won't be returned at all.  I've left the condition in,
-                    # just in case that changes in the future.
-                    if event.start > now or event.end < now:
-                        continue
-                if temp_event is None:
-                    temp_event = event
-                elif temp_event.end > event.end:
+
+                if (event.end >= now) and (temp_event is None or event.start < temp_event.start):
                     temp_event = event
 
             if temp_event is None:
