@@ -26,6 +26,7 @@ CONF_DEVICE_ID = 'device_id'
 CONF_CALENDARS = 'calendars'
 CONF_CALENDAR = 'calendar'
 CONF_INCLUDE_ALL_DAY = 'includeAllDay'
+CONF_DAYS = 'days'
 
 OFFSET = "!!"
 
@@ -38,7 +39,8 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
                 vol.Required(CONF_NAME): cv.string,
                 vol.Optional(CONF_INCLUDE_ALL_DAY, default=False): cv.boolean,
                 vol.Optional(CONF_USERNAME, default=''): cv.string,
-                vol.Optional(CONF_PASSWORD, default=''): cv.string
+                vol.Optional(CONF_PASSWORD, default=''): cv.string,
+                vol.Optional(CONF_DAYS, default=0): cv.positive_int
             })
         ]))
 })
@@ -56,7 +58,8 @@ def setup_platform(hass, config, add_entities, _=None):
             CONF_URL: calendar.get(CONF_URL),
             CONF_INCLUDE_ALL_DAY: calendar.get(CONF_INCLUDE_ALL_DAY),
             CONF_USERNAME: calendar.get(CONF_USERNAME),
-            CONF_PASSWORD: calendar.get(CONF_PASSWORD)
+            CONF_PASSWORD: calendar.get(CONF_PASSWORD),
+            CONF_DAYS: calendar.get(CONF_DAYS)
         }
         device_id = "{}".format(device_data[CONF_NAME])
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -116,6 +119,7 @@ class ICSCalendarData:
         self.name = device_data[CONF_NAME]
         self.url = device_data[CONF_URL]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
+        self.days = device_data[CONF_DAYS]
         self.event = None
         if device_data[CONF_USERNAME] != '' \
             and device_data[CONF_PASSWORD] != '':
@@ -178,7 +182,7 @@ class ICSCalendarData:
         calendar = self._downloadAndParseCalendar()
         if calendar is not None:
             temp_event = None
-            for event in calendar.timeline.at(utcnow()):
+            for event in calendar.timeline.at(utcnow().shift(days=self.days)):
                 if event.all_day and not self.include_all_day:
                     continue
                 if temp_event is None:
