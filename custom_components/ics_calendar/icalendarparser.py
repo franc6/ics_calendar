@@ -5,10 +5,9 @@ class ICalendarParser:
     @staticmethod
     def get_class(parser: str):
         parser = "parser_" + parser
-        parser_package = ".parsers." + parser
+        parser_module_name = ".parsers." + parser
         try:
-            print(parser)
-            module = importlib.import_module(parser_package, __package__)
+            module = importlib.import_module(parser_module_name, __package__)
             return getattr(module, parser)
         except ImportError:
             return None

@@ -12,4 +12,5 @@ class TestICalendarParser:
     
     def test_get_instance_returns_ICalendarParser(self):
         assert isinstance(ICalendarParser.get_instance('ics'), ICalendarParser)
+        assert isinstance(ICalendarParser.get_instance('icalevents'), ICalendarParser)
         
