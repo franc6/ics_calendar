@@ -190,7 +190,7 @@ class ICSCalendarData:
         calendar_data = self._downloadCalendar()
         try:
             self.event = self.parser.get_current_event(
-                content=calendar_data, self.include_all_day
+                content=calendar_data, include_all_day=self.include_all_day
             )
             return True
         except:
