@@ -1,5 +1,6 @@
 import importlib
 
+
 class ICalendarParser:
     @staticmethod
     def get_class(parser: str):

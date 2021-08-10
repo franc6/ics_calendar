@@ -14,15 +14,19 @@ class parser_icalevents(ICalendarParser):
                 if event.all_day and not include_all_day:
                     continue
                 uid = None
-                if hasattr(event, 'uid') and event.uid != -1:
+                if hasattr(event, "uid") and event.uid != -1:
                     uid = event.uid
                 data = {
-                    'uid': uid,
-                    'summary': event.summary,
-                    'start': parser_icalevents.get_date_formatted(event.start.astimezone(), event.all_day),
-                    'end': parser_icalevents.get_date_formatted(event.end.astimezone(), event.all_day),
-                    'location': event.location,
-                    'description': event.description
+                    "uid": uid,
+                    "summary": event.summary,
+                    "start": parser_icalevents.get_date_formatted(
+                        event.start.astimezone(), event.all_day
+                    ),
+                    "end": parser_icalevents.get_date_formatted(
+                        event.end.astimezone(), event.all_day
+                    ),
+                    "location": event.location,
+                    "description": event.description,
                 }
                 # Note that we return a formatted date for start and end here,
                 # but a different format for get_current_event!
@@ -45,18 +49,22 @@ class parser_icalevents(ICalendarParser):
                 event.start = event.start.astimezone()
                 event.end = event.end.astimezone()
 
-            if (event.end >= now) and (temp_event is None or event.start < temp_event.start):
+            if (event.end >= now) and (
+                temp_event is None or event.start < temp_event.start
+            ):
                 temp_event = event
 
         if temp_event is None:
             return None
 
         return {
-            'summary': temp_event.summary,
-            'start': parser_icalevents.get_hass_date(temp_event.start, temp_event.all_day),
-            'end': parser_icalevents.get_hass_date(temp_event.end, temp_event.all_day),
-            'location': temp_event.location,
-            'description': temp_event.description
+            "summary": temp_event.summary,
+            "start": parser_icalevents.get_hass_date(
+                temp_event.start, temp_event.all_day
+            ),
+            "end": parser_icalevents.get_hass_date(temp_event.end, temp_event.all_day),
+            "location": temp_event.location,
+            "description": temp_event.description,
         }
 
     @staticmethod
@@ -73,5 +81,5 @@ class parser_icalevents(ICalendarParser):
     def get_hass_date(dt, is_all_day):
         """Return the wrapped and formatted date"""
         if is_all_day:
-            return {'date': parser_icalevents.get_date_formatted(dt, is_all_day)}
-        return {'dateTime': parser_icalevents.get_date_formatted(dt, is_all_day)}
+            return {"date": parser_icalevents.get_date_formatted(dt, is_all_day)}
+        return {"dateTime": parser_icalevents.get_date_formatted(dt, is_all_day)}

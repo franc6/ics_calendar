@@ -189,7 +189,9 @@ class ICSCalendarData:
         """Get the latest data."""
         calendar_data = self._downloadCalendar()
         try:
-            self.event = self.parser.get_current_event(content=calendar_data, self.include_all_day)
+            self.event = self.parser.get_current_event(
+                content=calendar_data, self.include_all_day
+            )
             return True
         except:
             _LOGGER.error(f"{self.name}: Failed to parse ICS!")
