@@ -1,15 +1,18 @@
 """Support for ICS Calendar."""
+import re
 from arrow import get as arrowget, utcnow
 from ics import Calendar
 from ..icalendarparser import ICalendarParser
 
 
 class parser_ics(ICalendarParser):
+    re_method = re.compile("^METHOD:.*$", flags=re.MULTILINE)
+
     @staticmethod
     def get_event_list(content: str, start, end, include_all_day: bool):
         event_list = []
 
-        calendar = Calendar(content)
+        calendar = Calendar(re.sub(parser_ics.re_method, "", content))
 
         if calendar is not None:
             ar_start = arrowget(start)
