@@ -14,7 +14,7 @@ Otherwise, you can install it manually.
 1. Using the tool of choice open the directory (folder) for your HA configuration (where you find configuration.yaml).
 2. If you do not have a custom_components directory (folder) there, you need to create it.
 3. In the custom_components directory (folder) create a new folder called ics.
-4. Download all the files from the custom_components/ics/ directory (folder) in this repository.
+4. Download all the files from the custom_components/ics_calendar/ directory (folder) in this repository.
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Inside the new directory, run 'pip install -r requirements.txt'
 7. Restart Home Assistant
@@ -22,9 +22,13 @@ Otherwise, you can install it manually.
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
-custom_components/ics/__init__.py
-custom_components/ics/manifest.json
-custom_components/ics/calendar.py
+custom_components/ics_calendar/__init__.py
+custom_components/ics_calendar/manifest.json
+custom_components/ics_calendar/calendar.py
+custom_components/ics_calendar/icalendarparser.py
+custom_components/ics_calendar/parsers/__init__.py
+custom_components/ics_calendar/parsers/parser_ics.py
+custom_components/ics_calendar/parsers/parser_icalevents.py
 ```
 
 ## Authentication
@@ -59,6 +63,7 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
+`parser` | `string` | `False` | 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 

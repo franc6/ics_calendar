@@ -9,9 +9,13 @@ You can install this through [HACS](https://github.com/custom-components/hacs) b
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
-custom_components/ics/__init__.py
-custom_components/ics/manifest.json
-custom_components/ics/calendar.py
+custom_components/ics_calendar/__init__.py
+custom_components/ics_calendar/manifest.json
+custom_components/ics_calendar/calendar.py
+custom_components/ics_calendar/icalendarparser.py
+custom_components/ics_calendar/parsers/__init__.py
+custom_components/ics_calendar/parsers/parser_ics.py
+custom_components/ics_calendar/parsers/parser_icalevents.py
 ```
 
 ## Authentication
@@ -41,6 +45,7 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
+`parser` | `string` | `False` | 'icalevents' or 'ics'  Choose 'ics' if you encounter parsing errors
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 

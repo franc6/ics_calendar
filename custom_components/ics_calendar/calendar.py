@@ -5,15 +5,23 @@ import copy
 import logging
 from datetime import datetime, timedelta
 from urllib.error import ContentTooShortError, HTTPError, URLError
-from urllib.request import HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler, HTTPDigestAuthHandler, build_opener, install_opener, urlopen
+from urllib.request import (
+    HTTPPasswordMgrWithDefaultRealm,
+    HTTPBasicAuthHandler,
+    HTTPDigestAuthHandler,
+    build_opener,
+    install_opener,
+    urlopen,
+)
 
-from icalevents import icalparser
 import voluptuous as vol
-from homeassistant.components.calendar import (ENTITY_ID_FORMAT,
-                                               PLATFORM_SCHEMA,
-                                               CalendarEventDevice,
-                                               calculate_offset,
-                                               is_offset_reached)
+from homeassistant.components.calendar import (
+    ENTITY_ID_FORMAT,
+    PLATFORM_SCHEMA,
+    CalendarEventDevice,
+    calculate_offset,
+    is_offset_reached,
+)
 from homeassistant.const import CONF_NAME, CONF_PASSWORD, CONF_URL, CONF_USERNAME
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import generate_entity_id
@@ -23,26 +31,38 @@ VERSION = "2.0.0"
 
 _LOGGER = logging.getLogger(__name__)
 
-CONF_DEVICE_ID = 'device_id'
-CONF_CALENDARS = 'calendars'
-CONF_CALENDAR = 'calendar'
-CONF_INCLUDE_ALL_DAY = 'includeAllDay'
+CONF_DEVICE_ID = "device_id"
+CONF_CALENDARS = "calendars"
+CONF_CALENDAR = "calendar"
+CONF_INCLUDE_ALL_DAY = "includeAllDay"
+CONF_PARSER = "parser"
 
 OFFSET = "!!"
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    # pylint: disable=no-value-for-parameter
-    vol.Optional(CONF_CALENDARS, default=[]):
-        vol.All(cv.ensure_list, vol.Schema([
-            vol.Schema({
-                vol.Required(CONF_URL): vol.Url(),
-                vol.Required(CONF_NAME): cv.string,
-                vol.Optional(CONF_INCLUDE_ALL_DAY, default=False): cv.boolean,
-                vol.Optional(CONF_USERNAME, default=''): cv.string,
-                vol.Optional(CONF_PASSWORD, default=''): cv.string
-            })
-        ]))
-})
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+    {
+        # pylint: disable=no-value-for-parameter
+        vol.Optional(CONF_CALENDARS, default=[]): vol.All(
+            cv.ensure_list,
+            vol.Schema(
+                [
+                    vol.Schema(
+                        {
+                            vol.Required(CONF_URL): vol.Url(),
+                            vol.Required(CONF_NAME): cv.string,
+                            vol.Optional(
+                                CONF_INCLUDE_ALL_DAY, default=False
+                            ): cv.boolean,
+                            vol.Optional(CONF_USERNAME, default=""): cv.string,
+                            vol.Optional(CONF_PASSWORD, default=""): cv.string,
+                            vol.Optional(CONF_PARSER, default="icalevents"): cv.string,
+                        }
+                    )
+                ]
+            ),
+        )
+    }
+)
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
 
@@ -57,12 +77,12 @@ def setup_platform(hass, config, add_entities, _=None):
             CONF_URL: calendar.get(CONF_URL),
             CONF_INCLUDE_ALL_DAY: calendar.get(CONF_INCLUDE_ALL_DAY),
             CONF_USERNAME: calendar.get(CONF_USERNAME),
-            CONF_PASSWORD: calendar.get(CONF_PASSWORD)
+            CONF_PASSWORD: calendar.get(CONF_PASSWORD),
+            CONF_PARSER: calendar.get(CONF_PARSER),
         }
         device_id = "{}".format(device_data[CONF_NAME])
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
-        calendar_devices.append(
-            ICSCalendarEventDevice(entity_id, device_data))
+        calendar_devices.append(ICSCalendarEventDevice(entity_id, device_data))
 
     add_entities(calendar_devices)
 
@@ -81,7 +101,7 @@ class ICSCalendarEventDevice(CalendarEventDevice):
     @property
     def device_state_attributes(self):
         """Return the calendar entity's state attributes."""
-        return {'offset_reached': self._offset_reached}
+        return {"offset_reached": self._offset_reached}
 
     @property
     def event(self):
@@ -117,34 +137,33 @@ class ICSCalendarData:
         self.name = device_data[CONF_NAME]
         self.url = device_data[CONF_URL]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
+        self.parser = ICalendarParser.getInstance(device_data[CONF_PARSER])
         self.event = None
 
-        if device_data[CONF_USERNAME] != '' \
-           and device_data[CONF_PASSWORD] != '':
-           passman = HTTPPasswordMgrWithDefaultRealm()
-           passman.add_password(None, self.url, device_data[CONF_USERNAME], device_data[CONF_PASSWORD])
-           basicAuthHandler = HTTPBasicAuthHandler(passman)
-           digestAuthHandler = HTTPDigestAuthHandler(passman)
-           opener = build_opener(digestAuthHandler, basicAuthHandler)
-           install_opener(opener)
-
+        if device_data[CONF_USERNAME] != "" and device_data[CONF_PASSWORD] != "":
+            passman = HTTPPasswordMgrWithDefaultRealm()
+            passman.add_password(
+                None, self.url, device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
+            )
+            basicAuthHandler = HTTPBasicAuthHandler(passman)
+            digestAuthHandler = HTTPDigestAuthHandler(passman)
+            opener = build_opener(digestAuthHandler, basicAuthHandler)
+            install_opener(opener)
 
     def _downloadCalendar(self):
         calendar_data = None
         try:
-            calendar_data = urlopen(self.url).read().decode().replace('\0', '')
+            calendar_data = urlopen(self.url).read().decode().replace("\0", "")
         except HTTPError as http_error:
-            _LOGGER.error("%s: Failed to open url: %s",
-                          self.name, http_error.reason)
+            _LOGGER.error(f"{self.name}: Failed to open url: {http_error.reason}")
         except ContentTooShortError as content_too_short_error:
-            _LOGGER.error("%s: Could not download calendar data: %s",
-                          self.name, content_too_short_error.reason)
+            _LOGGER.error(
+                f"{self.name}: Could not download calendar data: {content_too_short_error.reason}"
+            )
         except URLError as url_error:
-            _LOGGER.error("%s: Failed to open url: %s",
-                          self.name, url_error.reason)
-        # Any other errors are probably parse errors...
+            _LOGGER.error(f"{self.name}: Failed to open url: {url_error.reason}")
         except:
-            _LOGGER.error("%s: Failed to open url!", self.name)
+            _LOGGER.error(f"{self.name}: Failed to open url!")
         return calendar_data
 
     async def async_get_events(self, hass, start_date, end_date):
@@ -153,27 +172,15 @@ class ICSCalendarData:
         calendar_data = await hass.async_add_job(self._downloadCalendar)
         events = None
         try:
-            events = icalparser.parse_events(content=calendar_data, start=start_date, end=end_date)
+            event_list = self.parser.get_event_list(
+                content=calendar_data,
+                start=start_date,
+                end=end_date,
+                include_all_day=self.include_all_day,
+            )
         except:
-            _LOGGER.error("%s: Failed to parse ICS!", self.name)
-        if events is not None:
-            for event in events:
-                if event.all_day and not self.include_all_day:
-                    continue
-                uid = None
-                if hasattr(event, 'uid') and event.uid != -1:
-                    uid = event.uid
-                data = {
-                    'uid': uid,
-                    'summary': event.summary,
-                    'start': self.get_date_formatted(event.start.astimezone(), event.all_day),
-                    'end': self.get_date_formatted(event.end.astimezone(), event.all_day),
-                    'location': event.location,
-                    'description': event.description
-                }
-                # Note that we return a formatted date for start and end here,
-                # but a different format for self.event!
-                event_list.append(data)
+            _LOGGER.error(f"{self.name}: Failed to parse ICS!")
+            event_list = []
 
         return event_list
 
@@ -182,51 +189,10 @@ class ICSCalendarData:
         """Get the latest data."""
         now = datetime.now().astimezone()
         calendar_data = self._downloadCalendar()
-        events = None
         try:
-            events = icalparser.parse_events(content=calendar_data)
-        except:
-            _LOGGER.error("%s: Failed to parse ICS!", self.name)
-        if events is not None:
-            temp_event = None
-            for event in events:
-                if event.all_day and not self.include_all_day:
-                    continue
-                else:
-                    event.start = event.start.astimezone()
-                    event.end = event.end.astimezone()
-
-                if (event.end >= now) and (temp_event is None or event.start < temp_event.start):
-                    temp_event = event
-
-            if temp_event is None:
-                self.event = None
-                return True
-
-            self.event = {
-                'summary': temp_event.summary,
-                'start': self.get_hass_date(temp_event.start, temp_event.all_day),
-                'end': self.get_hass_date(temp_event.end, temp_event.all_day),
-                'location': temp_event.location,
-                'description': temp_event.description
-            }
+            self.event = self.parser.get_current_event(content=calendar_data)
             return True
+        except:
+            _LOGGER.error(f"{self.name}: Failed to parse ICS!")
 
         return False
-
-    @staticmethod
-    def get_date_formatted(dt, is_all_day):
-        """Return the formatted date"""
-        # Note that all day events should have a time of 0, and the timezone
-        # must be local.
-        if is_all_day:
-            return dt.strftime("%Y-%m-%d")
-
-        return dt.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-
-    @staticmethod
-    def get_hass_date(dt, is_all_day):
-        """Return the wrapped and formatted date"""
-        if is_all_day:
-            return {'date': ICSCalendarData.get_date_formatted(dt, is_all_day)}
-        return {'dateTime': ICSCalendarData.get_date_formatted(dt, is_all_day)}
