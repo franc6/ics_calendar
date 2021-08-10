@@ -187,10 +187,9 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data."""
-        now = datetime.now().astimezone()
         calendar_data = self._downloadCalendar()
         try:
-            self.event = self.parser.get_current_event(content=calendar_data)
+            self.event = self.parser.get_current_event(content=calendar_data, self.include_all_day)
             return True
         except:
             _LOGGER.error(f"{self.name}: Failed to parse ICS!")

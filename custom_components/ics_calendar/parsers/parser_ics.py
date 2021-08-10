@@ -29,37 +29,37 @@ class parser_ics(ICalendarParser):
                     'description': event.description
                 }
                 # Note that we return a formatted date for start and end here,
-                # but a different format for returned event!
+                # but a different format for get_current_event!
                 event_list.append(data)
 
         return event_list
 
     @staticmethod
-    def get_current_event(content: str):
+    def get_current_event(content: str, include_all_day: bool):
         calendar = Calendar(content)
 
-        if calendar is not None:
-            temp_event = None
-            for event in calendar.timeline.at(utcnow()):
-                if event.all_day and not include_all_day:
-                    continue
-                if temp_event is None:
-                    temp_event = event
-                elif temp_event.end > event.end:
-                    temp_event = event
-
+        if calendar is None:
+            return None
+        temp_event = None
+        for event in calendar.timeline.at(utcnow()):
+            if event.all_day and not include_all_day:
+                continue
             if temp_event is None:
-                return None
+                temp_event = event
+            elif temp_event.end > event.end:
+                temp_event = event
 
-            return {
-                'summary': temp_event.name,
-                'start': parser_ics.get_hass_date(temp_event.begin, temp_event.all_day),
-                'end': parser_ics.get_hass_date(temp_event.end, temp_event.all_day),
-                'location': temp_event.location,
-                'description': temp_event.description
-            }
+        if temp_event is None:
+            return None
 
-        return None
+        return {
+            'summary': temp_event.name,
+            'start': parser_ics.get_hass_date(temp_event.begin, temp_event.all_day),
+            'end': parser_ics.get_hass_date(temp_event.end, temp_event.all_day),
+            'location': temp_event.location,
+            'description': temp_event.description
+        }
+
 
     @staticmethod
     def get_date_formatted(arw, is_all_day):
