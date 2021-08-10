@@ -1,3 +1,9 @@
+## 2.0.0-beta10
+- Updated code to allow switching parsers based on which calendar, and eliminating the "use the beta" or "use the non-beta" replies
+- Added some unit tests
+- Fixed #34
+- Fixed #35
+
 ## 2.0.0-beta9
 - Fixed #30, thanks to dannytrigo.  I believe this one affected only the BETA
 
