@@ -1,3 +1,6 @@
+## 2.0.0-beta11
+- Changed platform name to "ics_calendar" to match directory name
+
 ## 2.0.0-beta10
 - Updated code to allow switching parsers based on which calendar, and eliminating the "use the beta" or "use the non-beta" replies
 - Added some unit tests

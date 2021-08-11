@@ -1,5 +1,5 @@
 {
-    "domain": "ics",
+    "domain": "ics_calendar",
     "name": "ics Calendar",
     "documentation": "https://github.com/franc6/ics_calendar",
     "requirements": ["ics", "icalevents"],
