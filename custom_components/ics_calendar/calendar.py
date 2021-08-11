@@ -26,6 +26,7 @@ from homeassistant.const import CONF_NAME, CONF_PASSWORD, CONF_URL, CONF_USERNAM
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.util import Throttle
+from .icalendarparser import ICalendarParser
 
 VERSION = "2.0.0"
 
@@ -137,7 +138,7 @@ class ICSCalendarData:
         self.name = device_data[CONF_NAME]
         self.url = device_data[CONF_URL]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
-        self.parser = ICalendarParser.getInstance(device_data[CONF_PARSER])
+        self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.event = None
 
         if device_data[CONF_USERNAME] != "" and device_data[CONF_PASSWORD] != "":
