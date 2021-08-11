@@ -1,0 +1,1870 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ical.formula1.com//iCal Event Maker
+X-WR-CALNAME:2021 FIA Formula One World Championship Race Calendar
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/London
+TZURL:http://tzurl.org/zoneinfo-outlook/Europe/London
+X-LIC-LOCATION:Europe/London
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0000
+TZOFFSETTO:+0100
+TZNAME:BST
+DTSTART:19700329T010000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0000
+TZNAME:GMT
+DTSTART:19701025T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1087
+DTSTART;TZID=Europe/London:20210312T070000
+DTEND;TZID=Europe/London:20210312T160000
+SUMMARY:FORMULA 1 ARAMCO PRE-SEASON TESTING 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Pre-Season Test. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Pre-Season-Test.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1087
+DTSTART;TZID=Europe/London:20210313T070000
+DTEND;TZID=Europe/London:20210313T160000
+SUMMARY:FORMULA 1 ARAMCO PRE-SEASON TESTING 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Pre-Season Test. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Pre-Season-Test.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1087
+DTSTART;TZID=Europe/London:20210314T070000
+DTEND;TZID=Europe/London:20210314T160000
+SUMMARY:FORMULA 1 ARAMCO PRE-SEASON TESTING 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Pre-Season Test. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Pre-Season-Test.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1064
+DTSTART;TZID=Europe/London:20210326T113000
+DTEND;TZID=Europe/London:20210326T123000
+SUMMARY:FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Bahrain Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Bahrain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1064
+DTSTART;TZID=Europe/London:20210326T150000
+DTEND;TZID=Europe/London:20210326T160000
+SUMMARY:FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Bahrain Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Bahrain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1064
+DTSTART;TZID=Europe/London:20210327T120000
+DTEND;TZID=Europe/London:20210327T130000
+SUMMARY:FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Bahrain Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Bahrain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1064
+DTSTART;TZID=Europe/London:20210327T150000
+DTEND;TZID=Europe/London:20210327T160000
+SUMMARY:FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Bahrain Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Bahrain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1064
+DTSTART;TZID=Europe/London:20210328T160000
+DTEND;TZID=Europe/London:20210328T180000
+SUMMARY:FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Bahrain Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Bahrain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sakhir 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210413T000001Z
+UID:Practice1@1065
+DTSTART;TZID=Europe/London:20210416T100000
+DTEND;TZID=Europe/London:20210416T110000
+SUMMARY:FORMULA 1 PIRELLI GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA ROMAGNA 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Emilia Romagna Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/EmiliaRomagna.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Imola 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210413T000001Z
+UID:Practice2@1065
+DTSTART;TZID=Europe/London:20210416T133000
+DTEND;TZID=Europe/London:20210416T143000
+SUMMARY:FORMULA 1 PIRELLI GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA ROMAGNA 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Emilia Romagna Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/EmiliaRomagna.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Imola 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210413T000001Z
+UID:Practice3@1065
+DTSTART;TZID=Europe/London:20210417T100000
+DTEND;TZID=Europe/London:20210417T110000
+SUMMARY:FORMULA 1 PIRELLI GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA ROMAGNA 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Emilia Romagna Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/EmiliaRomagna.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Imola 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210413T000001Z
+UID:Qualifying@1065
+DTSTART;TZID=Europe/London:20210417T130000
+DTEND;TZID=Europe/London:20210417T140000
+SUMMARY:FORMULA 1 PIRELLI GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA ROMAGNA 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Emilia Romagna Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/EmiliaRomagna.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Imola 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1065
+DTSTART;TZID=Europe/London:20210418T140000
+DTEND;TZID=Europe/London:20210418T160000
+SUMMARY:FORMULA 1 PIRELLI GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA ROMAGNA 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Emilia Romagna Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/EmiliaRomagna.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Imola 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1066
+DTSTART;TZID=Europe/London:20210430T113000
+DTEND;TZID=Europe/London:20210430T123000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÉMIO DE PORTUGAL 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Portuguese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Portugal.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Algarve International Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1066
+DTSTART;TZID=Europe/London:20210430T150000
+DTEND;TZID=Europe/London:20210430T160000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÉMIO DE PORTUGAL 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Portuguese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Portugal.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Algarve International Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1066
+DTSTART;TZID=Europe/London:20210501T120000
+DTEND;TZID=Europe/London:20210501T130000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÉMIO DE PORTUGAL 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Portuguese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Portugal.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Algarve International Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1066
+DTSTART;TZID=Europe/London:20210501T150000
+DTEND;TZID=Europe/London:20210501T160000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÉMIO DE PORTUGAL 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Portuguese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Portugal.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Algarve International Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1066
+DTSTART;TZID=Europe/London:20210502T150000
+DTEND;TZID=Europe/London:20210502T170000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÉMIO DE PORTUGAL 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Portuguese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Portugal.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Algarve International Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1086
+DTSTART;TZID=Europe/London:20210507T103000
+DTEND;TZID=Europe/London:20210507T113000
+SUMMARY:FORMULA 1 ARAMCO GRAN PREMIO DE ESPAÑA 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Spanish Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Spain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Catalunya 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1086
+DTSTART;TZID=Europe/London:20210507T140000
+DTEND;TZID=Europe/London:20210507T150000
+SUMMARY:FORMULA 1 ARAMCO GRAN PREMIO DE ESPAÑA 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Spanish Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Spain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Catalunya 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1086
+DTSTART;TZID=Europe/London:20210508T110000
+DTEND;TZID=Europe/London:20210508T120000
+SUMMARY:FORMULA 1 ARAMCO GRAN PREMIO DE ESPAÑA 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Spanish Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Spain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Catalunya 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1086
+DTSTART;TZID=Europe/London:20210508T140000
+DTEND;TZID=Europe/London:20210508T150000
+SUMMARY:FORMULA 1 ARAMCO GRAN PREMIO DE ESPAÑA 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Spanish Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Spain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Catalunya 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1086
+DTSTART;TZID=Europe/London:20210509T140000
+DTEND;TZID=Europe/London:20210509T160000
+SUMMARY:FORMULA 1 ARAMCO GRAN PREMIO DE ESPAÑA 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Spanish Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Spain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Catalunya 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1067
+DTSTART;TZID=Europe/London:20210520T103000
+DTEND;TZID=Europe/London:20210520T113000
+SUMMARY:FORMULA 1 GRAND PRIX DE MONACO 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Monaco Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Monaco.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monte Carlo 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1067
+DTSTART;TZID=Europe/London:20210520T140000
+DTEND;TZID=Europe/London:20210520T150000
+SUMMARY:FORMULA 1 GRAND PRIX DE MONACO 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Monaco Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Monaco.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monte Carlo 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1067
+DTSTART;TZID=Europe/London:20210522T110000
+DTEND;TZID=Europe/London:20210522T120000
+SUMMARY:FORMULA 1 GRAND PRIX DE MONACO 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Monaco Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Monaco.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monte Carlo 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1067
+DTSTART;TZID=Europe/London:20210522T140000
+DTEND;TZID=Europe/London:20210522T150000
+SUMMARY:FORMULA 1 GRAND PRIX DE MONACO 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Monaco Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Monaco.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monte Carlo 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1067
+DTSTART;TZID=Europe/London:20210523T140000
+DTEND;TZID=Europe/London:20210523T160000
+SUMMARY:FORMULA 1 GRAND PRIX DE MONACO 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Monaco Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Monaco.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monte Carlo 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210604T000001Z
+UID:Practice1@1068
+DTSTART;TZID=Europe/London:20210604T093000
+DTEND;TZID=Europe/London:20210604T103000
+SUMMARY:FORMULA 1 AZERBAIJAN GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Azerbaijan Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Azerbaijan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Baku 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210604T000001Z
+UID:Practice2@1068
+DTSTART;TZID=Europe/London:20210604T130000
+DTEND;TZID=Europe/London:20210604T140000
+SUMMARY:FORMULA 1 AZERBAIJAN GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Azerbaijan Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Azerbaijan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Baku 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210604T000001Z
+UID:Practice3@1068
+DTSTART;TZID=Europe/London:20210605T100000
+DTEND;TZID=Europe/London:20210605T110000
+SUMMARY:FORMULA 1 AZERBAIJAN GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Azerbaijan Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Azerbaijan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Baku 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210604T000001Z
+UID:Qualifying@1068
+DTSTART;TZID=Europe/London:20210605T130000
+DTEND;TZID=Europe/London:20210605T140000
+SUMMARY:FORMULA 1 AZERBAIJAN GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Azerbaijan Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Azerbaijan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Baku 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1068
+DTSTART;TZID=Europe/London:20210606T130000
+DTEND;TZID=Europe/London:20210606T150000
+SUMMARY:FORMULA 1 AZERBAIJAN GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Azerbaijan Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Azerbaijan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Baku 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Practice1@1069
+DTSTART;TZID=Europe/London:20210611T163000
+DTEND;TZID=Europe/London:20210611T173000
+SUMMARY:CANCELLED - FORMULA 1 HEINEKEN GRAND PRIX DU CANADA 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Canadian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Canada.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Montreal 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Practice2@1069
+DTSTART;TZID=Europe/London:20210611T200000
+DTEND;TZID=Europe/London:20210611T210000
+SUMMARY:CANCELLED - FORMULA 1 HEINEKEN GRAND PRIX DU CANADA 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Canadian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Canada.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Montreal 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Practice3@1069
+DTSTART;TZID=Europe/London:20210612T160000
+DTEND;TZID=Europe/London:20210612T170000
+SUMMARY:CANCELLED - FORMULA 1 HEINEKEN GRAND PRIX DU CANADA 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Canadian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Canada.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Montreal 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Qualifying@1069
+DTSTART;TZID=Europe/London:20210612T190000
+DTEND;TZID=Europe/London:20210612T200000
+SUMMARY:CANCELLED - FORMULA 1 HEINEKEN GRAND PRIX DU CANADA 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Canadian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Canada.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Montreal 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Race@1069
+DTSTART;TZID=Europe/London:20210613T190000
+DTEND;TZID=Europe/London:20210613T210000
+SUMMARY:CANCELLED - FORMULA 1 HEINEKEN GRAND PRIX DU CANADA 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Canadian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Canada.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Montreal 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210517T000001Z
+UID:Practice1@1070
+DTSTART;TZID=Europe/London:20210618T103000
+DTEND;TZID=Europe/London:20210618T113000
+SUMMARY:FORMULA 1 EMIRATES GRAND PRIX DE FRANCE 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the French Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/France.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Paul Ricard 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210517T000001Z
+UID:Practice2@1070
+DTSTART;TZID=Europe/London:20210618T140000
+DTEND;TZID=Europe/London:20210618T150000
+SUMMARY:FORMULA 1 EMIRATES GRAND PRIX DE FRANCE 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the French Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/France.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Paul Ricard 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210517T000001Z
+UID:Practice3@1070
+DTSTART;TZID=Europe/London:20210619T110000
+DTEND;TZID=Europe/London:20210619T120000
+SUMMARY:FORMULA 1 EMIRATES GRAND PRIX DE FRANCE 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the French Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/France.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Paul Ricard 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210517T000001Z
+UID:Qualifying@1070
+DTSTART;TZID=Europe/London:20210619T140000
+DTEND;TZID=Europe/London:20210619T150000
+SUMMARY:FORMULA 1 EMIRATES GRAND PRIX DE FRANCE 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the French Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/France.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Paul Ricard 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210517T000001Z
+UID:Race@1070
+DTSTART;TZID=Europe/London:20210620T140000
+DTEND;TZID=Europe/London:20210620T160000
+SUMMARY:FORMULA 1 EMIRATES GRAND PRIX DE FRANCE 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the French Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/France.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Paul Ricard 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210517T000001Z
+UID:Practice1@1092
+DTSTART;TZID=Europe/London:20210625T103000
+DTEND;TZID=Europe/London:20210625T113000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS DER STEIERMARK 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Styrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Styria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210517T000001Z
+UID:Practice2@1092
+DTSTART;TZID=Europe/London:20210625T140000
+DTEND;TZID=Europe/London:20210625T150000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS DER STEIERMARK 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Styrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Styria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210517T000001Z
+UID:Practice3@1092
+DTSTART;TZID=Europe/London:20210626T110000
+DTEND;TZID=Europe/London:20210626T120000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS DER STEIERMARK 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Styrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Styria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210517T000001Z
+UID:Qualifying@1092
+DTSTART;TZID=Europe/London:20210626T140000
+DTEND;TZID=Europe/London:20210626T150000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS DER STEIERMARK 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Styrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Styria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210517T000001Z
+UID:Race@1092
+DTSTART;TZID=Europe/London:20210627T140000
+DTEND;TZID=Europe/London:20210627T160000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS DER STEIERMARK 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Styrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Styria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1071
+DTSTART;TZID=Europe/London:20210702T103000
+DTEND;TZID=Europe/London:20210702T113000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS VON ÖSTERREICH 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Austrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Austria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1071
+DTSTART;TZID=Europe/London:20210702T140000
+DTEND;TZID=Europe/London:20210702T150000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS VON ÖSTERREICH 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Austrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Austria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1071
+DTSTART;TZID=Europe/London:20210703T110000
+DTEND;TZID=Europe/London:20210703T120000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS VON ÖSTERREICH 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Austrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Austria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1071
+DTSTART;TZID=Europe/London:20210703T140000
+DTEND;TZID=Europe/London:20210703T150000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS VON ÖSTERREICH 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Austrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Austria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1071
+DTSTART;TZID=Europe/London:20210704T140000
+DTEND;TZID=Europe/London:20210704T160000
+SUMMARY:FORMULA 1 BWT GROSSER PREIS VON ÖSTERREICH 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Austrian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Austria.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spielberg 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210601T000001Z
+UID:Practice1@1072
+DTSTART;TZID=Europe/London:20210716T143000
+DTEND;TZID=Europe/London:20210716T153000
+SUMMARY:FORMULA 1 PIRELLI BRITISH GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the British Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Great_Britain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Silverstone 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210601T000001Z
+UID:Practice2@1072
+DTSTART;TZID=Europe/London:20210716T180000
+DTEND;TZID=Europe/London:20210716T190000
+SUMMARY:FORMULA 1 PIRELLI BRITISH GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the British Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Great_Britain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Silverstone 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210601T000001Z
+UID:Practice3@1072
+DTSTART;TZID=Europe/London:20210717T120000
+DTEND;TZID=Europe/London:20210717T130000
+SUMMARY:FORMULA 1 PIRELLI BRITISH GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the British Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Great_Britain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Silverstone 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210601T000001Z
+UID:Qualifying@1072
+DTSTART;TZID=Europe/London:20210717T163000
+DTEND;TZID=Europe/London:20210717T170000
+SUMMARY:FORMULA 1 PIRELLI BRITISH GRAND PRIX 2021 - Sprint Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the British Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Great_Britain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Silverstone 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1072
+DTSTART;TZID=Europe/London:20210718T150000
+DTEND;TZID=Europe/London:20210718T170000
+SUMMARY:FORMULA 1 PIRELLI BRITISH GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the British Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Great_Britain.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Silverstone 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1073
+DTSTART;TZID=Europe/London:20210730T103000
+DTEND;TZID=Europe/London:20210730T113000
+SUMMARY:FORMULA 1 MAGYAR NAGYDÍJ 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Hungarian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Hungary.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Hungaroring 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1073
+DTSTART;TZID=Europe/London:20210730T140000
+DTEND;TZID=Europe/London:20210730T150000
+SUMMARY:FORMULA 1 MAGYAR NAGYDÍJ 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Hungarian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Hungary.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Hungaroring 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1073
+DTSTART;TZID=Europe/London:20210731T110000
+DTEND;TZID=Europe/London:20210731T120000
+SUMMARY:FORMULA 1 MAGYAR NAGYDÍJ 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Hungarian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Hungary.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Hungaroring 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1073
+DTSTART;TZID=Europe/London:20210731T140000
+DTEND;TZID=Europe/London:20210731T150000
+SUMMARY:FORMULA 1 MAGYAR NAGYDÍJ 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Hungarian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Hungary.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Hungaroring 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1073
+DTSTART;TZID=Europe/London:20210801T140000
+DTEND;TZID=Europe/London:20210801T160000
+SUMMARY:FORMULA 1 MAGYAR NAGYDÍJ 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Hungarian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Hungary.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Hungaroring 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1074
+DTSTART;TZID=Europe/London:20210827T103000
+DTEND;TZID=Europe/London:20210827T113000
+SUMMARY:FORMULA 1 ROLEX BELGIAN GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Belgian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Belgium.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spa-Francorchamps 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1074
+DTSTART;TZID=Europe/London:20210827T140000
+DTEND;TZID=Europe/London:20210827T150000
+SUMMARY:FORMULA 1 ROLEX BELGIAN GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Belgian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Belgium.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spa-Francorchamps 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1074
+DTSTART;TZID=Europe/London:20210828T110000
+DTEND;TZID=Europe/London:20210828T120000
+SUMMARY:FORMULA 1 ROLEX BELGIAN GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Belgian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Belgium.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spa-Francorchamps 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1074
+DTSTART;TZID=Europe/London:20210828T140000
+DTEND;TZID=Europe/London:20210828T150000
+SUMMARY:FORMULA 1 ROLEX BELGIAN GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Belgian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Belgium.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spa-Francorchamps 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1074
+DTSTART;TZID=Europe/London:20210829T140000
+DTEND;TZID=Europe/London:20210829T160000
+SUMMARY:FORMULA 1 ROLEX BELGIAN GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Belgian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Belgium.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Spa-Francorchamps 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1075
+DTSTART;TZID=Europe/London:20210903T103000
+DTEND;TZID=Europe/London:20210903T113000
+SUMMARY:FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Dutch Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Netherlands.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Zandvoort 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1075
+DTSTART;TZID=Europe/London:20210903T140000
+DTEND;TZID=Europe/London:20210903T150000
+SUMMARY:FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Dutch Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Netherlands.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Zandvoort 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1075
+DTSTART;TZID=Europe/London:20210904T110000
+DTEND;TZID=Europe/London:20210904T120000
+SUMMARY:FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Dutch Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Netherlands.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Zandvoort 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1075
+DTSTART;TZID=Europe/London:20210904T140000
+DTEND;TZID=Europe/London:20210904T150000
+SUMMARY:FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Dutch Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Netherlands.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Zandvoort 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1075
+DTSTART;TZID=Europe/London:20210905T140000
+DTEND;TZID=Europe/London:20210905T160000
+SUMMARY:FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Dutch Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Netherlands.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Zandvoort 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1076
+DTSTART;TZID=Europe/London:20210910T103000
+DTEND;TZID=Europe/London:20210910T113000
+SUMMARY:FORMULA 1 HEINEKEN GRAN PREMIO D’ITALIA 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Italian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Italy.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monza 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1076
+DTSTART;TZID=Europe/London:20210910T140000
+DTEND;TZID=Europe/London:20210910T150000
+SUMMARY:FORMULA 1 HEINEKEN GRAN PREMIO D’ITALIA 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Italian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Italy.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monza 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1076
+DTSTART;TZID=Europe/London:20210911T110000
+DTEND;TZID=Europe/London:20210911T120000
+SUMMARY:FORMULA 1 HEINEKEN GRAN PREMIO D’ITALIA 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Italian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Italy.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monza 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1076
+DTSTART;TZID=Europe/London:20210911T140000
+DTEND;TZID=Europe/London:20210911T150000
+SUMMARY:FORMULA 1 HEINEKEN GRAN PREMIO D’ITALIA 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Italian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Italy.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monza 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1076
+DTSTART;TZID=Europe/London:20210912T140000
+DTEND;TZID=Europe/London:20210912T160000
+SUMMARY:FORMULA 1 HEINEKEN GRAN PREMIO D’ITALIA 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Italian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Italy.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Monza 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1077
+DTSTART;TZID=Europe/London:20210924T093000
+DTEND;TZID=Europe/London:20210924T103000
+SUMMARY:FORMULA 1 VTB RUSSIAN GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Russian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Russia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sochi 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1077
+DTSTART;TZID=Europe/London:20210924T130000
+DTEND;TZID=Europe/London:20210924T140000
+SUMMARY:FORMULA 1 VTB RUSSIAN GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Russian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Russia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sochi 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1077
+DTSTART;TZID=Europe/London:20210925T100000
+DTEND;TZID=Europe/London:20210925T110000
+SUMMARY:FORMULA 1 VTB RUSSIAN GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Russian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Russia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sochi 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1077
+DTSTART;TZID=Europe/London:20210925T130000
+DTEND;TZID=Europe/London:20210925T140000
+SUMMARY:FORMULA 1 VTB RUSSIAN GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Russian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Russia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sochi 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1077
+DTSTART;TZID=Europe/London:20210926T130000
+DTEND;TZID=Europe/London:20210926T150000
+SUMMARY:FORMULA 1 VTB RUSSIAN GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Russian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Russia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Sochi 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Practice1@1078
+DTSTART;TZID=Europe/London:20211001T100000
+DTEND;TZID=Europe/London:20211001T110000
+SUMMARY:CANCELLED - FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Singapore Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Singapore.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Singapore 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Practice2@1078
+DTSTART;TZID=Europe/London:20211001T133000
+DTEND;TZID=Europe/London:20211001T143000
+SUMMARY:CANCELLED - FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Singapore Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Singapore.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Singapore 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Practice3@1078
+DTSTART;TZID=Europe/London:20211002T110000
+DTEND;TZID=Europe/London:20211002T120000
+SUMMARY:CANCELLED - FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Singapore Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Singapore.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Singapore 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Qualifying@1078
+DTSTART;TZID=Europe/London:20211002T140000
+DTEND;TZID=Europe/London:20211002T150000
+SUMMARY:CANCELLED - FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Singapore Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Singapore.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Singapore 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:2
+DTSTAMP:20210617T000002Z
+UID:Race@1078
+DTSTART;TZID=Europe/London:20211003T130000
+DTEND;TZID=Europe/London:20211003T150000
+SUMMARY:CANCELLED - FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Singapore Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Singapore.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Singapore 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1079
+DTSTART;TZID=Europe/London:20211008T033000
+DTEND;TZID=Europe/London:20211008T043000
+SUMMARY:FORMULA 1 JAPANESE GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Japanese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Japan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Suzuka 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1079
+DTSTART;TZID=Europe/London:20211008T070000
+DTEND;TZID=Europe/London:20211008T080000
+SUMMARY:FORMULA 1 JAPANESE GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Japanese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Japan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Suzuka 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1079
+DTSTART;TZID=Europe/London:20211009T040000
+DTEND;TZID=Europe/London:20211009T050000
+SUMMARY:FORMULA 1 JAPANESE GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Japanese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Japan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Suzuka 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1079
+DTSTART;TZID=Europe/London:20211009T070000
+DTEND;TZID=Europe/London:20211009T080000
+SUMMARY:FORMULA 1 JAPANESE GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Japanese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Japan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Suzuka 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1079
+DTSTART;TZID=Europe/London:20211010T060000
+DTEND;TZID=Europe/London:20211010T080000
+SUMMARY:FORMULA 1 JAPANESE GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Japanese Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Japan.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Suzuka 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1080
+DTSTART;TZID=Europe/London:20211022T173000
+DTEND;TZID=Europe/London:20211022T183000
+SUMMARY:FORMULA 1 ARAMCO UNITED STATES GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the United States Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_States.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Austin 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1080
+DTSTART;TZID=Europe/London:20211022T210000
+DTEND;TZID=Europe/London:20211022T220000
+SUMMARY:FORMULA 1 ARAMCO UNITED STATES GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the United States Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_States.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Austin 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1080
+DTSTART;TZID=Europe/London:20211023T190000
+DTEND;TZID=Europe/London:20211023T200000
+SUMMARY:FORMULA 1 ARAMCO UNITED STATES GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the United States Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_States.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Austin 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1080
+DTSTART;TZID=Europe/London:20211023T220000
+DTEND;TZID=Europe/London:20211023T230000
+SUMMARY:FORMULA 1 ARAMCO UNITED STATES GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the United States Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_States.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Austin 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1080
+DTSTART;TZID=Europe/London:20211024T200000
+DTEND;TZID=Europe/London:20211024T220000
+SUMMARY:FORMULA 1 ARAMCO UNITED STATES GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the United States Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_States.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Austin 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1081
+DTSTART;TZID=Europe/London:20211029T173000
+DTEND;TZID=Europe/London:20211029T183000
+SUMMARY:FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Mexican Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Mexico.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Mexico City 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1081
+DTSTART;TZID=Europe/London:20211029T210000
+DTEND;TZID=Europe/London:20211029T220000
+SUMMARY:FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Mexican Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Mexico.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Mexico City 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1081
+DTSTART;TZID=Europe/London:20211030T170000
+DTEND;TZID=Europe/London:20211030T180000
+SUMMARY:FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Mexican Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Mexico.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Mexico City 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1081
+DTSTART;TZID=Europe/London:20211030T200000
+DTEND;TZID=Europe/London:20211030T210000
+SUMMARY:FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Mexican Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Mexico.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Mexico City 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1081
+DTSTART;TZID=Europe/London:20211031T190000
+DTEND;TZID=Europe/London:20211031T210000
+SUMMARY:FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Mexican Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Mexico.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Mexico City 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1082
+DTSTART;TZID=Europe/London:20211105T143000
+DTEND;TZID=Europe/London:20211105T153000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÊMIO DE SÃO PAULO 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the São Paulo Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Brazil.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Interlagos 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1082
+DTSTART;TZID=Europe/London:20211105T180000
+DTEND;TZID=Europe/London:20211105T190000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÊMIO DE SÃO PAULO 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the São Paulo Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Brazil.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Interlagos 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1082
+DTSTART;TZID=Europe/London:20211106T150000
+DTEND;TZID=Europe/London:20211106T160000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÊMIO DE SÃO PAULO 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the São Paulo Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Brazil.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Interlagos 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1082
+DTSTART;TZID=Europe/London:20211106T180000
+DTEND;TZID=Europe/London:20211106T190000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÊMIO DE SÃO PAULO 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the São Paulo Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Brazil.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Interlagos 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1082
+DTSTART;TZID=Europe/London:20211107T170000
+DTEND;TZID=Europe/London:20211107T190000
+SUMMARY:FORMULA 1 HEINEKEN GRANDE PRÊMIO DE SÃO PAULO 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the São Paulo Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Brazil.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Interlagos 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:1
+DTSTAMP:20210807T000001Z
+UID:Practice1@1083
+DTSTART;TZID=Europe/London:20211119T013000
+DTEND;TZID=Europe/London:20211119T023000
+SUMMARY:CANCELLED - FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Australian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Australia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Melbourne 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:1
+DTSTAMP:20210807T000001Z
+UID:Practice2@1083
+DTSTART;TZID=Europe/London:20211119T050000
+DTEND;TZID=Europe/London:20211119T060000
+SUMMARY:CANCELLED - FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Australian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Australia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Melbourne 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:1
+DTSTAMP:20210807T000001Z
+UID:Practice3@1083
+DTSTART;TZID=Europe/London:20211120T030000
+DTEND;TZID=Europe/London:20211120T040000
+SUMMARY:CANCELLED - FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Australian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Australia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Melbourne 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:1
+DTSTAMP:20210807T000001Z
+UID:Qualifying@1083
+DTSTART;TZID=Europe/London:20211120T060000
+DTEND;TZID=Europe/London:20211120T070000
+SUMMARY:CANCELLED - FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Australian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Australia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Melbourne 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:CANCEL
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CANCELLED
+SEQUENCE:1
+DTSTAMP:20210807T000001Z
+UID:Race@1083
+DTSTART;TZID=Europe/London:20211121T060000
+DTEND;TZID=Europe/London:20211121T080000
+SUMMARY:CANCELLED - FORMULA 1 ROLEX AUSTRALIAN GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Australian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Australia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Melbourne 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210318T000001Z
+UID:Practice1@1085
+DTSTART;TZID=Europe/London:20211203T123000
+DTEND;TZID=Europe/London:20211203T133000
+SUMMARY:FORMULA 1 SAUDI ARABIAN GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Saudi Arabian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Saudi_Arabia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Jeddah Street Circuit
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210318T000001Z
+UID:Practice2@1085
+DTSTART;TZID=Europe/London:20211203T160000
+DTEND;TZID=Europe/London:20211203T170000
+SUMMARY:FORMULA 1 SAUDI ARABIAN GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Saudi Arabian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Saudi_Arabia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Jeddah Street Circuit
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210318T000001Z
+UID:Practice3@1085
+DTSTART;TZID=Europe/London:20211204T130000
+DTEND;TZID=Europe/London:20211204T140000
+SUMMARY:FORMULA 1 SAUDI ARABIAN GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Saudi Arabian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Saudi_Arabia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Jeddah Street Circuit
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210318T000001Z
+UID:Qualifying@1085
+DTSTART;TZID=Europe/London:20211204T160000
+DTEND;TZID=Europe/London:20211204T170000
+SUMMARY:FORMULA 1 SAUDI ARABIAN GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Saudi Arabian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Saudi_Arabia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Jeddah Street Circuit
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:1
+DTSTAMP:20210318T000001Z
+UID:Race@1085
+DTSTART;TZID=Europe/London:20211205T160000
+DTEND;TZID=Europe/London:20211205T180000
+SUMMARY:FORMULA 1 SAUDI ARABIAN GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Saudi Arabian Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/Saudi_Arabia.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Jeddah Street Circuit
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice1@1084
+DTSTART;TZID=Europe/London:20211210T093000
+DTEND;TZID=Europe/London:20211210T103000
+SUMMARY:FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2021 - Practice 1
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Abu Dhabi Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_Arab_Emirates.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Yas Marina Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice2@1084
+DTSTART;TZID=Europe/London:20211210T130000
+DTEND;TZID=Europe/London:20211210T140000
+SUMMARY:FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2021 - Practice 2
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Abu Dhabi Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_Arab_Emirates.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Yas Marina Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Practice3@1084
+DTSTART;TZID=Europe/London:20211211T100000
+DTEND;TZID=Europe/London:20211211T110000
+SUMMARY:FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2021 - Practice 3
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Abu Dhabi Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_Arab_Emirates.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Yas Marina Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Qualifying@1084
+DTSTART;TZID=Europe/London:20211211T130000
+DTEND;TZID=Europe/London:20211211T140000
+SUMMARY:FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2021 - Qualifying
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Abu Dhabi Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_Arab_Emirates.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Yas Marina Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+METHOD:PUBLISH
+BEGIN:VEVENT
+ORGANIZER:FORMULA1@FORMULA1.COM
+STATUS:CONFIRMED
+SEQUENCE:0
+DTSTAMP:20210311T000001Z
+UID:Race@1084
+DTSTART;TZID=Europe/London:20211212T130000
+DTEND;TZID=Europe/London:20211212T150000
+SUMMARY:FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2021 - Race
+DESCRIPTION:Follow all the action on F1 TV. Tune in here: https://f1tv.formula1.com Learn more about the Abu Dhabi Grand Prix. Visit the Race hub here: https://www.formula1.com/en/racing/2021/United_Arab_Emirates.html  Want to get trackside? Purchase your F1 tickets here: https://f1.com/36YTfFY  Get the latest F1 news and content\, direct to your inbox. Sign up to the newsletter here: https://account.formula1.com/#/en/register
+LOCATION:Yas Marina Circuit 
+TRANSP:TRANSPARENT
+X-MICROSOFT-CDO-BUSYSTATUS:FREE
+END:VEVENT
+END:VCALENDAR
