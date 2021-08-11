@@ -38,7 +38,7 @@ not support more advanced authentication methods.
 ## Example configuration.yaml
 ```yaml
 calendar:
-- platform: ics
+- platform: ics_calendar
   calendars:
       - name: "Name of calendar"
         url: "https://url.to/calendar.ics"
@@ -63,8 +63,30 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
-`parser` | `string` | `False` | 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors
+`parser` | `string` | `False` | 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors, defaults to "icalevents" if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
+
+## Parsers
+ics_calendar uses one of two parsers for generating events from calendars.
+These parsers are written and maintained by third parties, not by me.  Each
+comes with its own sets of problems.
+
+Version 1.x used "ics" which does not handle recurring events, and has a few
+other problems (see issues #6, #8, and #18).  The "ics" parser is also very
+strict, and will frequently give parsing errors for files which do not conform
+to RFC 5545.  Some of the most popular calendaring programs produce files that
+do not conform to the RFC.  The "ics" parser also tends to require more memory
+and processing power.  Several users have noted that it's unusuable for HA
+systems running on Raspberry pi computers.
+
+The Version 2.0.0 betas used "icalevents" which is a little more forgiving, but
+has a few problems with recurring event rules.  All-day events which repeat
+until a specific date and time are a particular issue (all-day events which
+repeat until a specific date are just fine).
+
+As a general rule, I recommend sticking with the "icalevents" parser, which is
+the default.  If you see parsing errors, you can try switching to "ics" for the
+calendar with the parsing errors.
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
