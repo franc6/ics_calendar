@@ -1,4 +1,4 @@
-## 2.0.0
+## 2.0.0 2021/08/11
 - This is a breaking change, even for users of the 2.0 beta releases.  Uninstall and re-install this platform, do not update!
 - Calendar platform name has changed; use "ics_calendar" instead of "ics" now
 - You can now switch which parser is used on a per-calendar basis; see the parser option in README.md
