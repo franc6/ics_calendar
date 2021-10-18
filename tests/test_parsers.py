@@ -8,6 +8,8 @@ class TestParsers:
 
     # Issue 6 is a problem for ics still!
     @pytest.mark.xfail(raises=ics.grammar.parse.ParseError)
+    # ICS 0.8 uses a different class hierarchy for ParseError
+    #@pytest.mark.xfail(raises=ics.contentline.container.ParseError)
     @pytest.mark.parametrize('fileName', ['issue6.ics'])
     def test_issue_six_for_ics(self, ics_parser, calendar_data):
         event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-01-31T23:59:59"), False)
@@ -26,15 +28,14 @@ class TestParsers:
     def test_issue_eight_for_ics(self, ics_parser, calendar_data):
         event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-06-15T23:59:59"), True)
         assert event_list is not None
-        assert 3 == len(event_list)
+        assert 2 == len(event_list)
 
     # Bug in RRULE
-    @pytest.mark.xfail(raises=ValueError)
     @pytest.mark.parametrize('fileName', ['issue8.ics'])
     def test_issue_eight_for_icalevents(self, icalevents_parser, calendar_data):
         event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-06-15T23:59:59"), True)
         assert event_list is not None
-        assert 3 == len(event_list)
+        assert 2 == len(event_list)
         
     # ics isn't showing the recurring events!
     @pytest.mark.xfail()
