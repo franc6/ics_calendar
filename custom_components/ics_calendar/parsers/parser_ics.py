@@ -3,8 +3,9 @@ import re
 from arrow import get as arrowget, utcnow
 from ics import Calendar
 from ..icalendarparser import ICalendarParser
+
 # ics 0.8 needs this (see get_date_formatted)
-#from dateutil import tz as dateutil_tz
+# from dateutil import tz as dateutil_tz
 
 
 class parser_ics(ICalendarParser):
@@ -21,21 +22,21 @@ class parser_ics(ICalendarParser):
             ar_end = arrowget(end)
 
             # ics 0.8 takes datetime not Arrow objects
-            #for event in calendar.timeline.included(ar_start.datetime, ar_end.datetime):
+            # for event in calendar.timeline.included(ar_start.datetime, ar_end.datetime):
             for event in calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
                     continue
                 uid = None
                 if hasattr(event, "uid"):
                     uid = event.uid
-                #print("event: ")
-                #print(vars(event))
+                # print("event: ")
+                # print(vars(event))
                 data = {
                     "uid": uid,
                     "summary": event.name,
                     # ics 0.8 doesn't use 'name' reliably, but 'summary' always
                     # exists
-                    #"summary": event.summary,
+                    # "summary": event.summary,
                     "start": parser_ics.get_date_formatted(event.begin, event.all_day),
                     "end": parser_ics.get_date_formatted(event.end, event.all_day),
                     "location": event.location,
@@ -81,11 +82,11 @@ class parser_ics(ICalendarParser):
         # to UTC!
 
         # ics 0.8 doesn't always return an Arrow date?  Not sure why
-        #if type(arw) != "Arrow":
-            #arw = arrowget(arw)
+        # if type(arw) != "Arrow":
+        # arw = arrowget(arw)
         if is_all_day:
             arw = arw.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo="local")
-            #arw = arw.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=dateutil_tz.tzlocal())
+            # arw = arw.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=dateutil_tz.tzlocal())
             return arw.format("YYYY-MM-DD")
 
         return arw.isoformat()
