@@ -98,6 +98,8 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         self._event = None
         self._name = device_data[CONF_NAME]
         self._offset_reached = False
+        self._last_call = None
+        self._last_event_list = None
 
     @property
     def device_state_attributes(self):
@@ -116,7 +118,10 @@ class ICSCalendarEventDevice(CalendarEventDevice):
 
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
-        return await self.data.async_get_events(hass, start_date, end_date)
+        if self._last_event_list or self._last_call is None or (datetime.now() - self._last_call) > MIN_TIME_BETWEEN_UPDATES:
+            self._last_call = datetime.now()
+            self._last_event_list = await self.data.async_get_events(hass, start_date, end_date)
+        return self._last_event_list
 
     def update(self):
         """Update event data."""
