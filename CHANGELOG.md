@@ -1,3 +1,7 @@
+## 2.0.1 2021/10/19
+- Added code to cache calls to async_get_events, which might reduce CPU usage
+- Fixed resource leak
+
 ## 2.0.0 2021/08/11
 - This is a breaking change, even for users of the 2.0 beta releases.  Uninstall and re-install this platform, do not update!
 - Calendar platform name has changed; use "ics_calendar" instead of "ics" now
