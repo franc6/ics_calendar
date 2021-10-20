@@ -64,6 +64,11 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 )
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
+# MIN_TIME_BETWEEN_DOWNLOADS is smaller than MIN_TIME_BETWEEN_UPDATES so that
+# it won't be skipped if an explicit update is called.  Eventually, if these are
+# configurable, we'll let end users worry about if they mean to have it happen
+# that way.
+MIN_TIME_BETWEEN_DOWNLOADS = timedelta(minutes=10)
 
 
 def setup_platform(hass, config, add_entities, _=None):
@@ -149,6 +154,8 @@ class ICSCalendarData:
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.event = None
+        self._calendar_data = None
+        self._last_download = None
 
         if device_data[CONF_USERNAME] != "" and device_data[CONF_PASSWORD] != "":
             passman = HTTPPasswordMgrWithDefaultRealm()
@@ -161,29 +168,35 @@ class ICSCalendarData:
             install_opener(opener)
 
     def _download_calendar(self):
-        calendar_data = None
-        try:
-            with urlopen(self.url) as conn:
-                calendar_data = conn.read().decode().replace("\0", "")
-        except HTTPError as http_error:
-            _LOGGER.error(f"{self.name}: Failed to open url: {http_error.reason}")
-        except ContentTooShortError as content_too_short_error:
-            _LOGGER.error(
-                f"{self.name}: Could not download calendar data: {content_too_short_error.reason}"
-            )
-        except URLError as url_error:
-            _LOGGER.error(f"{self.name}: Failed to open url: {url_error.reason}")
-        except:
-            _LOGGER.error(f"{self.name}: Failed to open url!")
-        return calendar_data
+        if (
+            self._calendar_data is None
+            or self._last_download is None
+            or (datetime.now() - self._last_download) > MIN_TIME_BETWEEN_DOWNLOADS
+        ):
+            self._last_download = datetime.now()
+            self._calendar_data = None
+            try:
+                with urlopen(self.url) as conn:
+                    self._calendar_data = conn.read().decode().replace("\0", "")
+            except HTTPError as http_error:
+                _LOGGER.error(f"{self.name}: Failed to open url: {http_error.reason}")
+            except ContentTooShortError as content_too_short_error:
+                _LOGGER.error(
+                    f"{self.name}: Could not download calendar data: {content_too_short_error.reason}"
+                )
+            except URLError as url_error:
+                _LOGGER.error(f"{self.name}: Failed to open url: {url_error.reason}")
+            except:
+                _LOGGER.error(f"{self.name}: Failed to open url!")
+        return
 
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
-        calendar_data = await hass.async_add_job(self._download_calendar)
+        await hass.async_add_job(self._download_calendar)
         try:
             event_list = self.parser.get_event_list(
-                content=calendar_data,
+                content=self._calendar_data,
                 start=start_date,
                 end=end_date,
                 include_all_day=self.include_all_day,
@@ -197,10 +210,10 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data."""
-        calendar_data = self._download_calendar()
+        self._download_calendar()
         try:
             self.event = self.parser.get_current_event(
-                content=calendar_data, include_all_day=self.include_all_day
+                content=self._calendar_data, include_all_day=self.include_all_day
             )
             return True
         except:
