@@ -45,9 +45,8 @@ class parser_icalevents(ICalendarParser):
         for event in events:
             if event.all_day and not include_all_day:
                 continue
-            else:
-                event.start = event.start.astimezone()
-                event.end = event.end.astimezone()
+            event.start = event.start.astimezone()
+            event.end = event.end.astimezone()
 
             if (event.end >= now) and (
                 temp_event is None or event.start < temp_event.start

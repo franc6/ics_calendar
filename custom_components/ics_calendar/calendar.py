@@ -1,6 +1,4 @@
 """Support for ICS Calendar."""
-import aiohttp
-import asyncio
 import copy
 import logging
 from datetime import datetime, timedelta
@@ -157,15 +155,16 @@ class ICSCalendarData:
             passman.add_password(
                 None, self.url, device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
             )
-            basicAuthHandler = HTTPBasicAuthHandler(passman)
-            digestAuthHandler = HTTPDigestAuthHandler(passman)
-            opener = build_opener(digestAuthHandler, basicAuthHandler)
+            basic_auth_handler = HTTPBasicAuthHandler(passman)
+            digest_auth_handler = HTTPDigestAuthHandler(passman)
+            opener = build_opener(digest_auth_handler, basic_auth_handler)
             install_opener(opener)
 
-    def _downloadCalendar(self):
+    def _download_calendar(self):
         calendar_data = None
         try:
-            calendar_data = urlopen(self.url).read().decode().replace("\0", "")
+            with urlopen(self.url) as conn:
+                calendar_data = conn.read().decode().replace("\0", "")
         except HTTPError as http_error:
             _LOGGER.error(f"{self.name}: Failed to open url: {http_error.reason}")
         except ContentTooShortError as content_too_short_error:
@@ -181,7 +180,7 @@ class ICSCalendarData:
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
-        calendar_data = await hass.async_add_job(self._downloadCalendar)
+        calendar_data = await hass.async_add_job(self._download_calendar)
         try:
             event_list = self.parser.get_event_list(
                 content=calendar_data,
@@ -198,7 +197,7 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data."""
-        calendar_data = self._downloadCalendar()
+        calendar_data = self._download_calendar()
         try:
             self.event = self.parser.get_current_event(
                 content=calendar_data, include_all_day=self.include_all_day
