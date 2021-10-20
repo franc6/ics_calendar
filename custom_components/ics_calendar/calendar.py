@@ -119,7 +119,7 @@ class ICSCalendarEventDevice(CalendarEventDevice):
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         if (
-            self._last_event_list
+            self._last_event_list is None
             or self._last_call is None
             or (datetime.now() - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
