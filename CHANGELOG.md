@@ -1,4 +1,4 @@
-## 2.0.1 2021/10/19
+## 2.1.0 2021/10/19
 - Added code to cache calls to async_get_events, which might reduce CPU usage
 - Added code to cache calls to download the calendar data
 - Note: the above items are not configurable yet
