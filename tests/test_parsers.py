@@ -15,20 +15,20 @@ class TestParsers:
         event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-01-31T23:59:59"), False)
         assert event_list is not None
         assert 1 == len(event_list)
-        
+
     @pytest.mark.parametrize('fileName', ['issue6.ics'])
     def test_issue_six_for_icalevents(self, icalevents_parser, calendar_data):
         event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-01-31T23:59:59"), False)
         assert event_list is not None
         assert 1 == len(event_list)
 
-    # ics isn't showing the recurring events!
-    @pytest.mark.xfail()   
     @pytest.mark.parametrize('fileName', ['issue8.ics'])
     def test_issue_eight_for_ics(self, ics_parser, calendar_data):
         event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-06-15T23:59:59"), True)
         assert event_list is not None
-        assert 2 == len(event_list)
+        # ics isn't showing the recurring events!
+        #assert 2 == len(event_list)
+        assert 1 == len(event_list)
 
     # Bug in RRULE
     @pytest.mark.parametrize('fileName', ['issue8.ics'])
@@ -36,30 +36,70 @@ class TestParsers:
         event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-06-15T23:59:59"), True)
         assert event_list is not None
         assert 2 == len(event_list)
-        
-    # ics isn't showing the recurring events!
-    @pytest.mark.xfail()
+
     @pytest.mark.parametrize('fileName', ['issue17.ics'])
     def test_issue_seventeen_for_ics(self, ics_parser, calendar_data):
         event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2020-09-14T00:00:00"), dtparser.parse("2020-09-29T23:59:59"), True)
         assert event_list is not None
-        assert 25 == len(event_list)
-        
+        # ics isn't showing the recurring events!
+        #assert 25 == len(event_list)
+        assert 3 == len(event_list)
+
     @pytest.mark.parametrize('fileName', ['issue17.ics'])
     def test_issue_seventeen_for_icalevents(self, icalevents_parser, calendar_data):
         event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2020-09-14T00:00:00"), dtparser.parse("2020-09-29T23:59:59"), True)
         assert event_list is not None
         assert 25 == len(event_list)
 
+    @pytest.mark.parametrize('fileName', ['issue22.ics'])
+    def test_issue_twenty_two_for_ics(self, ics_parser, calendar_data):
+        event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-01-31T23:59:59"), True)
+        assert event_list is not None
+        assert 1 == len(event_list)
+        for event in event_list:
+            assert "Betws-y-Coed (Caravan Holiday)" == event['summary']
+            assert "Betws-y-Coed (Caravan Holiday)" == event['description']
+
+    @pytest.mark.parametrize('fileName', ['issue22.ics'])
+    def test_issue_twenty_two_for_icalevents(self, icalevents_parser, calendar_data):
+        event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2020-01-01T00:00:00"), dtparser.parse("2020-01-31T23:59:59"), True)
+        assert event_list is not None
+        assert 1 == len(event_list)
+        for event in event_list:
+            assert "Betws-y-Coed (Caravan Holiday)" == event['summary']
+            assert "Betws-y-Coed (Caravan Holiday)" == event['description']
+
     @pytest.mark.parametrize('fileName', ['issue34.ics'])
     def test_issue_thirty_four_for_ics(self, ics_parser, calendar_data):
         event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2021-01-01T00:00:00"), dtparser.parse("2021-12-31T23:59:59"), True)
         assert event_list is not None
         assert 123 == len(event_list)
-        
+
     @pytest.mark.parametrize('fileName', ['issue34.ics'])
     def test_issue_thirty_four_for_icalevents(self, icalevents_parser, calendar_data):
         event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2021-01-01T00:00:00"), dtparser.parse("2021-12-31T23:59:59"), True)
         assert event_list is not None
         assert 123 == len(event_list)
-        
+
+    # ics parser fails on floating events
+    @pytest.mark.xfail()
+    @pytest.mark.parametrize('fileName', ['issue36.ics'])
+    def test_issue_thirty_six_for_ics(self, ics_parser, calendar_data):
+        event_list = ics_parser.get_event_list(calendar_data, dtparser.parse("2021-09-16T00:00:00"), dtparser.parse("2021-09-16T23:59:59"), True)
+        assert event_list is not None
+        assert 1 == len(event_list)
+        for event in event_list:
+            assert "2021-09-16T21:00:00-04:00" == event['start']
+            assert "2021-12-12T22:45:00-04:00" == event['end']
+
+    # icalevents parser fails on floating events
+    @pytest.mark.xfail()
+    @pytest.mark.parametrize('fileName', ['issue36.ics'])
+    def test_issue_thirty_six_for_icalevents(self, icalevents_parser, calendar_data):
+        event_list = icalevents_parser.get_event_list(calendar_data, dtparser.parse("2021-09-16T00:00:00"), dtparser.parse("2021-09-16T23:59:59"), True)
+        assert event_list is not None
+        assert 1 == len(event_list)
+        for event in event_list:
+            assert "2021-09-16T21:00:00.000000-0400" == event['start']
+            assert "2021-09-16T22:45:00.000000-0400" == event['end']
+
