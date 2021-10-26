@@ -72,7 +72,7 @@ MIN_TIME_BETWEEN_DOWNLOADS = timedelta(minutes=10)
 
 
 def setup_platform(hass, config, add_entities, _=None):
-    """Set up the ICS Calendar platform """
+    """Set up the ICS Calendar platform"""
     _LOGGER.debug("Setting up ics calendars")
     calendar_devices = []
     for calendar in config.get(CONF_CALENDARS):
@@ -195,12 +195,13 @@ class ICSCalendarData:
         event_list = []
         await hass.async_add_job(self._download_calendar)
         try:
-            event_list = self.parser.get_event_list(
+            events = self.parser.get_event_list(
                 content=self._calendar_data,
                 start=start_date,
                 end=end_date,
                 include_all_day=self.include_all_day,
             )
+            event_list = list(map(self.format_dates, events))
         except:
             _LOGGER.error(f"{self.name}: Failed to parse ICS!")
             event_list = []
@@ -215,8 +216,34 @@ class ICSCalendarData:
             self.event = self.parser.get_current_event(
                 content=self._calendar_data, include_all_day=self.include_all_day
             )
+            self.event["start"] = self.get_hass_date(
+                self.event["start"], self.event["all_day"]
+            )
+            self.event["end"] = self.get_hass_date(
+                self.event["end"], self.event["all_day"]
+            )
             return True
         except:
             _LOGGER.error(f"{self.name}: Failed to parse ICS!")
 
         return False
+
+    def format_dates(self, event):
+        event["start"] = self.get_date_formatted(event["start"], event["all_day"])
+        event["end"] = self.get_date_formatted(event["end"], event["all_day"])
+        return event
+
+    def get_date_formatted(self, dt, is_all_day):
+        """Return the formatted date"""
+        # Note that all day events should have a time of 0, and the timezone
+        # must be local.
+        if is_all_day:
+            return dt.strftime("%Y-%m-%d")
+
+        return dt.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+
+    def get_hass_date(self, dt, is_all_day):
+        """Return the wrapped and formatted date"""
+        if is_all_day:
+            return {"date": self.parser.get_date_formatted(dt, is_all_day)}
+        return {"dateTime": self.parser.get_date_formatted(dt, is_all_day)}
