@@ -59,14 +59,3 @@ class parser_icalevents(ICalendarParser):
             "location": temp_event.location,
             "description": temp_event.description,
         }
-
-    @staticmethod
-    def get_date_formatted(dt, is_all_day):
-        """Return the formatted date"""
-        # Note that all day events should have a time of 0, and the timezone
-        # must be local.
-        if is_all_day:
-            return dt.strftime("%Y-%m-%d")
-
-        return dt.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-
