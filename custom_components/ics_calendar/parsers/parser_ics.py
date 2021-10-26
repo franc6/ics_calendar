@@ -1,6 +1,6 @@
 """Support for ICS Calendar."""
 import re
-from arrow import get as arrowget, utcnow
+from arrow import Arrow, get as arrowget, utcnow
 from ics import Calendar
 from ..icalendarparser import ICalendarParser
 
@@ -72,7 +72,7 @@ class parser_ics(ICalendarParser):
 
     @staticmethod
     def get_date(arw, is_all_day):
-        if type(arw) == "Arrow":
+        if type(arw) == Arrow:
             if is_all_day:
                 arw = arw.replace(
                     hour=0, minute=0, second=0, microsecond=0, tzinfo="local"
