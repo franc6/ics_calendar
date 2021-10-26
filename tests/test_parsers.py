@@ -27,17 +27,17 @@ class TestParsers:
         )
         pytest.helpers.assert_event_list_size(1, event_list)
 
-    @pytest.mark.xfail()
     @pytest.mark.parametrize(
         "which_parser",
-        # ics parser doesn't handle recurring events
-        [pytest.param("ics_parser", marks=pytest.mark.xfail), "icalevents_parser"],
+        [
+            # ics parser doesn't handle recurring events
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
+            # icalevents fails before 0.1.26
+            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
+            # "icalevents_parser"
+        ],
     )
-    @pytest.mark.parametrize(
-        "fileName",
-        ["issue8.ics"],
-        indirect=True,
-    )
+    @pytest.mark.parametrize("fileName", ["issue8.ics"])
     def test_issue_eight(self, parser, calendar_data):
         event_list = parser.get_event_list(
             calendar_data,
