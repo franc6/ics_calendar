@@ -28,7 +28,8 @@ jobs:
 
       - name: Run pytest
         run: |
-          sudo timedatectl set-timezone Americas/New_York
+          timedatectl list-timezones
+          sudo timedatectl set-timezone Americas/NewYork
           timedatectl
           pytest --cov=custom_components.ics_calendar tests/
 
