@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,14 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          ls
           pip install -r requirements.txt
           pip install git+https://github.com/jazzband/icalevents.git@c368ad8
           pip install git+https://github.com/ics-py/ics-py.git@a0738f1
 
-      - name: Run tests
+      - name: Run pytest
         run: |
-          cd ics_calendar
           pytest --cov=custom_components.ics_calendar tests/
 
       - name: Upload coverage to Codecov
