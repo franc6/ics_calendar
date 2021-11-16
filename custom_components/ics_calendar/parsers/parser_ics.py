@@ -15,11 +15,12 @@ class parser_ics(ICalendarParser):
         calendar = Calendar(re.sub(parser_ics.re_method, "", content))
 
         if calendar is not None:
-            ar_start = arrowget(start)
-            ar_end = arrowget(end)
-
             # ics 0.8 takes datetime not Arrow objects
-            # for event in calendar.timeline.included(ar_start.datetime, ar_end.datetime):
+            ar_start = start
+            ar_end = end
+            #ar_start = arrowget(start)
+            #ar_end = arrowget(end)
+
             for event in calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
                     continue
@@ -30,10 +31,10 @@ class parser_ics(ICalendarParser):
                 # print(vars(event))
                 data = {
                     "uid": uid,
-                    "summary": event.name,
+                    #"summary": event.name,
                     # ics 0.8 doesn't use 'name' reliably, but 'summary' always
                     # exists
-                    # "summary": event.summary,
+                    "summary": event.summary,
                     "start": parser_ics.get_date(event.begin, event.all_day),
                     "end": parser_ics.get_date(event.end, event.all_day),
                     "location": event.location,
@@ -78,5 +79,8 @@ class parser_ics(ICalendarParser):
                     hour=0, minute=0, second=0, microsecond=0, tzinfo="local"
                 )
             return arw.datetime
+        else:
+            if arw.tzinfo is None or arw.tzinfo.utcoffset(arw) is None or is_all_day:
+                arw = arw.astimezone()
 
         return arw
