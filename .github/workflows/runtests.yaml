@@ -26,13 +26,10 @@ jobs:
           pip install git+https://github.com/jazzband/icalevents.git@c368ad8
           pip install git+https://github.com/ics-py/ics-py.git@a0738f1
 
-      - name: Set timezone
-        uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Americas/New_York"
-
       - name: Run pytest
         run: |
+          sudo timedatectl set-timezone Americas/New_York
+          timedatectl
           pytest --cov=custom_components.ics_calendar tests/
 
       - name: Upload coverage to Codecov
