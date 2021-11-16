@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set timezone
+        run: |
+          sudo timedatectl set-timezone America/New_York
+          timedatectl
+
       - uses: actions/checkout@v2
 
       - name: Setup Python
@@ -28,9 +33,6 @@ jobs:
 
       - name: Run pytest
         run: |
-          timedatectl list-timezones
-          sudo timedatectl set-timezone Americas/NewYork
-          timedatectl
           pytest --cov=custom_components.ics_calendar tests/
 
       - name: Upload coverage to Codecov
