@@ -26,25 +26,12 @@ jobs:
           pip install git+https://github.com/jazzband/icalevents.git@c368ad8
           pip install git+https://github.com/ics-py/ics-py.git@a0738f1
 
-      # Note the tests must be run in the US Eastern timezone for now,
-      # because the expected data for floating events always sets that time
-      # zone.
-      #- name: Run pytest in Singapore
-      #  uses: szenius/set-timezone@v1.0
-      #  with:
-      #    timezoneLinux: "Asia/Singapore"
-      #  run: |
-      #    pytest --cov=custom_components.ics_calendar tests/
-
-      #- name: Run pytest in UTC
-      #  uses: szenius/set-timezone@v1.0
-      #  run: |
-      #    pytest --cov=custom_components.ics_calendar tests/
-
-      - name: Run pytest in US Eastern
+      - name: Set timezone
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: "Americas/New_York"
+
+      - name: Run pytest
         run: |
           pytest --cov=custom_components.ics_calendar tests/
 
