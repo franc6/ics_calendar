@@ -22,6 +22,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install -r requirements.test.txt
           pip install git+https://github.com/jazzband/icalevents.git@c368ad8
           pip install git+https://github.com/ics-py/ics-py.git@a0738f1
 
