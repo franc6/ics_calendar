@@ -105,11 +105,6 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         self._last_event_list = None
 
     @property
-    def device_state_attributes(self):
-        """Return the calendar entity's state attributes."""
-        return {"offset_reached": self._offset_reached}
-
-    @property
     def event(self):
         """Returns the current event for the calendar entity or None"""
         return self._event
@@ -140,8 +135,8 @@ class ICSCalendarEventDevice(CalendarEventDevice):
             self._event = event
             return
         event = calculate_offset(event, OFFSET)
-        self._offset_reached = is_offset_reached(event)
         self._event = event
+        self._attr_extra_state_attributes = { "offset_reached": is_offset_reached(event) }
 
 
 class ICSCalendarData:
