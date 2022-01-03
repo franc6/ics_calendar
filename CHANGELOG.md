@@ -1,3 +1,9 @@
+## 2.1.1 2022/01/03
+- Fixed deprecated device_state_attributes
+- Updated internal code to remove duplicated methods
+- Updated unit tests and infrastructure
+- Updated minimum HA version to 2021.4.0
+
 ## 2.1.0 2021/10/19
 - Added code to cache calls to async_get_events, which might reduce CPU usage
 - Added code to cache calls to download the calendar data
