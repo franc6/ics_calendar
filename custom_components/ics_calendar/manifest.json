@@ -4,7 +4,7 @@
     "documentation": "https://github.com/franc6/ics_calendar",
     "requirements": ["ics>=0.7", "icalevents>=0.1.25"],
     "dependencies": [],
-    "homeassistant": "0.97.0",
+    "homeassistant": "2021.4.0",
     "codeowners": ["@franc6"],
     "version": "2.1.0"
 }
