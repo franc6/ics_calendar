@@ -188,7 +188,7 @@ class ICSCalendarData:
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
-        await hass.async_add_job(self._download_calendar)
+        await hass.async_add_executor_job(self._download_calendar)
         try:
             events = self.parser.get_event_list(
                 content=self._calendar_data,
