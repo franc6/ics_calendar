@@ -240,5 +240,5 @@ class ICSCalendarData:
     def get_hass_date(self, dt, is_all_day):
         """Return the wrapped and formatted date"""
         if is_all_day:
-            return {"date": self.parser.get_date_formatted(dt, is_all_day)}
-        return {"dateTime": self.parser.get_date_formatted(dt, is_all_day)}
+            return {"date": self.get_date_formatted(dt, is_all_day)}
+        return {"dateTime": self.get_date_formatted(dt, is_all_day)}
