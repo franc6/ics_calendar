@@ -16,25 +16,28 @@ class parser_ics(ICalendarParser):
 
         if calendar is not None:
             # ics 0.8 takes datetime not Arrow objects
-            ar_start = start
-            ar_end = end
-            #ar_start = arrowget(start)
-            #ar_end = arrowget(end)
+            #ar_start = start
+            #ar_end = end
+            ar_start = arrowget(start)
+            ar_end = arrowget(end)
 
             for event in calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
                     continue
                 uid = None
+                summary = ""
                 if hasattr(event, "uid"):
                     uid = event.uid
+                # ics 0.8 uses 'summary' reliably, older versions use 'name'
+                if hasattr(event, "summary"):
+                    summary = event.summary
+                elif hasattr(event, "name"):
+                    summary = event.name
                 # print("event: ")
                 # print(vars(event))
                 data = {
                     "uid": uid,
-                    #"summary": event.name,
-                    # ics 0.8 doesn't use 'name' reliably, but 'summary' always
-                    # exists
-                    "summary": event.summary,
+                    "summary": summary,
                     "start": parser_ics.get_date(event.begin, event.all_day),
                     "end": parser_ics.get_date(event.end, event.all_day),
                     "location": event.location,
