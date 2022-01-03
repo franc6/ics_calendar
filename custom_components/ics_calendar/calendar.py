@@ -211,6 +211,10 @@ class ICSCalendarData:
             self.event = self.parser.get_current_event(
                 content=self._calendar_data, include_all_day=self.include_all_day
             )
+        except:
+            _LOGGER.error(f"{self.name}: Failed to parse ICS!")
+        if self.event is not None:
+            _LOGGER.debug(f'{self.name}: got event: {self.event["summary"]}; start: {self.event["start"]}; end: {self.event["end"]}; all_day: {self.event["all_day"]}')
             self.event["start"] = self.get_hass_date(
                 self.event["start"], self.event["all_day"]
             )
@@ -218,8 +222,8 @@ class ICSCalendarData:
                 self.event["end"], self.event["all_day"]
             )
             return True
-        except:
-            _LOGGER.error(f"{self.name}: Failed to parse ICS!")
+        else:
+            _LOGGER.debug(f"{self.name}: No event found!")
 
         return False
 
