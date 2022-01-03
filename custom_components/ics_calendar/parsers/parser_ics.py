@@ -39,6 +39,7 @@ class parser_ics(ICalendarParser):
                     "end": parser_ics.get_date(event.end, event.all_day),
                     "location": event.location,
                     "description": event.description,
+                    "all_day": event.all_day,
                 }
                 # Note that we return a formatted date for start and end here,
                 # but a different format for get_current_event!
@@ -69,6 +70,7 @@ class parser_ics(ICalendarParser):
             "end": parser_ics.get_date(temp_event.end, temp_event.all_day),
             "location": temp_event.location,
             "description": temp_event.description,
+            "all_day": temp_event.all_day,
         }
 
     @staticmethod

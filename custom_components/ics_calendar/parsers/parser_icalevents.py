@@ -23,6 +23,7 @@ class parser_icalevents(ICalendarParser):
                     "end": event.end.astimezone(),
                     "location": event.location,
                     "description": event.description,
+                    "all_day": event.all_day,
                 }
                 # Note that we return a formatted date for start and end here,
                 # but a different format for get_current_event!
@@ -58,4 +59,5 @@ class parser_icalevents(ICalendarParser):
             "end": temp_event.end,
             "location": temp_event.location,
             "description": temp_event.description,
+            "all_day": temp_event.all_day,
         }
