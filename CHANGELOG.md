@@ -1,3 +1,6 @@
+## 2.1.2 2022/01/03
+- Fixed ics parser
+
 ## 2.1.1 2022/01/03
 - Fixed deprecated device_state_attributes
 - Updated internal code to remove duplicated methods
