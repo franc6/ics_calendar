@@ -6,5 +6,5 @@
     "dependencies": [],
     "homeassistant": "2021.4.0",
     "codeowners": ["@franc6"],
-    "version": "2.1.2"
+    "version": "2.5.0"
 }

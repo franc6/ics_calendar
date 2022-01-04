@@ -1,3 +1,6 @@
+## 2.5.0 2022/01/03
+- Added new parser, "rie" and made it the default.
+
 ## 2.1.2 2022/01/03
 - Fixed ics parser
 
