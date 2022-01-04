@@ -64,7 +64,7 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
-`parser` | `string` | `False` | 'rie', 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors, defaults to "rie" if not present
+`parser` | `string` | `False` | 'rie', 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors, defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 

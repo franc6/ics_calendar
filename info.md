@@ -18,6 +18,7 @@ custom_components/ics_calendar/icalendarparser.py
 custom_components/ics_calendar/parsers/__init__.py
 custom_components/ics_calendar/parsers/parser_ics.py
 custom_components/ics_calendar/parsers/parser_icalevents.py
+custom_components/ics_calendar/parsers/parser_rie.py
 ```
 
 ## Authentication
@@ -53,7 +54,7 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
-`parser` | `string` | `False` | 'icalevents' or 'ics'  Choose 'ics' if you encounter parsing errors, defaults to "icalevents" if not present
+`parser` | `string` | `False` | 'rie', 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors, defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
@@ -75,7 +76,11 @@ has a few problems with recurring event rules.  All-day events which repeat
 until a specific date and time are a particular issue (all-day events which
 repeat until a specific date are just fine).
 
-As a general rule, I recommend sticking with the "icalevents" parser, which is
+In Version 2.5 and later, a new parser, "rie" is the default.  Like
+"icalevents", it's based on the "icalendar" library.  This parser appears to
+fix both issues #8 and #36, which are problematic for "icalevents".
+
+As a general rule, I recommend sticking with the "rie" parser, which is
 the default.  If you see parsing errors, you can try switching to "ics" for the
 calendar with the parsing errors.
 
