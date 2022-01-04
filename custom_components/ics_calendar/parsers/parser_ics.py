@@ -16,8 +16,8 @@ class parser_ics(ICalendarParser):
 
         if calendar is not None:
             # ics 0.8 takes datetime not Arrow objects
-            #ar_start = start
-            #ar_end = end
+            # ar_start = start
+            # ar_end = end
             ar_start = arrowget(start)
             ar_end = arrowget(end)
 

@@ -19,6 +19,11 @@ def datetime_hook(pairs):
 
 
 @pytest.fixture
+def rie_parser():
+    return ICalendarParser.get_instance("rie")
+
+
+@pytest.fixture
 def ics_parser():
     return ICalendarParser.get_instance("ics")
 

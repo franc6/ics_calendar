@@ -54,7 +54,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             ): cv.boolean,
                             vol.Optional(CONF_USERNAME, default=""): cv.string,
                             vol.Optional(CONF_PASSWORD, default=""): cv.string,
-                            vol.Optional(CONF_PARSER, default="icalevents"): cv.string,
+                            vol.Optional(CONF_PARSER, default="rie"): cv.string,
                         }
                     )
                 ]
@@ -136,7 +136,7 @@ class ICSCalendarEventDevice(CalendarEventDevice):
             return
         event = calculate_offset(event, OFFSET)
         self._event = event
-        self._attr_extra_state_attributes = { "offset_reached": is_offset_reached(event) }
+        self._attr_extra_state_attributes = {"offset_reached": is_offset_reached(event)}
 
 
 class ICSCalendarData:
@@ -214,7 +214,9 @@ class ICSCalendarData:
         except:
             _LOGGER.error(f"{self.name}: Failed to parse ICS!")
         if self.event is not None:
-            _LOGGER.debug(f'{self.name}: got event: {self.event["summary"]}; start: {self.event["start"]}; end: {self.event["end"]}; all_day: {self.event["all_day"]}')
+            _LOGGER.debug(
+                f'{self.name}: got event: {self.event["summary"]}; start: {self.event["start"]}; end: {self.event["end"]}; all_day: {self.event["all_day"]}'
+            )
             self.event["start"] = self.get_hass_date(
                 self.event["start"], self.event["all_day"]
             )

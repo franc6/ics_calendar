@@ -4,13 +4,55 @@ import ics
 
 
 class TestParsers:
-    # TODO: Test all day events, make sure time and zone are corret
- 
+    # Test all day events, make sure time and zone are corret
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            # ics_parser fails due to time zone problems
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
+            # icalevents_parser fails due to time zone problems
+            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
+        ],
+    )
+    @pytest.mark.parametrize("fileName", ["allday.ics"])
+    def test_all_day(self, parser, calendar_data, expected_data):
+        event_list = parser.get_event_list(
+            calendar_data,
+            dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-31T23:59:59"),
+            True,
+        )
+        pytest.helpers.assert_event_list_size(11, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    # Test skipping all day events
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            # ics_parser fails due to time zone problems
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
+            # icalevents_parser fails due to time zone problems
+            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
+        ],
+    )
+    @pytest.mark.parametrize("fileName", ["allday.ics"])
+    def test_no_all_day(self, parser, calendar_data):
+        event_list = parser.get_event_list(
+            calendar_data,
+            dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-31T23:59:59"),
+            False,
+        )
+        pytest.helpers.assert_event_list_size(4, event_list)
+
     # TODO: Test get_current_event, make sure time and zone are correct
 
     @pytest.mark.parametrize(
         "which_parser",
         [
+            "rie_parser",
             # Issue 6 is a problem for ics still!
             pytest.param(
                 "ics_parser",
@@ -34,11 +76,12 @@ class TestParsers:
     @pytest.mark.parametrize(
         "which_parser",
         [
+            "rie_parser",
             # ics parser doesn't handle recurring events
             pytest.param("ics_parser", marks=pytest.mark.xfail),
             # icalevents fails before 0.1.26
             # pytest.param("icalevents_parser", marks=pytest.mark.xfail),
-            "icalevents_parser"
+            "icalevents_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue8.ics"])
@@ -55,7 +98,11 @@ class TestParsers:
     @pytest.mark.parametrize(
         "which_parser",
         # ics parser doesn't handle recurring events
-        [pytest.param("ics_parser", marks=pytest.mark.xfail), "icalevents_parser"],
+        [
+            "rie_parser",
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
+            "icalevents_parser",
+        ],
     )
     @pytest.mark.parametrize("fileName", ["issue17.ics"])
     def test_issue_seventeen(self, parser, calendar_data, expected_data):
@@ -70,7 +117,7 @@ class TestParsers:
 
     @pytest.mark.parametrize(
         "which_parser",
-        ["ics_parser", "icalevents_parser"],
+        ["rie_parser", "ics_parser", "icalevents_parser"],
     )
     @pytest.mark.parametrize("fileName", ["issue22.ics"])
     def test_issue_twenty_two(self, parser, calendar_data, expected_data):
@@ -85,7 +132,7 @@ class TestParsers:
 
     @pytest.mark.parametrize(
         "which_parser",
-        ["ics_parser", "icalevents_parser"],
+        ["rie_parser", "ics_parser", "icalevents_parser"],
     )
     @pytest.mark.parametrize("fileName", ["issue34.ics"])
     def test_issue_thirty_four(self, parser, calendar_data):
@@ -100,8 +147,9 @@ class TestParsers:
     @pytest.mark.parametrize(
         "which_parser",
         [
+            "rie_parser",
             # ics parser fails on floating events before 0.8.0
-            #pytest.param("ics_parser", marks=pytest.mark.xfail),
+            # pytest.param("ics_parser", marks=pytest.mark.xfail),
             "ics_parser",
             # icalevents parser fails on floating events
             pytest.param("icalevents_parser", marks=pytest.mark.xfail),
