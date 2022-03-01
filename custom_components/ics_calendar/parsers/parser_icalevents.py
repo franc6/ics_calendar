@@ -32,9 +32,11 @@ class parser_icalevents(ICalendarParser):
         return event_list
 
     @staticmethod
-    def get_current_event(content: str, include_all_day: bool, now: datetime):
+    def get_current_event(
+        content: str, include_all_day: bool, now: datetime, days: int
+    ):
         now = now.astimezone()
-        end = now + timedelta(days=1)
+        end = now + timedelta(days=days)
         events = icalparser.parse_events(content=content, start=now, end=end)
         if events is None or len(events) == 0:
             return None

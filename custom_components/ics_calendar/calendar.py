@@ -32,6 +32,7 @@ _LOGGER = logging.getLogger(__name__)
 
 CONF_DEVICE_ID = "device_id"
 CONF_CALENDARS = "calendars"
+CONF_DAYS = "days"
 CONF_CALENDAR = "calendar"
 CONF_INCLUDE_ALL_DAY = "includeAllDay"
 CONF_PARSER = "parser"
@@ -54,7 +55,12 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             ): cv.boolean,
                             vol.Optional(CONF_USERNAME, default=""): cv.string,
                             vol.Optional(CONF_PASSWORD, default=""): cv.string,
-                            vol.Optional(CONF_PARSER, default="rie"): cv.string,
+                            vol.Optional(
+                                CONF_PARSER, default="rie"
+                            ): cv.string,
+                            vol.Optional(
+                                CONF_DAYS, default=1
+                            ): cv.positive_int,
                         }
                     )
                 ]
@@ -83,6 +89,7 @@ def setup_platform(hass, config, add_entities, _=None):
             CONF_USERNAME: calendar.get(CONF_USERNAME),
             CONF_PASSWORD: calendar.get(CONF_PASSWORD),
             CONF_PARSER: calendar.get(CONF_PARSER),
+            CONF_DAYS: calendar.get(CONF_DAYS),
         }
         device_id = "{}".format(device_data[CONF_NAME])
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -146,6 +153,7 @@ class ICSCalendarData:
         """Set up how we are going to connect to the ICS Calendar"""
         self.name = device_data[CONF_NAME]
         self.url = device_data[CONF_URL]
+        self._days = device_data[CONF_DAYS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.event = None
@@ -213,6 +221,7 @@ class ICSCalendarData:
                 content=self._calendar_data,
                 include_all_day=self.include_all_day,
                 now=datetime.now(),
+                days=self._days
             )
         except:
             _LOGGER.error(f"update: {self.name}: Failed to parse ICS!")

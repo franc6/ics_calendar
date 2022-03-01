@@ -18,3 +18,7 @@ class TestICalendarParser:
         assert isinstance(ICalendarParser.get_instance("rie"), ICalendarParser)
         assert isinstance(ICalendarParser.get_instance("ics"), ICalendarParser)
         assert isinstance(ICalendarParser.get_instance("icalevents"), ICalendarParser)
+        assert (
+            isinstance(ICalendarParser.get_instance("unknown"), ICalendarParser)
+            is False
+        )

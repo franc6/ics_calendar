@@ -53,6 +53,7 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
+`days` | `positive integer` | 1 | The number of days to look ahead (only affects the attributes of the calendar entity)
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
 `parser` | `string` | `False` | 'rie', 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors, defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name

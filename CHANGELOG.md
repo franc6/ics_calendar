@@ -1,3 +1,8 @@
+## 2.6.0 2022/03/01
+- Fixed some problems with rie parser
+- Added new "days" option so the next event will be shown better (see issues #43 & #44, and PR #33)
+- Added more unit tests
+
 ## 2.5.0 2022/01/03
 - Added new parser, "rie" and made it the default.
 

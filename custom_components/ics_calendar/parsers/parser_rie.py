@@ -43,14 +43,16 @@ class parser_rie(ICalendarParser):
         return event_list
 
     @staticmethod
-    def get_current_event(content: str, include_all_day: bool, now: datetime):
+    def get_current_event(
+        content: str, include_all_day: bool, now: datetime, days: int
+    ):
         calendar = Calendar.from_ical(content)
 
         if calendar is None:
             return None
 
         temp_event = None
-        end = now + timedelta(days=1)
+        end = now + timedelta(days=days)
         for event in rie.of(calendar).between(now, end):
             start, end, all_day = parser_rie.is_all_day(event)
 
@@ -62,7 +64,7 @@ class parser_rie(ICalendarParser):
                 temp_start = start
                 temp_end = end
                 temp_all_day = all_day
-            elif temp_event.end > event.end:
+            elif temp_end > end:
                 temp_event = event
                 temp_start = start
                 temp_end = end

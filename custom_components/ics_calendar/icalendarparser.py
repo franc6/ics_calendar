@@ -23,5 +23,7 @@ class ICalendarParser:
     def get_event_list(self, content: str, start, end, include_all_day: bool):
         pass
 
-    def get_current_event(self, content: str, include_all_day: bool, now: datetime):
+    def get_current_event(
+        self, content: str, include_all_day: bool, now: datetime, days: int
+    ):
         pass

@@ -169,9 +169,37 @@ class TestParsers:
     @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
                              "icalevents_parser"])
     @pytest.mark.parametrize("fileName", ["issue45.ics"])
+    def test_issue_forty_three_two_days(self, parser, calendar_data, expected_data):
+        now = dtparser.parse("2022-02-28T06:00:00-05:00")
+        current_event = parser.get_current_event(calendar_data, True, now, 2)
+        event_list = [current_event]
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
+                             "icalevents_parser"])
+    @pytest.mark.parametrize("fileName", ["issue43.ics"])
+    def test_issue_forty_three_fourteen_days(self, parser, calendar_data, expected_data):
+        now = dtparser.parse("2022-03-01T06:00:00-05:00")
+        current_event = parser.get_current_event(calendar_data, True, now, 14)
+        event_list = [current_event]
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
+                             "icalevents_parser"])
+    @pytest.mark.parametrize("fileName", ["issue43.ics"])
+    def test_issue_forty_three_seven_days(self, parser, calendar_data):
+        now = dtparser.parse("2022-03-01T06:00:00-05:00")
+        current_event = parser.get_current_event(calendar_data, True, now, 7)
+        assert current_event is None
+
+    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
+                             "icalevents_parser"])
+    @pytest.mark.parametrize("fileName", ["issue45.ics"])
     def test_issue_forty_five(self, parser, calendar_data, expected_data):
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
-        current_event = parser.get_current_event(calendar_data, True, now)
+        current_event = parser.get_current_event(calendar_data, True, now, 1)
         event_list = [current_event]
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
