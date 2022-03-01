@@ -59,6 +59,9 @@ class parser_rie(ICalendarParser):
 
             if temp_event is None:
                 temp_event = event
+                temp_start = start
+                temp_end = end
+                temp_all_day = all_day
             elif temp_event.end > event.end:
                 temp_event = event
                 temp_start = start
