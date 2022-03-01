@@ -210,7 +210,9 @@ class ICSCalendarData:
         self._download_calendar()
         try:
             self.event = self.parser.get_current_event(
-                content=self._calendar_data, include_all_day=self.include_all_day
+                content=self._calendar_data,
+                include_all_day=self.include_all_day,
+                now=datetime.now(),
             )
         except:
             _LOGGER.error(f"update: {self.name}: Failed to parse ICS!")

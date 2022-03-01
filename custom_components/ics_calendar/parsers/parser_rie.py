@@ -1,5 +1,4 @@
 """Support for ICS Calendar."""
-import re
 from datetime import date, datetime, timedelta
 
 from icalendar import Calendar
@@ -44,14 +43,15 @@ class parser_rie(ICalendarParser):
         return event_list
 
     @staticmethod
-    def get_current_event(content: str, include_all_day: bool):
+    def get_current_event(content: str, include_all_day: bool, now: datetime):
         calendar = Calendar.from_ical(content)
 
         if calendar is None:
             return None
 
         temp_event = None
-        for event in rie.of(calendar).at(datetime.now()):
+        end = now + timedelta(days=1)
+        for event in rie.of(calendar).between(now, end):
             start, end, all_day = parser_rie.is_all_day(event)
 
             if all_day and not include_all_day:

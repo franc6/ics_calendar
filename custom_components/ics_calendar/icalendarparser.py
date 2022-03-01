@@ -1,4 +1,5 @@
 import importlib
+from datetime import datetime
 
 
 class ICalendarParser:
@@ -22,5 +23,5 @@ class ICalendarParser:
     def get_event_list(self, content: str, start, end, include_all_day: bool):
         pass
 
-    def get_current_event(self, content: str, include_all_day: bool):
+    def get_current_event(self, content: str, include_all_day: bool, now: datetime):
         pass

@@ -65,4 +65,6 @@ def compare_event_list(expected, actual):
 @pytest.helpers.register
 def compare_event(expected, actual):
     for key in expected.keys():
+        assert expected is not None
+        assert actual is not None
         assert expected[key] == actual[key]
