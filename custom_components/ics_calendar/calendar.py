@@ -65,9 +65,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
 # MIN_TIME_BETWEEN_DOWNLOADS is smaller than MIN_TIME_BETWEEN_UPDATES so that
-# it won't be skipped if an explicit update is called.  Eventually, if these are
-# configurable, we'll let end users worry about if they mean to have it happen
-# that way.
+# it won't be skipped if an explicit update is called.  Eventually, if these
+# are configurable, we'll let end users worry about if they mean to have it
+# happen that way.
 MIN_TIME_BETWEEN_DOWNLOADS = timedelta(minutes=10)
 
 
@@ -177,7 +177,8 @@ class ICSCalendarData:
                 _LOGGER.error(f"{self.name}: Failed to open url: {http_error.reason}")
             except ContentTooShortError as content_too_short_error:
                 _LOGGER.error(
-                    f"{self.name}: Could not download calendar data: {content_too_short_error.reason}"
+                    f"{self.name}: Could not download calendar"
+                    f" data: {content_too_short_error.reason}"
                 )
             except URLError as url_error:
                 _LOGGER.error(f"{self.name}: Failed to open url: {url_error.reason}")
@@ -198,7 +199,7 @@ class ICSCalendarData:
             )
             event_list = list(map(self.format_dates, events))
         except:
-            _LOGGER.error(f"{self.name}: Failed to parse ICS!")
+            _LOGGER.error(f"async_get_events: {self.name}: Failed to parse ICS!")
             event_list = []
 
         return event_list
@@ -212,10 +213,12 @@ class ICSCalendarData:
                 content=self._calendar_data, include_all_day=self.include_all_day
             )
         except:
-            _LOGGER.error(f"{self.name}: Failed to parse ICS!")
+            _LOGGER.error(f"update: {self.name}: Failed to parse ICS!")
         if self.event is not None:
             _LOGGER.debug(
-                f'{self.name}: got event: {self.event["summary"]}; start: {self.event["start"]}; end: {self.event["end"]}; all_day: {self.event["all_day"]}'
+                f'{self.name}: got event: {self.event["summary"]};'
+                f'start: {self.event["start"]}; end: {self.event["end"]};'
+                f'all_day: {self.event["all_day"]}'
             )
             self.event["start"] = self.get_hass_date(
                 self.event["start"], self.event["all_day"]
