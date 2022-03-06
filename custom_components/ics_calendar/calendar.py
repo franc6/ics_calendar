@@ -191,7 +191,7 @@ class ICSCalendarData:
             except URLError as url_error:
                 _LOGGER.error(f"{self.name}: Failed to open url: {url_error.reason}")
             except:
-                _LOGGER.error(f"{self.name}: Failed to open url!")
+                _LOGGER.error(f"{self.name}: Failed to open url!", exc_info=True)
         return
 
     async def async_get_events(self, hass, start_date, end_date):
@@ -207,7 +207,7 @@ class ICSCalendarData:
             )
             event_list = list(map(self.format_dates, events))
         except:
-            _LOGGER.error(f"async_get_events: {self.name}: Failed to parse ICS!")
+            _LOGGER.error(f"async_get_events: {self.name}: Failed to parse ICS!", exc_info=True)
             event_list = []
 
         return event_list
@@ -224,7 +224,7 @@ class ICSCalendarData:
                 days=self._days
             )
         except:
-            _LOGGER.error(f"update: {self.name}: Failed to parse ICS!")
+            _LOGGER.error(f"update: {self.name}: Failed to parse ICS!", exc_info=True)
         if self.event is not None:
             _LOGGER.debug(
                 f'{self.name}: got event: {self.event["summary"]};'
