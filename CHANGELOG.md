@@ -1,3 +1,6 @@
+## 2.6.1 2022/03/04
+- Added additional output to some error conditions
+
 ## 2.6.0 2022/03/01
 - Fixed some problems with rie parser
 - Added new "days" option so the next event will be shown better (see issues #43 & #44, and PR #33)
