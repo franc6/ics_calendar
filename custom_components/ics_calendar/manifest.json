@@ -3,7 +3,6 @@
     "dependencies": [],
     "documentation": "https://github.com/franc6/ics_calendar",
     "domain": "ics_calendar",
-    "homeassistant": "2021.4.0",
     "iot_domain": "cloud_polling",
     "issue_tracker": "https://github.com/franc6/ics_calendar/issues",
     "name": "ics Calendar",
