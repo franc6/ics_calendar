@@ -57,8 +57,8 @@ class TestParsers:
             pytest.param(
                 "ics_parser",
                 # ICS 0.8 uses a different class hierarchy for ParseError
-                marks=pytest.mark.xfail(raises=ics.contentline.container.ParseError)
-                # marks=pytest.mark.xfail(raises=ics.grammar.parse.ParseError),
+                #marks=pytest.mark.xfail(raises=ics.contentline.container.ParseError)
+                marks=pytest.mark.xfail(raises=ics.grammar.parse.ParseError),
             ),
             "icalevents_parser",
         ],
@@ -80,8 +80,8 @@ class TestParsers:
             # ics parser doesn't handle recurring events
             pytest.param("ics_parser", marks=pytest.mark.xfail),
             # icalevents fails before 0.1.26
-            # pytest.param("icalevents_parser", marks=pytest.mark.xfail),
-            "icalevents_parser",
+            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
+            #"icalevents_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue8.ics"])
@@ -149,8 +149,8 @@ class TestParsers:
         [
             "rie_parser",
             # ics parser fails on floating events before 0.8.0
-            # pytest.param("ics_parser", marks=pytest.mark.xfail),
-            "ics_parser",
+             pytest.param("ics_parser", marks=pytest.mark.xfail),
+            #"ics_parser",
             # icalevents parser fails on floating events
             pytest.param("icalevents_parser", marks=pytest.mark.xfail),
         ],
