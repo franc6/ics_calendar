@@ -1,10 +1,6 @@
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//team_2_nl//NONSGML kigkonsult.se iCalcreator 2.20.2//
-X-WR-TIMEZONE:Europe/Brussels
-X-WR-CALNAME:Antwerp
-X-WR-CALDESC:Bekijk de volledige kalender van voetbalploeg Antwerp uit Onbe
- kend.
 BEGIN:VEVENT
 UID:match_1025179
 DTSTAMP:20210911T014015Z
