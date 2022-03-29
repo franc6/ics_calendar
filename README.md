@@ -13,12 +13,12 @@ Otherwise, you can install it manually.
 
 1. Using the tool of choice open the directory (folder) for your HA configuration (where you find configuration.yaml).
 2. If you do not have a custom_components directory (folder) there, you need to create it.
-3. In the custom_components directory (folder) create a new folder called ics.
+3. In the custom_components directory (folder) create a new folder called ics_calendar.
 4. Download all the files from the custom_components/ics_calendar/ directory (folder) in this repository.
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Inside the new directory, run 'pip install -r requirements.txt'
 7. Restart Home Assistant
-8. Add platform: ics to your HA's calendar configuration.
+8. Add platform: ics_calendar to your HA's calendar configuration.
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
@@ -27,8 +27,6 @@ custom_components/ics_calendar/manifest.json
 custom_components/ics_calendar/calendar.py
 custom_components/ics_calendar/icalendarparser.py
 custom_components/ics_calendar/parsers/__init__.py
-custom_components/ics_calendar/parsers/parser_ics.py
-custom_components/ics_calendar/parsers/parser_icalevents.py
 custom_components/ics_calendar/parsers/parser_rie.py
 ```
 
@@ -65,7 +63,7 @@ Key | Type | Required | Description
 `url` | `string` | `True` | The URL of the remote calendar
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
 `days` | `positive integer` | 1 | The number of days to look ahead (only affects the attributes of the calendar entity)
-`parser` | `string` | `False` | 'rie', 'icalevents' or 'ics' Choose 'ics' if you encounter parsing errors, defaults to 'rie' if not present
+`parser` | `string` | `False` | 'rie', defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
@@ -91,8 +89,7 @@ In Version 2.5 and later, a new parser, "rie" is the default.  Like
 "icalevents", it's based on the "icalendar" library.  This parser appears to
 fix both issues #8 and #36, which are problematic for "icalevents".
 
-As a general rule, I recommend sticking with the "rie" parser, which is
-the default.  If you see parsing errors, you can try switching to "ics" for the
-calendar with the parsing errors.
+Starting with version 2.7, "rie" is the only parser available.  This may change
+in future releases.
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)

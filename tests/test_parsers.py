@@ -1,6 +1,5 @@
 import pytest
 from dateutil import parser as dtparser
-import ics
 
 
 class TestParsers:
@@ -9,10 +8,6 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
-            # ics_parser fails due to time zone problems
-            pytest.param("ics_parser", marks=pytest.mark.xfail),
-            # icalevents_parser fails due to time zone problems
-            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["allday.ics"])
@@ -31,10 +26,6 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
-            # ics_parser fails due to time zone problems
-            pytest.param("ics_parser", marks=pytest.mark.xfail),
-            # icalevents_parser fails due to time zone problems
-            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["allday.ics"])
@@ -53,14 +44,6 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
-            # Issue 6 is a problem for ics still!
-            pytest.param(
-                "ics_parser",
-                # ICS 0.8 uses a different class hierarchy for ParseError
-                #marks=pytest.mark.xfail(raises=ics.contentline.container.ParseError)
-                marks=pytest.mark.xfail(raises=ics.grammar.parse.ParseError),
-            ),
-            "icalevents_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue6.ics"])
@@ -77,9 +60,6 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
-            # ics parser doesn't handle recurring events
-            pytest.param("ics_parser", marks=pytest.mark.xfail),
-            "icalevents_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue8.ics"])
@@ -95,11 +75,8 @@ class TestParsers:
 
     @pytest.mark.parametrize(
         "which_parser",
-        # ics parser doesn't handle recurring events
         [
             "rie_parser",
-            pytest.param("ics_parser", marks=pytest.mark.xfail),
-            "icalevents_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue17.ics"])
@@ -115,7 +92,9 @@ class TestParsers:
 
     @pytest.mark.parametrize(
         "which_parser",
-        ["rie_parser", "ics_parser", "icalevents_parser"],
+        [
+            "rie_parser",
+        ],
     )
     @pytest.mark.parametrize("fileName", ["issue22.ics"])
     def test_issue_twenty_two(self, parser, calendar_data, expected_data):
@@ -130,7 +109,9 @@ class TestParsers:
 
     @pytest.mark.parametrize(
         "which_parser",
-        ["rie_parser", "ics_parser", "icalevents_parser"],
+        [
+            "rie_parser",
+        ],
     )
     @pytest.mark.parametrize("fileName", ["issue34.ics"])
     def test_issue_thirty_four(self, parser, calendar_data):
@@ -146,11 +127,6 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
-            # ics parser fails on floating events before 0.8.0
-             pytest.param("ics_parser", marks=pytest.mark.xfail),
-            #"ics_parser",
-            # icalevents parser fails on floating events
-            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue36.ics"])
@@ -164,8 +140,12 @@ class TestParsers:
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
 
-    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
-                             "icalevents_parser"])
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+        ],
+    )
     @pytest.mark.parametrize("fileName", ["issue45.ics"])
     def test_issue_forty_three_two_days(self, parser, calendar_data, expected_data):
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
@@ -174,8 +154,12 @@ class TestParsers:
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
 
-    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
-                             "icalevents_parser"])
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+        ],
+    )
     @pytest.mark.parametrize("fileName", ["issue43.ics"])
     def test_issue_forty_three_fourteen_days(self, parser, calendar_data, expected_data):
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
@@ -184,16 +168,24 @@ class TestParsers:
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
 
-    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
-                             "icalevents_parser"])
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+        ],
+    )
     @pytest.mark.parametrize("fileName", ["issue43.ics"])
     def test_issue_forty_three_seven_days(self, parser, calendar_data):
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 7)
         assert current_event is None
 
-    @pytest.mark.parametrize("which_parser", ["rie_parser", "ics_parser",
-                             "icalevents_parser"])
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+        ],
+    )
     @pytest.mark.parametrize("fileName", ["issue45.ics"])
     def test_issue_forty_five(self, parser, calendar_data, expected_data):
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
