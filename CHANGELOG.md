@@ -1,3 +1,7 @@
+## 2.7 2022/03/29
+- Removed icalevents parser
+- Corrected manifest.json and hacs.json
+
 ## 2.6.1 2022/03/04
 - Added additional output to some error conditions
 
