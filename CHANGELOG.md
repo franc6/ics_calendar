@@ -1,4 +1,4 @@
-## 2.7 2022/03/29
+## 2.7.0 2022/03/29
 - Removed icalevents parser
 - Corrected manifest.json and hacs.json
 
