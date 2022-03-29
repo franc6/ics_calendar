@@ -1,6 +1,6 @@
 """Support for ICS Calendar."""
 from datetime import datetime, timedelta
-from icalevents import icalparser
+from icalevnt import icalparser
 from ..icalendarparser import ICalendarParser
 
 

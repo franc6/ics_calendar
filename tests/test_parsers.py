@@ -79,9 +79,7 @@ class TestParsers:
             "rie_parser",
             # ics parser doesn't handle recurring events
             pytest.param("ics_parser", marks=pytest.mark.xfail),
-            # icalevents fails before 0.1.26
-            pytest.param("icalevents_parser", marks=pytest.mark.xfail),
-            #"icalevents_parser",
+            "icalevents_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue8.ics"])
