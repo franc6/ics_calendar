@@ -16,6 +16,7 @@ custom_components/ics_calendar/manifest.json
 custom_components/ics_calendar/calendar.py
 custom_components/ics_calendar/icalendarparser.py
 custom_components/ics_calendar/parsers/__init__.py
+custom_components/ics_calendar/parsers/parser_ics.py
 custom_components/ics_calendar/parsers/parser_rie.py
 ```
 
@@ -53,7 +54,7 @@ Key | Type | Required | Description
 `url` | `string` | `True` | The URL of the remote calendar
 `days` | `positive integer` | 1 | The number of days to look ahead (only affects the attributes of the calendar entity)
 `includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
-`parser` | `string` | `False` | 'rie', defaults to 'rie' if not present
+`parser` | `string` | `False` | 'rie' or 'ics', defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
@@ -79,6 +80,8 @@ In Version 2.5 and later, a new parser, "rie" is the default.  Like
 "icalevents", it's based on the "icalendar" library.  This parser appears to
 fix both issues #8 and #36, which are problematic for "icalevents".
 
-Starting with version 2.7, "rie" is the only parser available.  This may change
-in future releases.
+Starting with version 2.7, "icalevents" is no longer available.  If you have specified icalevents as the parser, please change it to rie or ics.
+
+As a general rule, I recommend sticking with the "rie" parser, which is the default.  If you see parsing errors, you can try switching to "ics" for the calendar with the parsing errors.
+
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)

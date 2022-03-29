@@ -1,5 +1,6 @@
 import pytest
 from dateutil import parser as dtparser
+import ics
 
 
 class TestParsers:
@@ -8,6 +9,8 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            # ics_parser fails due to time zone problems
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["allday.ics"])
@@ -26,6 +29,8 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            # ics_parser fails due to time zone problems
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["allday.ics"])
@@ -39,11 +44,16 @@ class TestParsers:
         pytest.helpers.assert_event_list_size(4, event_list)
 
     # TODO: Test get_current_event, make sure time and zone are correct
-
     @pytest.mark.parametrize(
         "which_parser",
         [
             "rie_parser",
+            pytest.param(
+                "ics_parser",
+                # ICS 0.8 uses a different class hierarchy for ParseError
+                # marks=pytest.mark.xfail(raises=ics.contentline.container.ParseError)
+                marks=pytest.mark.xfail(raises=ics.grammar.parse.ParseError)
+            ),
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue6.ics"])
@@ -60,6 +70,8 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            # ics parser doesn't handle recurring events
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue8.ics"])
@@ -77,6 +89,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue17.ics"])
@@ -94,6 +107,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue22.ics"])
@@ -111,6 +125,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue34.ics"])
@@ -127,6 +142,8 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            # ics parser fails on floating events before 0.8.0
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue36.ics"])
@@ -144,6 +161,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue45.ics"])
@@ -158,6 +176,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue43.ics"])
@@ -172,6 +191,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue43.ics"])
@@ -184,6 +204,7 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue45.ics"])
