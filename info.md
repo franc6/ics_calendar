@@ -59,26 +59,13 @@ Key | Type | Required | Description
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
 ## Parsers
-ics_calendar uses one of two parsers for generating events from calendars.
-These parsers are written and maintained by third parties, not by me.  Each
-comes with its own sets of problems.
+ics_calendar uses one of two parsers for generating events from calendars.  These parsers are written and maintained by third parties, not by me.  Each comes with its own sets of problems.
 
-Version 1.x used "ics" which does not handle recurring events, and has a few
-other problems (see issues #6, #8, and #18).  The "ics" parser is also very
-strict, and will frequently give parsing errors for files which do not conform
-to RFC 5545.  Some of the most popular calendaring programs produce files that
-do not conform to the RFC.  The "ics" parser also tends to require more memory
-and processing power.  Several users have noted that it's unusuable for HA
-systems running on Raspberry pi computers.
+Version 1.x used "ics" which does not handle recurring events, and has a few other problems (see issues #6, #8, and #18).  The "ics" parser is also very strict, and will frequently give parsing errors for files which do not conform to RFC 5545.  Some of the most popular calendaring programs produce files that do not conform to the RFC.  The "ics" parser also tends to require more memory and processing power.  Several users have noted that it's unusuable for HA systems running on Raspberry pi computers.
 
-The Version 2.0.0 betas used "icalevents" which is a little more forgiving, but
-has a few problems with recurring event rules.  All-day events which repeat
-until a specific date and time are a particular issue (all-day events which
-repeat until a specific date are just fine).
+The Version 2.0.0 betas used "icalevents" which is a little more forgiving, but has a few problems with recurring event rules.  All-day events which repeat until a specific date and time are a particular issue (all-day events which repeat until a specific date are just fine).
 
-In Version 2.5 and later, a new parser, "rie" is the default.  Like
-"icalevents", it's based on the "icalendar" library.  This parser appears to
-fix both issues #8 and #36, which are problematic for "icalevents".
+In Version 2.5 and later, a new parser, "rie" is the default.  Like "icalevents", it's based on the "icalendar" library.  This parser appears to fix both issues #8 and #36, which are problematic for "icalevents".
 
 Starting with version 2.7, "icalevents" is no longer available.  If you have specified icalevents as the parser, please change it to rie or ics.
 
