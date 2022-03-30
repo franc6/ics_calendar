@@ -1,10 +1,13 @@
 # ics_calendar
-Provides an ICS (icalendar) calendar platform for Home Assistant
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar)
+![Coverage](https://img.shields.io/codecov/c/github/franc6/ics_calendar/releases.svg)
+![Maintained:yes](https://img.shields.io/maintenance/yes/2022.svg)
+[![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
+
+Provides an ICS (icalendar) platform for the Home Assistant calendar
 
 > **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
-
-[![License](https://img.shields.io/github/license/franc6/ics_calendar.svg?style=for-the-badge)](LICENSE)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
 ## Installation
 You can install this through [HACS](https://github.com/custom-components/hacs) by adding https://github.com/franc6/ics_calendar as a custom repository.
@@ -21,8 +24,7 @@ custom_components/ics_calendar/parsers/parser_rie.py
 ```
 
 ## Authentication
-This calendar platform supports HTTP Basic Auth and HTTP Digest Auth.  It does
-not support more advanced authentication methods.
+This calendar platform supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
 
 ## Example configuration.yaml
 ```yaml
@@ -39,7 +41,6 @@ calendar:
         includeAllDay: True
         username: True
         password: !secret auth_calendar
-        includeAllDay: True
 ```
 
 ## Configuration options

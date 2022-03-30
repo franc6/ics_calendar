@@ -1,10 +1,13 @@
 # ics_calendar
-Provides an ICS (icalendar) calendar platform for Home Assistant
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar)
+![Coverage](https://img.shields.io/codecov/c/github/franc6/ics_calendar/releases.svg)
+![Maintained:yes](https://img.shields.io/maintenance/yes/2022.svg)
+[![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
+
+Provides an ICS (icalendar) platform for the Home Assistant calendar
 
 > **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
-
-[![License](https://img.shields.io/github/license/franc6/ics_calendar.svg?style=for-the-badge)](LICENSE)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
 ## Installation
 You can install this through [HACS](https://github.com/custom-components/hacs) by adding https://github.com/franc6/ics_calendar as a custom repository.
@@ -61,8 +64,8 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
-`includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
 `days` | `positive integer` | 1 | The number of days to look ahead (only affects the attributes of the calendar entity)
+`includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
 `parser` | `string` | `False` | 'rie' or 'ics', defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
