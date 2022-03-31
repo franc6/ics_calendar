@@ -65,7 +65,7 @@ class parser_ics(ICalendarParser):
                 continue
             if temp_event is None:
                 temp_event = event
-            elif temp_event.end > event.end:
+            elif temp_event.end > event.end and temp_event.begin <= event.begin:
                 temp_event = event
 
         if temp_event is None:
