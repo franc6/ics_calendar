@@ -1,2 +1,2 @@
 """ Constants for platform """
-PLATFORM = 'ics_calendar'
+PLATFORM = "ics_calendar"
