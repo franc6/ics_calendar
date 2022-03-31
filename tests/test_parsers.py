@@ -4,6 +4,27 @@ import ics
 
 
 class TestParsers:
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("fileName", ["test_parsers.py"])
+    def test_not_a_calendar(self, parser, calendar_data):
+        with pytest.raises(Exception):
+            parser.get_event_list(
+                calendar_data,
+                dtparser.parse("2022-01-01T00:00:00"),
+                dtparser.parse("2022-01-31T23:59:59"),
+                True,
+            )
+        with pytest.raises(Exception):
+            parser.get_current_event(
+                calendar_data, False, dtparser.parse("2022-01-01T00:00:00"), 1
+            )
+
     # Test all day events, make sure time and zone are corret
     @pytest.mark.parametrize(
         "which_parser",
@@ -43,6 +64,20 @@ class TestParsers:
         )
         pytest.helpers.assert_event_list_size(4, event_list)
 
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("fileName", ["allday.ics"])
+    def test_no_all_day_current(self, parser, calendar_data):
+        event = parser.get_current_event(
+            calendar_data, False, dtparser.parse("2022-01-01T00:00:00"), 31
+        )
+        assert event is not None
+
     # TODO: Test get_current_event, make sure time and zone are correct
     @pytest.mark.parametrize(
         "which_parser",
@@ -52,7 +87,7 @@ class TestParsers:
                 "ics_parser",
                 # ICS 0.8 uses a different class hierarchy for ParseError
                 # marks=pytest.mark.xfail(raises=ics.contentline.container.ParseError)
-                marks=pytest.mark.xfail(raises=ics.grammar.parse.ParseError)
+                marks=pytest.mark.xfail(raises=ics.grammar.parse.ParseError),
             ),
         ],
     )
@@ -180,7 +215,9 @@ class TestParsers:
         ],
     )
     @pytest.mark.parametrize("fileName", ["issue43.ics"])
-    def test_issue_forty_three_fourteen_days(self, parser, calendar_data, expected_data):
+    def test_issue_forty_three_fourteen_days(
+        self, parser, calendar_data, expected_data
+    ):
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 14)
         event_list = [current_event]
