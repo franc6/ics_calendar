@@ -30,12 +30,10 @@ class parser_ics(ICalendarParser):
                 if hasattr(event, "uid"):
                     uid = event.uid
                 # ics 0.8 uses 'summary' reliably, older versions use 'name'
-                if hasattr(event, "summary"):
-                    summary = event.summary
-                elif hasattr(event, "name"):
-                    summary = event.name
-                # print("event: ")
-                # print(vars(event))
+                # if hasattr(event, "summary"):
+                #    summary = event.summary
+                # elif hasattr(event, "name"):
+                summary = event.name
                 data = {
                     "uid": uid,
                     "summary": summary,
@@ -72,8 +70,12 @@ class parser_ics(ICalendarParser):
 
         if temp_event is None:
             return None
+        # if hasattr(event, "summary"):
+        # summary = temp_event.summary
+        # elif hasattr(event, "name"):
+        summary = temp_event.name
         return {
-            "summary": temp_event.name,
+            "summary": summary,
             "start": parser_ics.get_date(temp_event.begin, temp_event.all_day),
             "end": parser_ics.get_date(temp_event.end, temp_event.all_day),
             "location": temp_event.location,
@@ -89,8 +91,8 @@ class parser_ics(ICalendarParser):
                     hour=0, minute=0, second=0, microsecond=0, tzinfo="local"
                 )
             return arw.datetime
-        else:
-            if arw.tzinfo is None or arw.tzinfo.utcoffset(arw) is None or is_all_day:
-                arw = arw.astimezone()
-
+        # else:
+        #    if arw.tzinfo is None or arw.tzinfo.utcoffset(arw) is None or is_all_day:
+        #        arw = arw.astimezone()
+        #
         return arw
