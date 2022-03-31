@@ -5,8 +5,7 @@ import aiotask_context
 from http import HTTPStatus
 from dateutil import parser as dtparser
 from homeassistant.setup import async_setup_component
-from homeassistant.const import STATE_OFF, STATE_ON
-from homeassistant.util import dt
+from homeassistant.const import STATE_OFF
 from custom_components.ics_calendar.const import PLATFORM
 from unittest.mock import Mock, patch
 
@@ -194,6 +193,10 @@ async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
 
 
 @patch(
+    "custom_components.ics_calendar.calendardata.CalendarData.setUserNameAndPassword",
+    return_value=None,
+)
+@patch(
     "custom_components.ics_calendar.calendardata.CalendarData.get",
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
@@ -201,12 +204,18 @@ async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
     "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_current_event",
     return_value=_mocked_event(),
 )
-async def test_calendar_setup_userpass(mock_event, mock_get, hass, userpass_config):
+async def test_calendar_setup_userpass(
+    mock_event, mock_get, mock_sup, hass, userpass_config
+):
     assert await async_setup_component(hass, "calendar", userpass_config)
     await hass.async_block_till_done()
 
     state = hass.states.get("calendar.userpass")
     assert state.name == "userpass"
+    mock_sup.assert_called_with(
+        userpass_config["calendar"]["calendars"][0]["username"],
+        userpass_config["calendar"]["calendars"][0]["password"],
+    )
 
 
 @pytest.mark.parametrize("set_tz", ["utc"], indirect=True)
