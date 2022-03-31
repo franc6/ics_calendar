@@ -1,16 +1,8 @@
 """Support for ICS Calendar."""
+from calendar import Calendar
 import copy
 import logging
 from datetime import datetime, timedelta
-from urllib.error import ContentTooShortError, HTTPError, URLError
-from urllib.request import (
-    HTTPPasswordMgrWithDefaultRealm,
-    HTTPBasicAuthHandler,
-    HTTPDigestAuthHandler,
-    build_opener,
-    install_opener,
-    urlopen,
-)
 
 import voluptuous as vol
 from homeassistant.components.calendar import (
@@ -24,7 +16,9 @@ from homeassistant.const import CONF_NAME, CONF_PASSWORD, CONF_URL, CONF_USERNAM
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.util import Throttle
+from homeassistant.util.dt import now as hanow
 from .icalendarparser import ICalendarParser
+from .calendardata import CalendarData
 
 VERSION = "2.0.0"
 
@@ -55,12 +49,8 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             ): cv.boolean,
                             vol.Optional(CONF_USERNAME, default=""): cv.string,
                             vol.Optional(CONF_PASSWORD, default=""): cv.string,
-                            vol.Optional(
-                                CONF_PARSER, default="rie"
-                            ): cv.string,
-                            vol.Optional(
-                                CONF_DAYS, default=1
-                            ): cv.positive_int,
+                            vol.Optional(CONF_PARSER, default="rie"): cv.string,
+                            vol.Optional(CONF_DAYS, default=1): cv.positive_int,
                         }
                     )
                 ]
@@ -121,14 +111,24 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         """Returns the name of the calendar entity"""
         return self._name
 
+    @property
+    def should_poll(self):
+        if (
+            self._last_event_list is None
+            or self._last_call is None
+            or (hanow() - self._last_call) > MIN_TIME_BETWEEN_UPDATES
+        ):
+            self.async_schedule_update_ha_state(True)
+        return True
+
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         if (
             self._last_event_list is None
             or self._last_call is None
-            or (datetime.now() - self._last_call) > MIN_TIME_BETWEEN_UPDATES
+            or (hanow() - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
-            self._last_call = datetime.now()
+            self._last_call = hanow()
             self._last_event_list = await self.data.async_get_events(
                 hass, start_date, end_date
             )
@@ -152,62 +152,35 @@ class ICSCalendarData:
     def __init__(self, device_data):
         """Set up how we are going to connect to the ICS Calendar"""
         self.name = device_data[CONF_NAME]
-        self.url = device_data[CONF_URL]
         self._days = device_data[CONF_DAYS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.event = None
-        self._calendar_data = None
-        self._last_download = None
+        self._calendar_data = CalendarData(
+            _LOGGER, device_data[CONF_URL], MIN_TIME_BETWEEN_DOWNLOADS
+        )
 
         if device_data[CONF_USERNAME] != "" and device_data[CONF_PASSWORD] != "":
-            passman = HTTPPasswordMgrWithDefaultRealm()
-            passman.add_password(
-                None, self.url, device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
+            self._calendar_data.setUserNameAndPassword(
+                device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
             )
-            basic_auth_handler = HTTPBasicAuthHandler(passman)
-            digest_auth_handler = HTTPDigestAuthHandler(passman)
-            opener = build_opener(digest_auth_handler, basic_auth_handler)
-            install_opener(opener)
-
-    def _download_calendar(self):
-        if (
-            self._calendar_data is None
-            or self._last_download is None
-            or (datetime.now() - self._last_download) > MIN_TIME_BETWEEN_DOWNLOADS
-        ):
-            self._last_download = datetime.now()
-            self._calendar_data = None
-            try:
-                with urlopen(self.url) as conn:
-                    self._calendar_data = conn.read().decode().replace("\0", "")
-            except HTTPError as http_error:
-                _LOGGER.error(f"{self.name}: Failed to open url: {http_error.reason}")
-            except ContentTooShortError as content_too_short_error:
-                _LOGGER.error(
-                    f"{self.name}: Could not download calendar"
-                    f" data: {content_too_short_error.reason}"
-                )
-            except URLError as url_error:
-                _LOGGER.error(f"{self.name}: Failed to open url: {url_error.reason}")
-            except:
-                _LOGGER.error(f"{self.name}: Failed to open url!", exc_info=True)
-        return
 
     async def async_get_events(self, hass, start_date, end_date):
         """Get all events in a specific time frame."""
         event_list = []
-        await hass.async_add_executor_job(self._download_calendar)
+        await hass.async_add_executor_job(self._calendar_data.get)
         try:
             events = self.parser.get_event_list(
-                content=self._calendar_data,
+                content=self._calendar_data.get(),
                 start=start_date,
                 end=end_date,
                 include_all_day=self.include_all_day,
             )
             event_list = list(map(self.format_dates, events))
         except:
-            _LOGGER.error(f"async_get_events: {self.name}: Failed to parse ICS!", exc_info=True)
+            _LOGGER.error(
+                f"async_get_events: {self.name}: Failed to parse ICS!", exc_info=True
+            )
             event_list = []
 
         return event_list
@@ -215,13 +188,14 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data."""
-        self._download_calendar()
+        _LOGGER.debug("update:")
+        _LOGGER.debug(hanow())
         try:
             self.event = self.parser.get_current_event(
-                content=self._calendar_data,
+                content=self._calendar_data.get(),
                 include_all_day=self.include_all_day,
-                now=datetime.now(),
-                days=self._days
+                now=hanow(),
+                days=self._days,
             )
         except:
             _LOGGER.error(f"update: {self.name}: Failed to parse ICS!", exc_info=True)
