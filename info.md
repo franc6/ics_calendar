@@ -1,5 +1,5 @@
 # ics_calendar
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar) ![Coverage](https://img.shields.io/codecov/c/github/franc6/ics_calendar/releases.svg) ![Maintained:yes](https://img.shields.io/maintenance/yes/2022.svg) [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs) [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar) [![Coverage](https://codecov.io/gh/franc6/ics_calendar/branch/releases/graph/badge.svg)](https://app.codecov.io/gh/franc6/ics_calendar/branch/releases) ![Maintained:yes](https://img.shields.io/maintenance/yes/2022.svg) [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
 
 Provides an ICS (icalendar) platform for the Home Assistant calendar
 
