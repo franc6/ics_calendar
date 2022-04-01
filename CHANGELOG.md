@@ -1,6 +1,10 @@
-## 2.8.0 2022/03/31
-- Fixed code to work with upcoming 2022.04 releases
+## 2.8.1 2022/03/31
+- Breaking change! Requires Home Assistant 2022.4 or later
+- Fixed code to work with upcoming 2022.4 releases
 - Refactored internal code for better test coverage
+
+## 2.8.0 2022/03/31
+WITHDRAWN -- See 2.8.1 instead.
 
 ## 2.7.0 2022/03/29
 - Removed icalevents parser
