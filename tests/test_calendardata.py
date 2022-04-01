@@ -50,7 +50,7 @@ class MockHTTPHandlerURLError(HTTPHandler):
 
 class MockHTTPHandlerError(HTTPHandler):
     def http_open(self, req):
-        raise Error("Unknown error")
+        raise BaseException("Unknown error")
 
 
 class MockHTTPHandler(HTTPHandler):
