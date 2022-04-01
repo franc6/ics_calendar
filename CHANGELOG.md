@@ -1,3 +1,7 @@
+## 2.8.0 2022/03/31
+- Fixed code to work with upcoming 2022.04 releases
+- Refactored internal code for better test coverage
+
 ## 2.7.0 2022/03/29
 - Removed icalevents parser
 - Corrected manifest.json and hacs.json
