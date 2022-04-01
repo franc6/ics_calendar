@@ -1,3 +1,7 @@
+## 2.8.2 2022/04/01
+- Breaking change! Requires Home Assistant 2022.4 or later
+- Fixed bug with error messages
+
 ## 2.8.1 2022/03/31
 - Breaking change! Requires Home Assistant 2022.4 or later
 - Fixed code to work with upcoming 2022.4 releases
