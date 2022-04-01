@@ -9,7 +9,8 @@ from homeassistant.components.calendar import (
     ENTITY_ID_FORMAT,
     PLATFORM_SCHEMA,
     CalendarEventDevice,
-    calculate_offset,
+    extract_offset,
+    get_date,
     is_offset_reached,
 )
 from homeassistant.const import CONF_NAME, CONF_PASSWORD, CONF_URL, CONF_USERNAME
@@ -141,9 +142,10 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         if event is None:
             self._event = event
             return
-        event = calculate_offset(event, OFFSET)
+        [summary, offset] = extract_offset(event['summary'], OFFSET)
+        event['summary'] = summary
         self._event = event
-        self._attr_extra_state_attributes = {"offset_reached": is_offset_reached(event)}
+        self._attr_extra_state_attributes = {"offset_reached": is_offset_reached(get_date(event['start']), offset)}
 
 
 class ICSCalendarData:
