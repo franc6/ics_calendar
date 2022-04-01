@@ -1,4 +1,4 @@
-from datetime import datetime
+from homeassistant.util.dt import now as hanow
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import (
     HTTPPasswordMgrWithDefaultRealm,
@@ -11,20 +11,22 @@ from urllib.request import (
 
 
 class CalendarData:
-    def __init__(self, logger, url, min_update_time):
+    def __init__(self, logger, name, url, min_update_time):
         self._calendar_data = None
         self._last_download = None
         self._min_update_time = min_update_time
         self.logger = logger
+        self.name = name
         self.url = url
 
     def _download_calendar(self):
+        now = hanow()
         if (
             self._calendar_data is None
             or self._last_download is None
-            or (datetime.now() - self._last_download) > self._min_update_time
+            or (now - self._last_download) > self._min_update_time
         ):
-            self._last_download = datetime.now()
+            self._last_download = now
             self._calendar_data = None
             try:
                 with urlopen(self.url) as conn:

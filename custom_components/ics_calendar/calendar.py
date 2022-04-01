@@ -159,7 +159,7 @@ class ICSCalendarData:
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.event = None
         self._calendar_data = CalendarData(
-            _LOGGER, device_data[CONF_URL], MIN_TIME_BETWEEN_DOWNLOADS
+            _LOGGER, self.name, device_data[CONF_URL], MIN_TIME_BETWEEN_DOWNLOADS
         )
 
         if device_data[CONF_USERNAME] != "" and device_data[CONF_PASSWORD] != "":
