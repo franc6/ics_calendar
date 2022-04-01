@@ -142,10 +142,12 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         if event is None:
             self._event = event
             return
-        [summary, offset] = extract_offset(event['summary'], OFFSET)
-        event['summary'] = summary
+        [summary, offset] = extract_offset(event["summary"], OFFSET)
+        event["summary"] = summary
         self._event = event
-        self._attr_extra_state_attributes = {"offset_reached": is_offset_reached(get_date(event['start']), offset)}
+        self._attr_extra_state_attributes = {
+            "offset_reached": is_offset_reached(get_date(event["start"]), offset)
+        }
 
 
 class ICSCalendarData:

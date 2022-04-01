@@ -145,7 +145,6 @@ class TestCalendarData:
         install_opener(opener)
         assert calendarData.get() == CALENDAR_DATA_2
 
-
     @patch(
         "custom_components.ics_calendar.calendardata.hanow",
         return_value=dtparser.parse("2022-01-01T00:00:00"),

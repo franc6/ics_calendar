@@ -340,21 +340,21 @@ async def test_get_events(
     assert len(events) == len(mock_event_list())
 
 
-#@patch(
+# @patch(
 #    "custom_components.ics_calendar.calendar.hanow",
 #    return_value=dtparser.parse("2022-01-03T00:00:01"),
-#)
-#@patch(
+# )
+# @patch(
 #    "custom_components.ics_calendar.calendardata.CalendarData.get",
 #    return_value=_mocked_calendar_data("tests/allday.ics"),
-#)
-#@patch(
+# )
+# @patch(
 #    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_event_list",
 #    return_value=_mocked_event_list(),
-#)
-#async def test_get_events_exception(
+# )
+# async def test_get_events_exception(
 #    mock_event_list, mock_get, mock_now, hass, get_api_events, noallday_config
-#):
+# ):
 #    mock_event_list.side_effect = Exception("Failed to get events")
 #    assert await async_setup_component(hass, "calendar", noallday_config)
 #    await hass.async_block_till_done()
