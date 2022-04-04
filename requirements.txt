@@ -2,5 +2,6 @@ icalendar >= 4.0.9
 python-dateutil >= 2.8.2
 pytz >= 2021.1
 recurring_ical_events >= 1.0.1b0
+x-wr-timezone >= 0.0.5
 ics >= 0.7
 arrow

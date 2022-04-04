@@ -251,3 +251,22 @@ class TestParsers:
         event_list = [current_event]
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            # ics parser fails on floating events before 0.8.0
+            pytest.param("ics_parser", marks=pytest.mark.xfail),
+        ],
+    )
+    @pytest.mark.parametrize("fileName", ["issue48.ics"])
+    def test_issue_forty_eight(self, parser, calendar_data, expected_data):
+        event_list = parser.get_event_list(
+            calendar_data,
+            dtparser.parse("2021-09-16T00:00:00"),
+            dtparser.parse("2021-09-17T23:59:59"),
+            True,
+        )
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
