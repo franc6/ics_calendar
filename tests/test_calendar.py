@@ -7,8 +7,9 @@ from unittest.mock import Mock, patch
 import aiotask_context
 import pytest
 from dateutil import parser as dtparser
-from homeassistant.const import STATE_OFF
+from homeassistant.const import STATE_OFF, STATE_ON
 from homeassistant.setup import async_setup_component
+from homeassistant.util import dt as hadt
 
 from custom_components.ics_calendar.const import PLATFORM
 
@@ -93,24 +94,24 @@ def _mocked_event_list():
     return [
         {
             "summary": "Test event 2",
-            "start": dtparser.parse("2022-01-04T00:00:00"),
-            "end": dtparser.parse("2022-01-04T05:00:00"),
+            "start": dtparser.parse("2022-01-04T00:00:00Z"),
+            "end": dtparser.parse("2022-01-04T05:00:00Z"),
             "location": "Test location",
             "description": "Test description",
             "all_day": False,
         },
         {
             "summary": "Test event",
-            "start": dtparser.parse("2022-01-03T00:00:00"),
-            "end": dtparser.parse("2022-01-03T05:00:00"),
+            "start": dtparser.parse("2022-01-03T00:00:00Z"),
+            "end": dtparser.parse("2022-01-03T05:00:00Z"),
             "location": "Test location",
             "description": "Test description",
             "all_day": False,
         },
         {
             "summary": "Test event 3",
-            "start": dtparser.parse("2022-01-05T00:00:00"),
-            "end": dtparser.parse("2022-01-05T05:00:00"),
+            "start": dtparser.parse("2022-01-05T00:00:00Z"),
+            "end": dtparser.parse("2022-01-05T05:00:00Z"),
             "location": "Test location",
             "description": "Test description",
             "all_day": False,
@@ -230,9 +231,15 @@ async def test_calendar_setup_userpass(
     )
 
 
-@pytest.mark.parametrize("set_tz", ["utc"], indirect=True)
+@pytest.mark.parametrize(
+    "set_tz", ["utc", "chicago", "baghdad"], indirect=True
+)
 @patch(
     "custom_components.ics_calendar.calendar.hanow",
+    return_value=dtparser.parse("2022-01-03T00:00:01"),
+)
+@patch(
+    "homeassistant.util.dt.now",
     return_value=dtparser.parse("2022-01-03T00:00:01"),
 )
 @patch(
@@ -244,15 +251,27 @@ async def test_calendar_setup_userpass(
     return_value=_mocked_event(),
 )
 async def test_ongoing_event(
-    mock_event, mock_get, mock_now, hass, set_tz, noallday_config
+    mock_event, mock_get, mock_dt_now, mock_now, hass, set_tz, noallday_config
 ):
+    # Must reset return_value here or only the first parametrized run will succeed.
+    mock_event.return_value = copy.deepcopy(_mocked_event_allday())
+    # Make a deep copy into mocked_event now, so we can use it with strftime later.
     mocked_event = copy.deepcopy(mock_event())
+    mocked_event["start"] = hadt.as_local(mocked_event["start"])
+    mocked_event["end"] = hadt.as_local(mocked_event["end"])
+
+    mock_dt_now.return_value = hadt.as_local(
+        dtparser.parse("2022-01-03T00:00:01")
+    )
+    mock_now.return_value = hadt.as_local(
+        dtparser.parse("2022-01-03T00:00:01")
+    )
+
     assert await async_setup_component(hass, "calendar", noallday_config)
     await hass.async_block_till_done()
 
     state = hass.states.get("calendar.noallday")
 
-    assert state.state == STATE_OFF
     assert dict(state.attributes) == {
         "message": mocked_event["summary"],
         "start_time": mocked_event["start"].strftime("%Y-%m-%d %H:%M:%S"),
@@ -263,10 +282,15 @@ async def test_ongoing_event(
         "description": mocked_event["description"],
         "offset_reached": False,
     }
+    assert state.state == STATE_ON
 
 
 @patch(
     "custom_components.ics_calendar.calendar.hanow",
+    return_value=dtparser.parse("2022-01-03T00:00:01"),
+)
+@patch(
+    "homeassistant.util.dt.now",
     return_value=dtparser.parse("2022-01-03T00:00:01"),
 )
 @patch(
@@ -278,7 +302,7 @@ async def test_ongoing_event(
     return_value=_mocked_event(),
 )
 async def test_ongoing_event_exception(
-    mock_event, mock_get, mock_now, hass, noallday_config
+    mock_event, mock_get, mock_dt_now, mock_now, hass, noallday_config
 ):
     mock_event.side_effect = Exception("Parse Error")
     assert await async_setup_component(hass, "calendar", noallday_config)
@@ -300,6 +324,10 @@ async def test_ongoing_event_exception(
     return_value=dtparser.parse("2022-01-03T00:00:01"),
 )
 @patch(
+    "homeassistant.util.dt.now",
+    return_value=dtparser.parse("2022-01-03T00:00:01"),
+)
+@patch(
     "custom_components.ics_calendar.calendardata.CalendarData.get",
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
@@ -308,18 +336,27 @@ async def test_ongoing_event_exception(
     return_value=_mocked_event_allday(),
 )
 async def test_ongoing_event_allday(
-    mock_event, mock_get, mock_now, hass, set_tz, allday_config
+    mock_event, mock_get, mock_dt_now, mock_now, hass, set_tz, allday_config
 ):
     # Must reset return_value here or only the first parametrized run will succeed.
     mock_event.return_value = copy.deepcopy(_mocked_event_allday())
     # Make a deep copy into mocked_event now, so we can use it with strftime later.
     mocked_event = copy.deepcopy(mock_event())
+    mocked_event["start"] = hadt.as_local(mocked_event["start"])
+    mocked_event["end"] = hadt.as_local(mocked_event["end"])
+
+    mock_dt_now.return_value = hadt.as_local(
+        dtparser.parse("2022-01-03T00:00:01")
+    )
+    mock_now.return_value = hadt.as_local(
+        dtparser.parse("2022-01-03T00:00:01")
+    )
+
     assert await async_setup_component(hass, "calendar", allday_config)
     await hass.async_block_till_done()
 
     state = hass.states.get("calendar.allday")
 
-    assert state.state == STATE_OFF
     assert dict(state.attributes) == {
         "message": mocked_event["summary"],
         "start_time": mocked_event["start"].strftime("%Y-%m-%d 00:00:00"),
@@ -330,11 +367,16 @@ async def test_ongoing_event_allday(
         "description": mocked_event["description"],
         "offset_reached": False,
     }
+    assert state.state == STATE_ON
 
 
 @patch(
     "custom_components.ics_calendar.calendar.hanow",
-    return_value=dtparser.parse("2022-01-03T00:00:01"),
+    return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+)
+@patch(
+    "homeassistant.util.dt.now",
+    return_value=dtparser.parse("2022-01-03T00:00:01Z"),
 )
 @patch(
     "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -345,7 +387,13 @@ async def test_ongoing_event_allday(
     return_value=_mocked_event_list(),
 )
 async def test_get_events(
-    mock_event_list, mock_get, mock_now, hass, get_api_events, noallday_config
+    mock_event_list,
+    mock_get,
+    mock_dt_now,
+    mock_now,
+    hass,
+    get_api_events,
+    noallday_config,
 ):
     assert await async_setup_component(hass, "calendar", noallday_config)
     await hass.async_block_till_done()
@@ -356,7 +404,11 @@ async def test_get_events(
 
 @patch(
     "custom_components.ics_calendar.calendar.hanow",
-    return_value=dtparser.parse("2022-01-03T00:00:01"),
+    return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+)
+@patch(
+    "homeassistant.util.dt.now",
+    return_value=dtparser.parse("2022-01-03T00:00:01Z"),
 )
 @patch(
     "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -367,7 +419,13 @@ async def test_get_events(
     return_value=_mocked_event_list(),
 )
 async def test_get_events_exception(
-    mock_event_list, mock_get, mock_now, hass, get_api_events, noallday_config
+    mock_event_list,
+    mock_get,
+    mock_dt_now,
+    mock_now,
+    hass,
+    get_api_events,
+    noallday_config,
 ):
     mock_event_list.side_effect = BaseException("Failed to get events")
     assert await async_setup_component(hass, "calendar", noallday_config)
