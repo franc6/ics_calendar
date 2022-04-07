@@ -1,9 +1,9 @@
 """Support for ICS Calendar."""
-from calendar import Calendar
 import copy
 import logging
 from datetime import datetime, timedelta
 
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.calendar import (
     ENTITY_ID_FORMAT,
@@ -13,15 +13,21 @@ from homeassistant.components.calendar import (
     get_date,
     is_offset_reached,
 )
-from homeassistant.const import CONF_NAME, CONF_PASSWORD, CONF_URL, CONF_USERNAME
-import homeassistant.helpers.config_validation as cv
+from homeassistant.const import (
+    CONF_NAME,
+    CONF_PASSWORD,
+    CONF_URL,
+    CONF_USERNAME,
+)
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import generate_entity_id
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.util import Throttle
 from homeassistant.util.dt import now as hanow
-from .icalendarparser import ICalendarParser
-from .calendardata import CalendarData
 
-VERSION = "2.0.0"
+from .calendardata import CalendarData
+from .icalendarparser import ICalendarParser
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -50,8 +56,12 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             ): cv.boolean,
                             vol.Optional(CONF_USERNAME, default=""): cv.string,
                             vol.Optional(CONF_PASSWORD, default=""): cv.string,
-                            vol.Optional(CONF_PARSER, default="rie"): cv.string,
-                            vol.Optional(CONF_DAYS, default=1): cv.positive_int,
+                            vol.Optional(
+                                CONF_PARSER, default="rie"
+                            ): cv.string,
+                            vol.Optional(
+                                CONF_DAYS, default=1
+                            ): cv.positive_int,
                         }
                     )
                 ]
@@ -68,8 +78,23 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
 MIN_TIME_BETWEEN_DOWNLOADS = timedelta(minutes=10)
 
 
-def setup_platform(hass, config, add_entities, _=None):
-    """Set up the ICS Calendar platform"""
+def setup_platform(
+    hass: HomeAssistant,
+    config: ConfigType,
+    add_entities: AddEntitiesCallback,
+    _=None,
+):
+    """Set up ics_calendar platform.
+
+    :param hass: Home Assistant object
+    :type hass: HomeAssistant
+    :param config: Config information for the platform
+    :type config: ConfigType
+    :param add_entities: Callback to add entities to HA
+    :type add_entities: AddEntitiesCallback
+    :param _: DiscoveryInfo, not used
+    :type _: DiscoveryInfoType | None, optional
+    """
     _LOGGER.debug("Setting up ics calendars")
     calendar_devices = []
     for calendar in config.get(CONF_CALENDARS):
@@ -89,10 +114,17 @@ def setup_platform(hass, config, add_entities, _=None):
     add_entities(calendar_devices)
 
 
-class ICSCalendarEventDevice(CalendarEventDevice):
-    """A device for getting the next Task from an ICS Calendar"""
+class ICSCalendarEventDevice(CalendarEventDevice):  # pylint: disable=R0902
+    """A device for getting the next Task from an ICS Calendar."""
 
-    def __init__(self, entity_id, device_data):
+    def __init__(self, entity_id: str, device_data):
+        """Construct ICSCalendarEventDevice.
+
+        :param entity_id: Entity id for the calendar
+        :type entity_id: str
+        :param device_data: dict describing the calendar
+        :type device_data: dict
+        """
         _LOGGER.debug("Initializing calendar: %s", device_data[CONF_NAME])
         self.data = ICSCalendarData(device_data)
         self.entity_id = entity_id
@@ -104,39 +136,63 @@ class ICSCalendarEventDevice(CalendarEventDevice):
 
     @property
     def event(self):
-        """Returns the current event for the calendar entity or None"""
+        """Return the current event for the calendar entity or None.
+
+        :return: The current event as a dict
+        :rtype: dict
+        """
         return self._event
 
     @property
     def name(self):
-        """Returns the name of the calendar entity"""
+        """Return the name of the calendar."""
         return self._name
 
     @property
     def should_poll(self):
+        """Indicate if the calendar should be polled.
+
+        If the last call to update or get_api_events was not within the minimum
+        update time, then async_schedule_update_ha_state(True) is also called.
+        :return: True
+        :rtype: boolean
+        """
+        this_call = hanow()
         if (
             self._last_event_list is None
             or self._last_call is None
-            or (hanow() - self._last_call) > MIN_TIME_BETWEEN_UPDATES
+            or (this_call - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
+            self._last_call = this_call
             self.async_schedule_update_ha_state(True)
         return True
 
-    async def async_get_events(self, hass, start_date, end_date):
-        """Get all events in a specific time frame."""
+    async def async_get_events(
+        self, hass: HomeAssistant, start_date: datetime, end_date: datetime
+    ):
+        """Get all events in a specific time frame.
+
+        :param hass: Home Assistant object
+        :type hass: HomeAssistant
+        :param start_date: The first starting date to consider
+        :type start_date: datetime
+        :param end_date: The last starting date to consider
+        :type end_date: datetime
+        """
+        this_call = hanow()
         if (
             self._last_event_list is None
             or self._last_call is None
-            or (hanow() - self._last_call) > MIN_TIME_BETWEEN_UPDATES
+            or (this_call - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
-            self._last_call = hanow()
+            self._last_call = this_call
             self._last_event_list = await self.data.async_get_events(
                 hass, start_date, end_date
             )
         return self._last_event_list
 
     def update(self):
-        """Update event data."""
+        """Get the current or next event."""
         self.data.update()
         event = copy.deepcopy(self.data.event)
         if event is None:
@@ -146,31 +202,50 @@ class ICSCalendarEventDevice(CalendarEventDevice):
         event["summary"] = summary
         self._event = event
         self._attr_extra_state_attributes = {
-            "offset_reached": is_offset_reached(get_date(event["start"]), offset)
+            "offset_reached": is_offset_reached(
+                get_date(event["start"]), offset
+            )
         }
 
 
 class ICSCalendarData:
-    """Calss to use the calendar ICS client object to get next event."""
+    """Class to use the calendar ICS client object to get next event."""
 
     def __init__(self, device_data):
-        """Set up how we are going to connect to the ICS Calendar"""
+        """Set up how we are going to connect to the URL.
+
+        :param device_data Information about the calendar
+        """
         self.name = device_data[CONF_NAME]
         self._days = device_data[CONF_DAYS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.event = None
         self._calendar_data = CalendarData(
-            _LOGGER, self.name, device_data[CONF_URL], MIN_TIME_BETWEEN_DOWNLOADS
+            _LOGGER,
+            self.name,
+            device_data[CONF_URL],
+            MIN_TIME_BETWEEN_DOWNLOADS,
         )
 
-        if device_data[CONF_USERNAME] != "" and device_data[CONF_PASSWORD] != "":
-            self._calendar_data.setUserNameAndPassword(
+        if (
+            device_data[CONF_USERNAME] != ""
+            and device_data[CONF_PASSWORD] != ""
+        ):
+            self._calendar_data.set_user_name_password(
                 device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
             )
 
     async def async_get_events(self, hass, start_date, end_date):
-        """Get all events in a specific time frame."""
+        """Get all events in a specific time frame.
+
+        :param hass: Home Assistant object
+        :type hass: HomeAssistant
+        :param start_date: The first starting date to consider
+        :type start_date: datetime
+        :param end_date: The last starting date to consider
+        :type end_date: datetime
+        """
         event_list = []
         await hass.async_add_executor_job(self._calendar_data.get)
         try:
@@ -181,9 +256,11 @@ class ICSCalendarData:
                 include_all_day=self.include_all_day,
             )
             event_list = list(map(self.format_dates, events))
-        except:
+        except:  # pylint: disable=W0702
             _LOGGER.error(
-                f"async_get_events: {self.name}: Failed to parse ICS!", exc_info=True
+                "async_get_events: %s: Failed to parse ICS!",
+                self.name,
+                exc_info=True,
             )
             event_list = []
 
@@ -191,9 +268,7 @@ class ICSCalendarData:
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
-        """Get the latest data."""
-        _LOGGER.debug("update:")
-        _LOGGER.debug(hanow())
+        """Get the current or next event."""
         try:
             self.event = self.parser.get_current_event(
                 content=self._calendar_data.get(),
@@ -201,13 +276,18 @@ class ICSCalendarData:
                 now=hanow(),
                 days=self._days,
             )
-        except:
-            _LOGGER.error(f"update: {self.name}: Failed to parse ICS!", exc_info=True)
+        except:  # pylint: disable=W0702
+            _LOGGER.error(
+                "update: %s: Failed to parse ICS!", self.name, exc_info=True
+            )
         if self.event is not None:
             _LOGGER.debug(
-                f'{self.name}: got event: {self.event["summary"]};'
-                f'start: {self.event["start"]}; end: {self.event["end"]};'
-                f'all_day: {self.event["all_day"]}'
+                "%s: got event: %s; start: %s; end: %s; all_day: %s",
+                self.name,
+                self.event["summary"],
+                self.event["start"],
+                self.event["end"],
+                self.event["all_day"],
             )
             self.event["start"] = self.get_hass_date(
                 self.event["start"], self.event["all_day"]
@@ -216,27 +296,52 @@ class ICSCalendarData:
                 self.event["end"], self.event["all_day"]
             )
             return True
-        else:
-            _LOGGER.debug(f"{self.name}: No event found!")
 
+        _LOGGER.debug("%s: No event found!", self.name)
         return False
 
     def format_dates(self, event):
-        event["start"] = self.get_date_formatted(event["start"], event["all_day"])
+        """Format the dates in the event for HA.
+
+        :param event: The event
+        :return: The event with the dates and times formatted as a string.
+        """
+        event["start"] = self.get_date_formatted(
+            event["start"], event["all_day"]
+        )
         event["end"] = self.get_date_formatted(event["end"], event["all_day"])
         return event
 
-    def get_date_formatted(self, dt, is_all_day):
-        """Return the formatted date"""
+    def get_date_formatted(  # pylint: disable=R0201
+        self, date_time: datetime, is_all_day: bool
+    ) -> str:
+        """Return the formatted date.
+
+        :param date_time The datetime to be formatted
+        :type date_time datetime
+        :param is_all_day True if this is an all day event
+        :type is_all_day bool
+        :returns The datetime formatted as a date and time if is_all_day is
+            false, or the datetime formatted as a date.
+        :rtype str
+        """
         # Note that all day events should have a time of 0, and the timezone
         # must be local.
         if is_all_day:
-            return dt.strftime("%Y-%m-%d")
+            return date_time.strftime("%Y-%m-%d")
 
-        return dt.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+        return date_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
 
-    def get_hass_date(self, dt, is_all_day):
-        """Return the wrapped and formatted date"""
+    def get_hass_date(self, date_time, is_all_day: bool):
+        """Return the wrapped and formatted date.
+
+        :param date_time The datetime or date
+        :type date_time datetime or date
+        :param is_all_day True if this is an all day event
+        :type is_all_day bool
+        :returns An object with the date or date and time, which indicates if
+            it's a date only or a date and time.
+        """
         if is_all_day:
-            return {"date": self.get_date_formatted(dt, is_all_day)}
-        return {"dateTime": self.get_date_formatted(dt, is_all_day)}
+            return {"date": self.get_date_formatted(date_time, is_all_day)}
+        return {"dateTime": self.get_date_formatted(date_time, is_all_day)}

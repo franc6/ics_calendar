@@ -1,13 +1,16 @@
-import pytest
-from datetime import timedelta
-from dateutil import parser as dtparser
+"""Test the CalendarData class."""
 import logging
-from unittest.mock import MagicMock, Mock, patch
-from custom_components.ics_calendar.calendardata import CalendarData
+from datetime import timedelta
 from io import BytesIO
+from unittest.mock import patch
 from urllib.error import ContentTooShortError, HTTPError, URLError
-from urllib.request import build_opener, install_opener, HTTPHandler
+from urllib.request import HTTPHandler, build_opener, install_opener
 from urllib.response import addinfourl
+
+import pytest
+from dateutil import parser as dtparser
+
+from custom_components.ics_calendar.calendardata import CalendarData
 
 BINARY_CALENDAR_DATA = b"calendar data"
 BINARY_CALENDAR_DATA_2 = b"2 calendar data"
@@ -64,11 +67,13 @@ class MockHTTPHandler2(HTTPHandler):
 
 
 class TestCalendarData:
+    """Test the CalendarData class."""
+
     def test_set_username_and_password(self):
         calendarData = CalendarData(
             logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
-        calendarData.setUserNameAndPassword("username", "password")
+        calendarData.set_user_name_password("username", "password")
 
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData._download_calendar"
@@ -77,7 +82,9 @@ class TestCalendarData:
         calendarData = CalendarData(
             logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
-        mock_download.side_effect = setCalendarData(calendarData, CALENDAR_DATA)
+        mock_download.side_effect = setCalendarData(
+            calendarData, CALENDAR_DATA
+        )
         assert calendarData.get() == CALENDAR_DATA
 
     def test_download_calendar(self, logger):
@@ -96,7 +103,7 @@ class TestCalendarData:
         opener = build_opener(MockHTTPHandlerContentTooShortError)
         install_opener(opener)
         calendarData._download_calendar()
-        assert calendarData.get() == None
+        assert calendarData.get() is None
 
     def test_download_calendar_HTTPError(self, logger):
         calendarData = CalendarData(
@@ -105,7 +112,7 @@ class TestCalendarData:
         opener = build_opener(MockHTTPHandlerHTTPError)
         install_opener(opener)
         calendarData._download_calendar()
-        assert calendarData.get() == None
+        assert calendarData.get() is None
 
     def test_download_calendar_URLError(self, logger):
         calendarData = CalendarData(
@@ -114,7 +121,7 @@ class TestCalendarData:
         opener = build_opener(MockHTTPHandlerURLError)
         install_opener(opener)
         calendarData._download_calendar()
-        assert calendarData.get() == None
+        assert calendarData.get() is None
 
     def test_download_calendar_Error(self, logger):
         calendarData = CalendarData(
@@ -123,7 +130,7 @@ class TestCalendarData:
         opener = build_opener(MockHTTPHandlerError)
         install_opener(opener)
         calendarData._download_calendar()
-        assert calendarData.get() == None
+        assert calendarData.get() is None
 
     @patch(
         "custom_components.ics_calendar.calendardata.hanow",

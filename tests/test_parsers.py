@@ -1,9 +1,12 @@
+"""Test the parsers, especially for past issues."""
+import ics
 import pytest
 from dateutil import parser as dtparser
-import ics
 
 
 class TestParsers:
+    """Test the parsers, especially for past issues."""
+
     @pytest.mark.parametrize(
         "which_parser",
         [
@@ -11,7 +14,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["test_parsers.py"])
+    @pytest.mark.parametrize("file_name", ["test_parsers.py"])
     def test_not_a_calendar(self, parser, calendar_data):
         with pytest.raises(Exception):
             parser.get_event_list(
@@ -34,7 +37,7 @@ class TestParsers:
             pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["allday.ics"])
+    @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_all_day(self, parser, calendar_data, expected_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -54,7 +57,7 @@ class TestParsers:
             pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["allday.ics"])
+    @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_no_all_day(self, parser, calendar_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -71,14 +74,13 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["allday.ics"])
+    @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_no_all_day_current(self, parser, calendar_data):
         event = parser.get_current_event(
             calendar_data, False, dtparser.parse("2022-01-01T00:00:00"), 31
         )
         assert event is not None
 
-    # TODO: Test get_current_event, make sure time and zone are correct
     @pytest.mark.parametrize(
         "which_parser",
         [
@@ -91,7 +93,7 @@ class TestParsers:
             ),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue6.ics"])
+    @pytest.mark.parametrize("file_name", ["issue6.ics"])
     def test_issue_six(self, parser, calendar_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -109,7 +111,7 @@ class TestParsers:
             pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue8.ics"])
+    @pytest.mark.parametrize("file_name", ["issue8.ics"])
     def test_issue_eight(self, parser, calendar_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -127,7 +129,7 @@ class TestParsers:
             pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue17.ics"])
+    @pytest.mark.parametrize("file_name", ["issue17.ics"])
     def test_issue_seventeen(self, parser, calendar_data, expected_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -145,7 +147,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue22.ics"])
+    @pytest.mark.parametrize("file_name", ["issue22.ics"])
     def test_issue_twenty_two(self, parser, calendar_data, expected_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -163,7 +165,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue34.ics"])
+    @pytest.mark.parametrize("file_name", ["issue34.ics"])
     def test_issue_thirty_four(self, parser, calendar_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -181,7 +183,7 @@ class TestParsers:
             pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue36.ics"])
+    @pytest.mark.parametrize("file_name", ["issue36.ics"])
     def test_issue_thirty_six(self, parser, calendar_data, expected_data):
         event_list = parser.get_event_list(
             calendar_data,
@@ -199,8 +201,10 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue45.ics"])
-    def test_issue_forty_three_two_days(self, parser, calendar_data, expected_data):
+    @pytest.mark.parametrize("file_name", ["issue45.ics"])
+    def test_issue_forty_three_two_days(
+        self, parser, calendar_data, expected_data
+    ):
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 2)
         event_list = [current_event]
@@ -214,7 +218,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue43.ics"])
+    @pytest.mark.parametrize("file_name", ["issue43.ics"])
     def test_issue_forty_three_fourteen_days(
         self, parser, calendar_data, expected_data
     ):
@@ -231,7 +235,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue43.ics"])
+    @pytest.mark.parametrize("file_name", ["issue43.ics"])
     def test_issue_forty_three_seven_days(self, parser, calendar_data):
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 7)
@@ -244,7 +248,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue45.ics"])
+    @pytest.mark.parametrize("file_name", ["issue45.ics"])
     def test_issue_forty_five(self, parser, calendar_data, expected_data):
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 1)
@@ -260,7 +264,7 @@ class TestParsers:
             pytest.param("ics_parser", marks=pytest.mark.xfail),
         ],
     )
-    @pytest.mark.parametrize("fileName", ["issue48.ics"])
+    @pytest.mark.parametrize("file_name", ["issue48.ics"])
     def test_issue_forty_eight(self, parser, calendar_data, expected_data):
         event_list = parser.get_event_list(
             calendar_data,

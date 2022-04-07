@@ -1,24 +1,43 @@
-"""Support for ICS Calendar."""
+"""Support for recurring_ical_events parser."""
 from datetime import date, datetime, timedelta
 
-from icalendar import Calendar
 import recurring_ical_events as rie
+from icalendar import Calendar
+
 from ..icalendarparser import ICalendarParser
 
 
-class parser_rie(ICalendarParser):
+class ParserRIE(ICalendarParser):
+    """Provide parser using recurring_ical_events."""
+
     oneday = timedelta(days=1)
     oneday2 = timedelta(hours=23, minutes=59, seconds=59)
 
     @staticmethod
-    def get_event_list(content: str, start, end, include_all_day: bool):
+    def get_event_list(
+        content: str, start: datetime, end: datetime, include_all_day: bool
+    ) -> str:
+        """Get a list of events.
+
+        Gets the events from start to end, including or excluding all day events.
+        :param content is the calendar data
+        :type str
+        :param start the earliest start time of events to return
+        :type datetime
+        :param end the latest start time of events to return
+        :type datetime
+        :param include_all_day if true, all day events will be included.
+        :type boolean
+        :returns a list of events, or an empty list
+        :rtype list
+        """
         event_list = []
 
         calendar = Calendar.from_ical(content)
 
         if calendar is not None:
             for event in rie.of(calendar).between(start, end):
-                start, end, all_day = parser_rie.is_all_day(event)
+                start, end, all_day = ParserRIE.is_all_day(event)
 
                 if all_day and not include_all_day:
                     continue
@@ -46,6 +65,20 @@ class parser_rie(ICalendarParser):
     def get_current_event(
         content: str, include_all_day: bool, now: datetime, days: int
     ):
+        """Get the current or next event.
+
+        Gets the current event, or the next upcoming event with in the
+        specified number of days, if there is no current event.
+        :param content is the calendar data
+        :type str
+        :param include_all_day if true, all day events will be included.
+        :type boolean
+        :param now the current date and time
+        :type datetime
+        :param days the number of days to check for an upcoming event
+        :type int
+        :returns an event or None
+        """
         calendar = Calendar.from_ical(content)
 
         if calendar is None:
@@ -54,7 +87,7 @@ class parser_rie(ICalendarParser):
         temp_event = None
         end = now + timedelta(days=days)
         for event in rie.of(calendar).between(now, end):
-            start, end, all_day = parser_rie.is_all_day(event)
+            start, end, all_day = ParserRIE.is_all_day(event)
 
             if all_day and not include_all_day:
                 continue
@@ -83,23 +116,39 @@ class parser_rie(ICalendarParser):
         }
 
     @staticmethod
-    def get_date(dt):
-        if type(dt) is date:
-            dt = datetime.combine(dt, datetime.min.time())
-        return dt.astimezone()
+    def get_date(date_time) -> datetime:
+        """Get datetime with timezone information.
+
+        If a date object is passed, it will first have a time component added,
+        set to 0.
+        :param date_time The date or datetime object
+        :type date_time datetime or date
+        :type: bool
+        :returns The datetime.
+        :rtype datetime
+        """
+        # Must use type here, since a datetime is also a date!
+        if type(date_time) == date:  # pylint: disable=C0123
+            date_time = datetime.combine(date_time, datetime.min.time())
+        return date_time.astimezone()
 
     @staticmethod
     def is_all_day(event):
-        start = parser_rie.get_date(event.get("DTSTART").dt)
-        end = parser_rie.get_date(event.get("DTEND").dt)
+        """Determine if the event is an all day event.
+
+        Return all day status and start and end times for the event.
+        :param event The event to examine
+        """
+        start = ParserRIE.get_date(event.get("DTSTART").dt)
+        end = ParserRIE.get_date(event.get("DTEND").dt)
         all_day = False
         diff = event.get("DURATION")
         if diff is not None:
             diff = diff.dt
         else:
             diff = end - start
-        if (diff == parser_rie.oneday or diff == parser_rie.oneday2) and (
-            start.hour == 0 and start.minute == 0 and start.second == 0
+        if diff in {ParserRIE.oneday, ParserRIE.oneday2} and all(
+            x == 0 for x in [start.hour, start.minute, start.second]
         ):
             all_day = True
 

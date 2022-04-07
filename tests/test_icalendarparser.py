@@ -1,3 +1,4 @@
+"""Test the icalendarparser class."""
 from custom_components.ics_calendar.icalendarparser import ICalendarParser
 
 
@@ -15,6 +16,8 @@ class TestICalendarParser:
         assert isinstance(ICalendarParser.get_instance("rie"), ICalendarParser)
         assert isinstance(ICalendarParser.get_instance("ics"), ICalendarParser)
         assert (
-            isinstance(ICalendarParser.get_instance("unknown"), ICalendarParser)
+            isinstance(
+                ICalendarParser.get_instance("unknown"), ICalendarParser
+            )
             is False
         )

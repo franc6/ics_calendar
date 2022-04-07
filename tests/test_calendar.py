@@ -1,60 +1,72 @@
-import pytest
-import copy
+"""Test the calendar class."""
 import asyncio
-import aiotask_context
+import copy
 from http import HTTPStatus
-from dateutil import parser as dtparser
-from homeassistant.setup import async_setup_component
-from homeassistant.const import STATE_OFF
-from custom_components.ics_calendar.const import PLATFORM
 from unittest.mock import Mock, patch
 
+import aiotask_context
+import pytest
+from dateutil import parser as dtparser
+from homeassistant.const import STATE_OFF
+from homeassistant.setup import async_setup_component
+
+from custom_components.ics_calendar.const import PLATFORM
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
 
 @pytest.fixture(autouse=True)
 def enable_custom_integrations(enable_custom_integrations):
+    """Provide enable_custom_integrations fixture for HA."""
     yield
 
 
 @pytest.fixture(autouse=True)
 def loop_factory():
+    """Provide loop_factory fixture for HA."""
     return asyncio.new_event_loop
 
 
 @pytest.fixture(autouse=True)
 def mock_http(hass):
+    """Provide mock_http fixture to mock the HomeAssistant.http object."""
     hass.http = Mock()
 
 
 @pytest.fixture
 def set_tz(request):
+    """Fake the timezone fixture."""
     return request.getfixturevalue(request.param)
 
 
 @pytest.fixture
 def utc(hass):
+    """Set current time zone for HomeAssistant to UTC."""
     hass.config.set_time_zone("UTC")
 
 
 @pytest.fixture
 def chicago(hass):
+    """Set current time zone for HomeAssistant to America/Chicago."""
     hass.config.set_time_zone("America/Chicago")
 
 
 @pytest.fixture
 def baghdad(hass):
+    """Set current time zone for HomeAssistant to Asia/Baghdad."""
     hass.config.set_time_zone("Asia/Baghdad")
 
 
 @pytest.fixture(autouse=True)
 def set_task_factory(loop):
+    """Provide set_task_factory fixture for HA."""
     loop.set_task_factory(aiotask_context.task_factory)
 
 
 @pytest.fixture
 def get_api_events(hass_client):
+    """Provide fixture to mock get_api_events."""
+
     async def api_call(entity_id):
         client = await hass_client()
         response = await client.get(
@@ -117,9 +129,9 @@ def _mocked_event_allday():
     }
 
 
-def _mocked_calendar_data(fileName):
-    with open(fileName) as fh:
-        data = fh.read()
+def _mocked_calendar_data(file_name):
+    with open(file_name) as file_handle:
+        data = file_handle.read()
     return data
 
 
@@ -181,7 +193,7 @@ def userpass_config():
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_current_event",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_current_event",
     return_value=_mocked_event(),
 )
 async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
@@ -193,7 +205,7 @@ async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
 
 
 @patch(
-    "custom_components.ics_calendar.calendardata.CalendarData.setUserNameAndPassword",
+    "custom_components.ics_calendar.calendardata.CalendarData.set_user_name_password",
     return_value=None,
 )
 @patch(
@@ -201,7 +213,7 @@ async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_current_event",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_current_event",
     return_value=_mocked_event(),
 )
 async def test_calendar_setup_userpass(
@@ -228,7 +240,7 @@ async def test_calendar_setup_userpass(
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_current_event",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_current_event",
     return_value=_mocked_event(),
 )
 async def test_ongoing_event(
@@ -262,7 +274,7 @@ async def test_ongoing_event(
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_current_event",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_current_event",
     return_value=_mocked_event(),
 )
 async def test_ongoing_event_exception(
@@ -280,7 +292,9 @@ async def test_ongoing_event_exception(
     }
 
 
-@pytest.mark.parametrize("set_tz", ["utc", "chicago", "baghdad"], indirect=True)
+@pytest.mark.parametrize(
+    "set_tz", ["utc", "chicago", "baghdad"], indirect=True
+)
 @patch(
     "custom_components.ics_calendar.calendar.hanow",
     return_value=dtparser.parse("2022-01-03T00:00:01"),
@@ -290,7 +304,7 @@ async def test_ongoing_event_exception(
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_current_event",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_current_event",
     return_value=_mocked_event_allday(),
 )
 async def test_ongoing_event_allday(
@@ -327,7 +341,7 @@ async def test_ongoing_event_allday(
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_event_list",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_event_list",
     return_value=_mocked_event_list(),
 )
 async def test_get_events(
@@ -349,7 +363,7 @@ async def test_get_events(
     return_value=_mocked_calendar_data("tests/allday.ics"),
 )
 @patch(
-    "custom_components.ics_calendar.parsers.parser_rie.parser_rie.get_event_list",
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_event_list",
     return_value=_mocked_event_list(),
 )
 async def test_get_events_exception(
