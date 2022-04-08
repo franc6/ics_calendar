@@ -80,6 +80,7 @@ def get_api_events(hass_client):
 
 
 def _mocked_event():
+    """Provide fixture to mock a single event."""
     return {
         "summary": "Test event",
         "start": dtparser.parse("2022-01-03T00:00:00"),
@@ -91,6 +92,7 @@ def _mocked_event():
 
 
 def _mocked_event_list():
+    """Provide fixture to mock a list of events."""
     return [
         {
             "summary": "Test event 2",
@@ -120,6 +122,7 @@ def _mocked_event_list():
 
 
 def _mocked_event_allday():
+    """Provide fixture to mock a single all day event."""
     return {
         "summary": "Test event",
         "start": dtparser.parse("2022-01-03"),
@@ -131,6 +134,7 @@ def _mocked_event_allday():
 
 
 def _mocked_calendar_data(file_name):
+    """Return contents of file_name."""
     with open(file_name) as file_handle:
         data = file_handle.read()
     return data
@@ -138,6 +142,7 @@ def _mocked_calendar_data(file_name):
 
 @pytest.fixture()
 def allday_config():
+    """Provide fixture for configuration that includes allday events."""
     return {
         "calendar": {
             "platform": PLATFORM,
@@ -155,6 +160,7 @@ def allday_config():
 
 @pytest.fixture()
 def noallday_config():
+    """Provide fixture for configuration that does not include allday events."""
     return {
         "calendar": {
             "platform": PLATFORM,
@@ -172,6 +178,7 @@ def noallday_config():
 
 @pytest.fixture()
 def userpass_config():
+    """Provide fixture for configuration that uses user name and password."""
     return {
         "calendar": {
             "platform": PLATFORM,
@@ -198,6 +205,7 @@ def userpass_config():
     return_value=_mocked_event(),
 )
 async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
+    """Test basic setup of platform not including all day events."""
     assert await async_setup_component(hass, "calendar", noallday_config)
     await hass.async_block_till_done()
 
@@ -220,6 +228,7 @@ async def test_calendar_setup(mock_event, mock_get, hass, noallday_config):
 async def test_calendar_setup_userpass(
     mock_event, mock_get, mock_sup, hass, userpass_config
 ):
+    """Test basic setup of platform with user name and password."""
     assert await async_setup_component(hass, "calendar", userpass_config)
     await hass.async_block_till_done()
 
@@ -229,6 +238,61 @@ async def test_calendar_setup_userpass(
         userpass_config["calendar"]["calendars"][0]["username"],
         userpass_config["calendar"]["calendars"][0]["password"],
     )
+
+
+@pytest.mark.parametrize(
+    "set_tz", ["utc", "chicago", "baghdad"], indirect=True
+)
+@patch(
+    "custom_components.ics_calendar.calendar.hanow",
+    return_value=dtparser.parse("2022-01-01T00:00:01"),
+)
+@patch(
+    "homeassistant.util.dt.now",
+    return_value=dtparser.parse("2022-01-01T00:00:01"),
+)
+@patch(
+    "custom_components.ics_calendar.calendardata.CalendarData.get",
+    return_value=_mocked_calendar_data("tests/allday.ics"),
+)
+@patch(
+    "custom_components.ics_calendar.parsers.parser_rie.ParserRIE.get_current_event",
+    return_value=_mocked_event(),
+)
+async def test_future_event(
+    mock_event, mock_get, mock_dt_now, mock_now, hass, set_tz, noallday_config
+):
+    """Test state for a future event."""
+    # Must reset return_value here or only the first parametrized run will succeed.
+    mock_event.return_value = copy.deepcopy(_mocked_event_allday())
+    # Make a deep copy into mocked_event now, so we can use it with strftime later.
+    mocked_event = copy.deepcopy(mock_event())
+    mocked_event["start"] = hadt.as_local(mocked_event["start"])
+    mocked_event["end"] = hadt.as_local(mocked_event["end"])
+
+    mock_dt_now.return_value = hadt.as_local(
+        dtparser.parse("2022-01-01T00:00:01")
+    )
+    mock_now.return_value = hadt.as_local(
+        dtparser.parse("2022-01-01T00:00:01")
+    )
+
+    assert await async_setup_component(hass, "calendar", noallday_config)
+    await hass.async_block_till_done()
+
+    state = hass.states.get("calendar.noallday")
+
+    assert dict(state.attributes) == {
+        "message": mocked_event["summary"],
+        "start_time": mocked_event["start"].strftime("%Y-%m-%d %H:%M:%S"),
+        "end_time": mocked_event["end"].strftime("%Y-%m-%d %H:%M:%S"),
+        "all_day": mocked_event["all_day"],
+        "friendly_name": "noallday",
+        "location": mocked_event["location"],
+        "description": mocked_event["description"],
+        "offset_reached": False,
+    }
+    assert state.state == STATE_OFF
 
 
 @pytest.mark.parametrize(
@@ -253,6 +317,7 @@ async def test_calendar_setup_userpass(
 async def test_ongoing_event(
     mock_event, mock_get, mock_dt_now, mock_now, hass, set_tz, noallday_config
 ):
+    """Test state for an on-going event."""
     # Must reset return_value here or only the first parametrized run will succeed.
     mock_event.return_value = copy.deepcopy(_mocked_event_allday())
     # Make a deep copy into mocked_event now, so we can use it with strftime later.
@@ -304,6 +369,7 @@ async def test_ongoing_event(
 async def test_ongoing_event_exception(
     mock_event, mock_get, mock_dt_now, mock_now, hass, noallday_config
 ):
+    """Test state if exception is thrown."""
     mock_event.side_effect = Exception("Parse Error")
     assert await async_setup_component(hass, "calendar", noallday_config)
     await hass.async_block_till_done()
@@ -338,6 +404,7 @@ async def test_ongoing_event_exception(
 async def test_ongoing_event_allday(
     mock_event, mock_get, mock_dt_now, mock_now, hass, set_tz, allday_config
 ):
+    """Test state if on-going event is all day."""
     # Must reset return_value here or only the first parametrized run will succeed.
     mock_event.return_value = copy.deepcopy(_mocked_event_allday())
     # Make a deep copy into mocked_event now, so we can use it with strftime later.
@@ -395,6 +462,7 @@ async def test_get_events(
     get_api_events,
     noallday_config,
 ):
+    """Test get_api_events."""
     assert await async_setup_component(hass, "calendar", noallday_config)
     await hass.async_block_till_done()
 
@@ -427,6 +495,7 @@ async def test_get_events_exception(
     get_api_events,
     noallday_config,
 ):
+    """Test get_api_events when exception is thrown."""
     mock_event_list.side_effect = BaseException("Failed to get events")
     assert await async_setup_component(hass, "calendar", noallday_config)
     await hass.async_block_till_done()
