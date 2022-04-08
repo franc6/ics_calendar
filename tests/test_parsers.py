@@ -16,6 +16,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["test_parsers.py"])
     def test_not_a_calendar(self, parser, calendar_data):
+        """Test parsing something that is not a calendar."""
         with pytest.raises(Exception):
             parser.get_event_list(
                 calendar_data,
@@ -39,6 +40,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_all_day(self, parser, calendar_data, expected_data):
+        """Test parsing a calendar including all day events."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2022-01-01T00:00:00"),
@@ -59,6 +61,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_no_all_day(self, parser, calendar_data):
+        """Test parsing a calendar excluding all day events."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2022-01-01T00:00:00"),
@@ -76,6 +79,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_no_all_day_current(self, parser, calendar_data):
+        """Test get_current_event for a calendar excluding all day events."""
         event = parser.get_current_event(
             calendar_data, False, dtparser.parse("2022-01-01T00:00:00"), 31
         )
@@ -95,6 +99,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue6.ics"])
     def test_issue_six(self, parser, calendar_data):
+        """Test if still fixed, issue 6."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2020-01-01T00:00:00"),
@@ -113,6 +118,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue8.ics"])
     def test_issue_eight(self, parser, calendar_data):
+        """Test if still fixed, issue 8."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2020-01-01T00:00:00"),
@@ -131,6 +137,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue17.ics"])
     def test_issue_seventeen(self, parser, calendar_data, expected_data):
+        """Test if still fixed, issue 17."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2020-09-14T00:00:00-0400"),
@@ -149,6 +156,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue22.ics"])
     def test_issue_twenty_two(self, parser, calendar_data, expected_data):
+        """Test if still fixed, issue 22."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2020-01-01T00:00:00"),
@@ -167,6 +175,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue34.ics"])
     def test_issue_thirty_four(self, parser, calendar_data):
+        """Test if still fixed, issue 34."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2021-01-01T00:00:00"),
@@ -185,6 +194,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue36.ics"])
     def test_issue_thirty_six(self, parser, calendar_data, expected_data):
+        """Test if still fixed, issue 36."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2021-09-16T00:00:00"),
@@ -205,6 +215,7 @@ class TestParsers:
     def test_issue_forty_three_two_days(
         self, parser, calendar_data, expected_data
     ):
+        """Test if still fixed, issue 43."""
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 2)
         event_list = [current_event]
@@ -222,6 +233,7 @@ class TestParsers:
     def test_issue_forty_three_fourteen_days(
         self, parser, calendar_data, expected_data
     ):
+        """Test if still fixed, issue 43."""
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 14)
         event_list = [current_event]
@@ -237,6 +249,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue43.ics"])
     def test_issue_forty_three_seven_days(self, parser, calendar_data):
+        """Test if still fixed, issue 43."""
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 7)
         assert current_event is None
@@ -250,6 +263,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue45.ics"])
     def test_issue_forty_five(self, parser, calendar_data, expected_data):
+        """Test if still fixed, issue 45."""
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
         current_event = parser.get_current_event(calendar_data, True, now, 1)
         event_list = [current_event]
@@ -266,6 +280,7 @@ class TestParsers:
     )
     @pytest.mark.parametrize("file_name", ["issue48.ics"])
     def test_issue_forty_eight(self, parser, calendar_data, expected_data):
+        """Test if still fixed, issue 48."""
         event_list = parser.get_event_list(
             calendar_data,
             dtparser.parse("2021-09-16T00:00:00"),

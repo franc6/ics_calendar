@@ -1,12 +1,112 @@
 """Fixtures and helpers for tests."""
 import json
+import logging
+from http import HTTPStatus
 
 import pytest
 from dateutil import parser as dtparser
 
+from custom_components.ics_calendar.const import PLATFORM
 from custom_components.ics_calendar.icalendarparser import ICalendarParser
 
 
+# Fixtures for test_calendar.py
+@pytest.fixture
+def set_tz(request):
+    """Fake the timezone fixture."""
+    return request.getfixturevalue(request.param)
+
+
+@pytest.fixture
+def utc(hass):
+    """Set current time zone for HomeAssistant to UTC."""
+    hass.config.set_time_zone("UTC")
+
+
+@pytest.fixture
+def chicago(hass):
+    """Set current time zone for HomeAssistant to America/Chicago."""
+    hass.config.set_time_zone("America/Chicago")
+
+
+@pytest.fixture
+def baghdad(hass):
+    """Set current time zone for HomeAssistant to Asia/Baghdad."""
+    hass.config.set_time_zone("Asia/Baghdad")
+
+
+@pytest.fixture
+def get_api_events(hass_client):
+    """Provide fixture to mock get_api_events."""
+
+    async def api_call(entity_id):
+        client = await hass_client()
+        response = await client.get(
+            f"/api/calendars/{entity_id}?start=2022-01-01&end=2022-01-06"
+        )
+        assert response.status == HTTPStatus.OK
+        return await response.json()
+
+    return api_call
+
+
+@pytest.fixture()
+def allday_config():
+    """Provide fixture for config that includes allday events."""
+    return {
+        "calendar": {
+            "platform": PLATFORM,
+            "calendars": [
+                {
+                    "name": "allday",
+                    "url": "http://test.local/tests/allday.ics",
+                    "includeAllDay": "true",
+                    "days": "1",
+                }
+            ],
+        }
+    }
+
+
+@pytest.fixture()
+def noallday_config():
+    """Provide fixture for config that does not include allday events."""
+    return {
+        "calendar": {
+            "platform": PLATFORM,
+            "calendars": [
+                {
+                    "name": "noallday",
+                    "url": "http://test.local/tests/allday.ics",
+                    "includeAllDay": "false",
+                    "days": "1",
+                }
+            ],
+        }
+    }
+
+
+@pytest.fixture()
+def userpass_config():
+    """Provide fixture for config that uses user name and password."""
+    return {
+        "calendar": {
+            "platform": PLATFORM,
+            "calendars": [
+                {
+                    "name": "userpass",
+                    "url": "http://test.local/tests/allday.ics",
+                    "includeAllDay": "false",
+                    "days": "1",
+                    "username": "username",
+                    "password": "password",
+                }
+            ],
+        }
+    }
+
+
+# Fixtures and methods for test_parsers.py
 def datetime_hook(pairs):
     """Parse datetime values from JSON."""
     _dict = {}
@@ -68,6 +168,12 @@ def expected_data(file_name):
     """
     with open(f"tests/{file_name}.expected.json") as file_handle:
         return json.loads(file_handle.read(), object_pairs_hook=datetime_hook)
+
+
+@pytest.fixture(autouse=True)
+def logger():
+    """Provide autouse fixture for logger."""
+    return logging.getLogger(__name__)
 
 
 @pytest.helpers.register
