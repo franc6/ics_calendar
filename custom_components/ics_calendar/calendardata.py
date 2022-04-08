@@ -87,7 +87,12 @@ class CalendarData:
         return self._calendar_data
 
     def set_user_name_password(self, user_name: str, password: str):
-        """Set a user name and password to use when downloading the calendar data.
+        """Set a user name and password to use.
+
+        The user name and password will be set into an HTTPBasicAuthHandler an
+        an HTTPDigestAuthHandler.  Both are attached to a new urlopener, so
+        that HTTP Basic Auth and HTTP Digest Auth will be supported when
+        opening the URL.
 
         :param user_name: The user name
         :type user_name: str
