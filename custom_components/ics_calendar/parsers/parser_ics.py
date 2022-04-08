@@ -19,7 +19,8 @@ class ParserICS(ICalendarParser):
     ) -> list:
         """Get a list of events.
 
-        Gets the events from start to end, including or excluding all day events.
+        Gets the events from start to end, including or excluding all day
+        events.
         :param content is the calendar data
         :type str
         :param start the earliest start time of events to return
@@ -97,11 +98,7 @@ class ParserICS(ICalendarParser):
         for event in calendar.timeline.included(arrowget(now), arrowget(end)):
             if event.all_day and not include_all_day:
                 continue
-            if temp_event is None:
-                temp_event = event
-            elif (
-                temp_event.end > event.end and temp_event.begin <= event.begin
-            ):
+            if ParserICS.is_event_newer(temp_event, event):
                 temp_event = event
 
         if temp_event is None:
@@ -118,6 +115,13 @@ class ParserICS(ICalendarParser):
             "description": temp_event.description,
             "all_day": temp_event.all_day,
         }
+
+    @staticmethod
+    def is_event_newer(check_event, event):
+        """Determine if check_event is newer than event."""
+        return check_event is None or (
+            check_event.end > event.end and check_event.begin <= event.begin
+        )
 
     @staticmethod
     def get_date(arw: Arrow, is_all_day: bool) -> datetime:
@@ -138,7 +142,8 @@ class ParserICS(ICalendarParser):
                 )
             return arw.datetime
         # else:
-        #    if arw.tzinfo is None or arw.tzinfo.utcoffset(arw) is None or is_all_day:
+        # if arw.tzinfo is None or arw.tzinfo.utcoffset(arw) is None
+        #     or is_all_day:
         #        arw = arw.astimezone()
         #
         return arw

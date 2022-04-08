@@ -19,7 +19,8 @@ class ParserRIE(ICalendarParser):
     ) -> str:
         """Get a list of events.
 
-        Gets the events from start to end, including or excluding all day events.
+        Gets the events from start to end, including or excluding all day
+        events.
         :param content is the calendar data
         :type str
         :param start the earliest start time of events to return
@@ -84,7 +85,7 @@ class ParserRIE(ICalendarParser):
         if calendar is None:
             return None
 
-        temp_event = None
+        temp_event = temp_start = temp_end = None
         end = now + timedelta(days=days)
         for event in rie.of(calendar).between(now, end):
             start, end, all_day = ParserRIE.is_all_day(event)
@@ -92,12 +93,7 @@ class ParserRIE(ICalendarParser):
             if all_day and not include_all_day:
                 continue
 
-            if temp_event is None:
-                temp_event = event
-                temp_start = start
-                temp_end = end
-                temp_all_day = all_day
-            elif temp_end > end and start <= temp_start:
+            if ParserRIE.is_event_newer(temp_end, temp_start, end, start):
                 temp_event = event
                 temp_start = start
                 temp_end = end
@@ -114,6 +110,11 @@ class ParserRIE(ICalendarParser):
             "description": temp_event.get("DESCRIPTION"),
             "all_day": temp_all_day,
         }
+
+    @staticmethod
+    def is_event_newer(end2, start2, end, start):
+        """Determine if end2 and start2 are newer than end and start."""
+        return start2 is None or (end2 > end and start <= start2)
 
     @staticmethod
     def get_date(date_time) -> datetime:
