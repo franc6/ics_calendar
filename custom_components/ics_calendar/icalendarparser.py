@@ -7,8 +7,8 @@ class ICalendarParser:
     """Provide interface for various parser classes.
 
     The class provides a static method , get_instace, to get a parser instance.
-    The non static methods allow this class to act as an "interface" for the parser
-    classes.
+    The non static methods allow this class to act as an "interface" for the
+    parser classes.
     """
 
     @staticmethod
@@ -39,7 +39,8 @@ class ICalendarParser:
     ) -> list:
         """Get a list of events.
 
-        Gets the events from start to end, including or excluding all day events.
+        Gets the events from start to end, including or excluding all day
+        events.
         :param content is the calendar data
         :type content str
         :param start the earliest start time of events to return
