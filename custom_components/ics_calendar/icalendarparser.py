@@ -30,9 +30,17 @@ class ICalendarParser:
             return parser_cls(*args)
         return None
 
+    def set_content(self, content: str):
+        """Parse content into a calendar object.
+
+        This must be called at least once before get_event_list or
+        get_current_event.
+        :param content is the calendar data
+        :type content str
+        """
+
     def get_event_list(
         self,
-        content: str,
         start: datetime,
         end: datetime,
         include_all_day: bool,
@@ -41,8 +49,6 @@ class ICalendarParser:
 
         Gets the events from start to end, including or excluding all day
         events.
-        :param content is the calendar data
-        :type content str
         :param start the earliest start time of events to return
         :type start datetime
         :param end the latest start time of events to return
@@ -54,14 +60,12 @@ class ICalendarParser:
         """
 
     def get_current_event(
-        self, content: str, include_all_day: bool, now: datetime, days: int
+        self, include_all_day: bool, now: datetime, days: int
     ):
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
         specified number of days, if there is no current event.
-        :param content is the calendar data
-        :type content str
         :param include_all_day if true, all day events will be included.
         :type include_all_day boolean
         :param now the current date and time

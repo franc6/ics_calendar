@@ -18,18 +18,36 @@ class TestParsers:
     def test_not_a_calendar(self, parser, calendar_data):
         """Test parsing something that is not a calendar."""
         with pytest.raises(Exception):
-            parser.get_event_list(
-                calendar_data,
-                dtparser.parse("2022-01-01T00:00:00"),
-                dtparser.parse("2022-01-31T23:59:59"),
-                True,
-            )
+            parser.set_content(calendar_data)
         with pytest.raises(Exception):
-            parser.get_current_event(
-                calendar_data, False, dtparser.parse("2022-01-01T00:00:00"), 1
-            )
+            parser.set_content(None)
+        with pytest.raises(Exception):
+            parser.set_content("")
 
-    # Test all day events, make sure time and zone are corret
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["allday.ics"])
+    def test_no_content(self, parser, calendar_data, expected_data):
+        """Test parsing a calendar including all day events."""
+        event_list = parser.get_event_list(
+            dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-31T23:59:59"),
+            True,
+        )
+        pytest.helpers.assert_event_list_size(0, event_list)
+
+        assert (
+            parser.get_current_event(
+                True, dtparser.parse("2022-01-01T00:00:00"), 31
+            )
+            is None
+        )
+
     @pytest.mark.parametrize(
         "which_parser",
         [
@@ -41,8 +59,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_all_day(self, parser, calendar_data, expected_data):
         """Test parsing a calendar including all day events."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2022-01-01T00:00:00"),
             dtparser.parse("2022-01-31T23:59:59"),
             True,
@@ -62,8 +80,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_no_all_day(self, parser, calendar_data):
         """Test parsing a calendar excluding all day events."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2022-01-01T00:00:00"),
             dtparser.parse("2022-01-31T23:59:59"),
             False,
@@ -80,8 +98,9 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["allday.ics"])
     def test_no_all_day_current(self, parser, calendar_data):
         """Test get_current_event for a calendar excluding all day events."""
+        parser.set_content(calendar_data)
         event = parser.get_current_event(
-            calendar_data, False, dtparser.parse("2022-01-01T00:00:00"), 31
+            False, dtparser.parse("2022-01-01T00:00:00"), 31
         )
         assert event is not None
 
@@ -100,8 +119,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue6.ics"])
     def test_issue_six(self, parser, calendar_data):
         """Test if still fixed, issue 6."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2020-01-01T00:00:00"),
             dtparser.parse("2020-01-31T23:59:59"),
             False,
@@ -119,8 +138,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue8.ics"])
     def test_issue_eight(self, parser, calendar_data):
         """Test if still fixed, issue 8."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2020-01-01T00:00:00"),
             dtparser.parse("2020-06-15T23:59:59"),
             True,
@@ -138,8 +157,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue17.ics"])
     def test_issue_seventeen(self, parser, calendar_data, expected_data):
         """Test if still fixed, issue 17."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2020-09-14T00:00:00-0400"),
             dtparser.parse("2020-09-29T23:59:59-0400"),
             True,
@@ -157,8 +176,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue22.ics"])
     def test_issue_twenty_two(self, parser, calendar_data, expected_data):
         """Test if still fixed, issue 22."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2020-01-01T00:00:00"),
             dtparser.parse("2020-01-31T23:59:59"),
             True,
@@ -176,8 +195,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue34.ics"])
     def test_issue_thirty_four(self, parser, calendar_data):
         """Test if still fixed, issue 34."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2021-01-01T00:00:00"),
             dtparser.parse("2021-12-31T23:59:59"),
             True,
@@ -195,8 +214,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue36.ics"])
     def test_issue_thirty_six(self, parser, calendar_data, expected_data):
         """Test if still fixed, issue 36."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2021-09-16T00:00:00"),
             dtparser.parse("2021-09-16T23:59:59"),
             True,
@@ -217,7 +236,8 @@ class TestParsers:
     ):
         """Test if still fixed, issue 43."""
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
-        current_event = parser.get_current_event(calendar_data, True, now, 2)
+        parser.set_content(calendar_data)
+        current_event = parser.get_current_event(True, now, 2)
         event_list = [current_event]
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
@@ -235,7 +255,8 @@ class TestParsers:
     ):
         """Test if still fixed, issue 43."""
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
-        current_event = parser.get_current_event(calendar_data, True, now, 14)
+        parser.set_content(calendar_data)
+        current_event = parser.get_current_event(True, now, 14)
         event_list = [current_event]
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
@@ -251,7 +272,8 @@ class TestParsers:
     def test_issue_forty_three_seven_days(self, parser, calendar_data):
         """Test if still fixed, issue 43."""
         now = dtparser.parse("2022-03-01T06:00:00-05:00")
-        current_event = parser.get_current_event(calendar_data, True, now, 7)
+        parser.set_content(calendar_data)
+        current_event = parser.get_current_event(True, now, 7)
         assert current_event is None
 
     @pytest.mark.parametrize(
@@ -265,7 +287,8 @@ class TestParsers:
     def test_issue_forty_five(self, parser, calendar_data, expected_data):
         """Test if still fixed, issue 45."""
         now = dtparser.parse("2022-02-28T06:00:00-05:00")
-        current_event = parser.get_current_event(calendar_data, True, now, 1)
+        parser.set_content(calendar_data)
+        current_event = parser.get_current_event(True, now, 1)
         event_list = [current_event]
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
@@ -281,8 +304,8 @@ class TestParsers:
     @pytest.mark.parametrize("file_name", ["issue48.ics"])
     def test_issue_forty_eight(self, parser, calendar_data, expected_data):
         """Test if still fixed, issue 48."""
+        parser.set_content(calendar_data)
         event_list = parser.get_event_list(
-            calendar_data,
             dtparser.parse("2021-09-16T00:00:00"),
             dtparser.parse("2021-09-17T23:59:59"),
             True,

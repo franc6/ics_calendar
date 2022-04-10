@@ -11,18 +11,26 @@ from ..icalendarparser import ICalendarParser
 class ParserICS(ICalendarParser):
     """Class to provide parser using ics module."""
 
-    re_method = re.compile("^METHOD:.*$", flags=re.MULTILINE)
+    def __init__(self):
+        """Construct ParserICS."""
+        self._re_method = re.compile("^METHOD:.*$", flags=re.MULTILINE)
+        self._calendar = None
 
-    @staticmethod
-    def get_event_list(
-        content: str, start, end, include_all_day: bool
-    ) -> list:
+    def set_content(self, content: str):
+        """Parse content into a calendar object.
+
+        This must be called at least once before get_event_list or
+        get_current_event.
+        :param content is the calendar data
+        :type content str
+        """
+        self._calendar = Calendar(re.sub(self._re_method, "", content))
+
+    def get_event_list(self, start, end, include_all_day: bool) -> list:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
         events.
-        :param content is the calendar data
-        :type str
         :param start the earliest start time of events to return
         :type datetime
         :param end the latest start time of events to return
@@ -34,16 +42,14 @@ class ParserICS(ICalendarParser):
         """
         event_list = []
 
-        calendar = Calendar(re.sub(ParserICS.re_method, "", content))
-
-        if calendar is not None:
+        if self._calendar is not None:
             # ics 0.8 takes datetime not Arrow objects
             # ar_start = start
             # ar_end = end
             ar_start = arrowget(start)
             ar_end = arrowget(end)
 
-            for event in calendar.timeline.included(ar_start, ar_end):
+            for event in self._calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
                     continue
                 uid = None
@@ -70,16 +76,13 @@ class ParserICS(ICalendarParser):
 
         return event_list
 
-    @staticmethod
     def get_current_event(
-        content: str, include_all_day: bool, now: datetime, days: int
+        self, include_all_day: bool, now: datetime, days: int
     ):
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
         specified number of days, if there is no current event.
-        :param content is the calendar data
-        :type str
         :param include_all_day if true, all day events will be included.
         :type boolean
         :param now the current date and time
@@ -88,14 +91,14 @@ class ParserICS(ICalendarParser):
         :type int
         :returns an event or None
         """
-        calendar = Calendar(content)
-
-        if calendar is None:
+        if self._calendar is None:
             return None
 
         temp_event = None
         end = now + timedelta(days=days)
-        for event in calendar.timeline.included(arrowget(now), arrowget(end)):
+        for event in self._calendar.timeline.included(
+            arrowget(now), arrowget(end)
+        ):
             if event.all_day and not include_all_day:
                 continue
             if ParserICS.is_event_newer(temp_event, event):

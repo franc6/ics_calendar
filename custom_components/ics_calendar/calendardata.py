@@ -44,7 +44,15 @@ class CalendarData:
         self.name = name
         self.url = url
 
-    def _download_calendar(self):
+    def download_calendar(self) -> bool:
+        """Download the calendar data.
+
+        This only downloads data if self.min_update_time has passed since the
+        last download.
+
+        returns: True if data was downloaded, otherwise False.
+        rtype: bool
+        """
         now = hanow()
         if (
             self._calendar_data is None
@@ -58,6 +66,7 @@ class CalendarData:
                     self._calendar_data = (
                         conn.read().decode().replace("\0", "")
                     )
+                return self._calendar_data is not None
             except HTTPError as http_error:
                 self.logger.error(
                     "%s: Failed to open url: %s", self.name, http_error.reason
@@ -77,13 +86,14 @@ class CalendarData:
                     "%s: Failed to open url!", self.name, exc_info=True
                 )
 
+        return False
+
     def get(self) -> str:
         """Get the calendar data that was downloaded.
 
-        :return: The downloaded calendar data; this may be cached data
+        :return: The downloaded calendar data.
         :rtype: str
         """
-        self._download_calendar()
         return self._calendar_data
 
     def set_user_name_password(self, user_name: str, password: str):

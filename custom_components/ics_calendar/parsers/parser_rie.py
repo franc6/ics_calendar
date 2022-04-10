@@ -10,19 +10,29 @@ from ..icalendarparser import ICalendarParser
 class ParserRIE(ICalendarParser):
     """Provide parser using recurring_ical_events."""
 
-    oneday = timedelta(days=1)
-    oneday2 = timedelta(hours=23, minutes=59, seconds=59)
+    def __init__(self):
+        """Construct ParserRIE."""
+        self._calendar = None
+        self.oneday = timedelta(days=1)
+        self.oneday2 = timedelta(hours=23, minutes=59, seconds=59)
 
-    @staticmethod
+    def set_content(self, content: str):
+        """Parse content into a calendar object.
+
+        This must be called at least once before get_event_list or
+        get_current_event.
+        :param content is the calendar data
+        :type content str
+        """
+        self._calendar = Calendar.from_ical(content)
+
     def get_event_list(
-        content: str, start: datetime, end: datetime, include_all_day: bool
+        self, start: datetime, end: datetime, include_all_day: bool
     ) -> str:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
         events.
-        :param content is the calendar data
-        :type str
         :param start the earliest start time of events to return
         :type datetime
         :param end the latest start time of events to return
@@ -34,11 +44,9 @@ class ParserRIE(ICalendarParser):
         """
         event_list = []
 
-        calendar = Calendar.from_ical(content)
-
-        if calendar is not None:
-            for event in rie.of(calendar).between(start, end):
-                start, end, all_day = ParserRIE.is_all_day(event)
+        if self._calendar is not None:
+            for event in rie.of(self._calendar).between(start, end):
+                start, end, all_day = self.is_all_day(event)
 
                 if all_day and not include_all_day:
                     continue
@@ -62,16 +70,13 @@ class ParserRIE(ICalendarParser):
 
         return event_list
 
-    @staticmethod
     def get_current_event(
-        content: str, include_all_day: bool, now: datetime, days: int
+        self, include_all_day: bool, now: datetime, days: int
     ):
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
         specified number of days, if there is no current event.
-        :param content is the calendar data
-        :type str
         :param include_all_day if true, all day events will be included.
         :type boolean
         :param now the current date and time
@@ -80,15 +85,13 @@ class ParserRIE(ICalendarParser):
         :type int
         :returns an event or None
         """
-        calendar = Calendar.from_ical(content)
-
-        if calendar is None:
+        if self._calendar is None:
             return None
 
         temp_event = temp_start = temp_end = None
         end = now + timedelta(days=days)
-        for event in rie.of(calendar).between(now, end):
-            start, end, all_day = ParserRIE.is_all_day(event)
+        for event in rie.of(self._calendar).between(now, end):
+            start, end, all_day = self.is_all_day(event)
 
             if all_day and not include_all_day:
                 continue
@@ -133,8 +136,7 @@ class ParserRIE(ICalendarParser):
             date_time = datetime.combine(date_time, datetime.min.time())
         return date_time.astimezone()
 
-    @staticmethod
-    def is_all_day(event):
+    def is_all_day(self, event):
         """Determine if the event is an all day event.
 
         Return all day status and start and end times for the event.
@@ -148,7 +150,7 @@ class ParserRIE(ICalendarParser):
             diff = diff.dt
         else:
             diff = end - start
-        if diff in {ParserRIE.oneday, ParserRIE.oneday2} and all(
+        if diff in {self.oneday, self.oneday2} and all(
             x == 0 for x in [start.hour, start.minute, start.second]
         ):
             all_day = True

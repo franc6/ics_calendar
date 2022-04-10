@@ -88,6 +88,10 @@ class TestCalendar:
     """Test Calendar class."""
 
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -97,7 +101,7 @@ class TestCalendar:
         return_value=_mocked_event(),
     )
     async def test_calendar_setup(
-        self, mock_event, mock_get, hass, noallday_config
+        self, mock_event, mock_get, mock_download, hass, noallday_config
     ):
         """Test basic setup of platform not including all day events."""
         assert await async_setup_component(hass, "calendar", noallday_config)
@@ -107,9 +111,67 @@ class TestCalendar:
         assert state.name == "noallday"
 
     @patch(
+        "custom_components.ics_calendar.calendar.hanow",
+        return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+    )
+    @patch(
+        "homeassistant.util.dt.now",
+        return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=True,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".set_content",
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_event_list",
+        return_value=_mocked_event_list(),
+    )
+    async def test_download_success(
+        self,
+        mock_event_list,
+        mock_set_content,
+        mock_get,
+        mock_download,
+        mock_dt_now,
+        mock_now,
+        hass,
+        get_api_events,
+        noallday_config,
+    ):
+        """Test get_api_events."""
+        assert await async_setup_component(hass, "calendar", noallday_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.noallday")
+        assert state.name == "noallday"
+        mock_set_content.assert_called_with(
+            _mocked_calendar_data("tests/allday.ics")
+        )
+        mock_set_content.reset()
+
+        events = await get_api_events("calendar.noallday")
+        assert len(events) == len(mock_event_list())
+        mock_set_content.assert_called_with(
+            _mocked_calendar_data("tests/allday.ics")
+        )
+
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_user_name_password",
         return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -121,7 +183,13 @@ class TestCalendar:
         return_value=_mocked_event(),
     )
     async def test_calendar_setup_userpass(
-        self, mock_event, mock_get, mock_sup, hass, userpass_config
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_sup,
+        hass,
+        userpass_config,
     ):
         """Test basic setup of platform with user name and password."""
         assert await async_setup_component(hass, "calendar", userpass_config)
@@ -146,6 +214,10 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-01T00:00:01"),
     )
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -158,6 +230,7 @@ class TestCalendar:
         self,
         mock_event,
         mock_get,
+        mock_download,
         mock_dt_now,
         mock_now,
         hass,
@@ -210,6 +283,10 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01"),
     )
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -222,6 +299,7 @@ class TestCalendar:
         self,
         mock_event,
         mock_get,
+        mock_download,
         mock_dt_now,
         mock_now,
         hass,
@@ -271,6 +349,10 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01"),
     )
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -283,6 +365,7 @@ class TestCalendar:
         self,
         mock_event,
         mock_get,
+        mock_download,
         mock_dt_now,
         mock_now,
         hass,
@@ -312,6 +395,10 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01"),
     )
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -324,6 +411,7 @@ class TestCalendar:
         self,
         mock_event,
         mock_get,
+        mock_download,
         mock_dt_now,
         mock_now,
         hass,
@@ -373,6 +461,10 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
     )
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -385,6 +477,7 @@ class TestCalendar:
         self,
         mock_event_list,
         mock_get,
+        mock_download,
         mock_dt_now,
         mock_now,
         hass,
@@ -407,6 +500,10 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
     )
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
         return_value=_mocked_calendar_data("tests/allday.ics"),
     )
@@ -419,6 +516,7 @@ class TestCalendar:
         self,
         mock_event_list,
         mock_get,
+        mock_download,
         mock_dt_now,
         mock_now,
         hass,

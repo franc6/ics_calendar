@@ -107,7 +107,7 @@ def setup_platform(
             CONF_PARSER: calendar.get(CONF_PARSER),
             CONF_DAYS: calendar.get(CONF_DAYS),
         }
-        device_id = "{}".format(device_data[CONF_NAME])
+        device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
         calendar_devices.append(ICSCalendarEventDevice(entity_id, device_data))
 
@@ -247,10 +247,12 @@ class ICSCalendarData:
         :type end_date: datetime
         """
         event_list = []
-        await hass.async_add_executor_job(self._calendar_data.get)
+        if await hass.async_add_executor_job(
+            self._calendar_data.download_calendar
+        ):
+            self.parser.set_content(self._calendar_data.get())
         try:
             events = self.parser.get_event_list(
-                content=self._calendar_data.get(),
                 start=start_date,
                 end=end_date,
                 include_all_day=self.include_all_day,
@@ -269,9 +271,10 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the current or next event."""
+        if self._calendar_data.download_calendar():
+            self.parser.set_content(self._calendar_data.get())
         try:
             self.event = self.parser.get_current_event(
-                content=self._calendar_data.get(),
                 include_all_day=self.include_all_day,
                 now=hanow(),
                 days=self._days,
