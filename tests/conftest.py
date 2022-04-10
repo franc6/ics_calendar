@@ -155,7 +155,7 @@ def calendar_data(file_name):
     :returns the data
     :rtype str
     """
-    with open(f"tests/{file_name}") as file_handle:
+    with open(f"tests/{file_name}", encoding="utf-8") as file_handle:
         return file_handle.read().replace("\0", "")
 
 
@@ -166,7 +166,9 @@ def expected_data(file_name):
     :param fileName: The base name of the file
     :type fileName: str
     """
-    with open(f"tests/{file_name}.expected.json") as file_handle:
+    with open(
+        f"tests/{file_name}.expected.json", encoding="utf-8"
+    ) as file_handle:
         return json.loads(file_handle.read(), object_pairs_hook=datetime_hook)
 
 
