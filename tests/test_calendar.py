@@ -12,7 +12,9 @@ pytest_plugins = "pytest_homeassistant_custom_component"
 
 
 @pytest.fixture(autouse=True)
-def enable_custom_integrations(enable_custom_integrations):
+def enable_custom_integrations(
+    enable_custom_integrations,
+):  # pylint: disable=W0621
     """Provide enable_custom_integrations fixture for HA."""
     yield
 
@@ -79,7 +81,7 @@ def _mocked_event_allday():
 
 def _mocked_calendar_data(file_name):
     """Return contents of file_name."""
-    with open(file_name) as file_handle:
+    with open(file_name, encoding="utf-8") as file_handle:
         data = file_handle.read()
     return data
 
