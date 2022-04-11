@@ -112,7 +112,9 @@ def setup_platform(
             CONF_DOWNLOAD_INTERVAL: calendar.get(CONF_DOWNLOAD_INTERVAL),
         }
         if calendar.get(CONF_INCLUDE_ALL_DAY):
-            device_data[CONF_INCLUDE_ALL_DAY] = calendar.get(CONF_INCLUDE_ALL_DAY)
+            device_data[CONF_INCLUDE_ALL_DAY] = calendar.get(
+                CONF_INCLUDE_ALL_DAY
+            )
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
         calendar_devices.append(ICSCalendarEventDevice(entity_id, device_data))
