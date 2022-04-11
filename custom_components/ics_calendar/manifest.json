@@ -6,6 +6,6 @@
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/franc6/ics_calendar/issues",
     "name": "ics Calendar",
-    "requirements": ["ics>=0.7", "recurring_ical_events>=1.0.1b0", "icalendar>=4.0.9", "x-wr-timezone>=0.0.5"],
-    "version": "2.8.2"
+    "requirements": ["ics>=0.7", "recurring_ical_events>=1.0.2b0", "icalendar>=4.0.9"],
+    "version": "2.9.0"
 }

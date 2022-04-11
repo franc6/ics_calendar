@@ -31,10 +31,10 @@ calendar:
         url: "https://url.to/calendar.ics"
       - name: "Name of another calendar"
         url: "https://url.to/other_calendar.ics"
-        includeAllDay: True
+        include_all_day: True
       - name: "Name of a calendar that requires authentication"
         url: "https://url.to/auth/calendar.ics"
-        includeAllDay: True
+        include_all_day: True
         username: True
         password: !secret auth_calendar
 ```
@@ -50,10 +50,14 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `days` | `positive integer` | 1 | The number of days to look ahead (only affects the attributes of the calendar entity)
-`includeAllDay` | `boolean` | `False` | Set to True if all day events should be included
+`download_interval` | `positive integer` | 15 | The time between downloading new calendar data, in minutes; values above 15 are not recommended
+`include_all_day` | `boolean` | `False` | Set to True if all day events should be included
 `parser` | `string` | `False` | 'rie' or 'ics', defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
+
+#### Download Interval
+The download interval should be a multiple of 15 at this time.  This is so downloads coincide with Home Assistant's update interval for the calendar entities. Setting a value smaller than 15 will increase both CPU and memory usage.
 
 ## Parsers
 ics_calendar uses one of two parsers for generating events from calendars.  These parsers are written and maintained by third parties, not by me.  Each comes with its own sets of problems.
