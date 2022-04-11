@@ -51,7 +51,7 @@ def get_api_events(hass_client):
 
 
 @pytest.fixture()
-def allday_config():
+def old_allday_config():
     """Provide fixture for config that includes allday events."""
     return {
         "calendar": {
@@ -69,6 +69,24 @@ def allday_config():
 
 
 @pytest.fixture()
+def allday_config():
+    """Provide fixture for config that includes allday events."""
+    return {
+        "calendar": {
+            "platform": PLATFORM,
+            "calendars": [
+                {
+                    "name": "allday",
+                    "url": "http://test.local/tests/allday.ics",
+                    "include_all_day": "true",
+                    "days": "1",
+                }
+            ],
+        }
+    }
+
+
+@pytest.fixture()
 def noallday_config():
     """Provide fixture for config that does not include allday events."""
     return {
@@ -78,7 +96,7 @@ def noallday_config():
                 {
                     "name": "noallday",
                     "url": "http://test.local/tests/allday.ics",
-                    "includeAllDay": "false",
+                    "include_all_day": "false",
                     "days": "1",
                 }
             ],
@@ -96,7 +114,7 @@ def userpass_config():
                 {
                     "name": "userpass",
                     "url": "http://test.local/tests/allday.ics",
-                    "includeAllDay": "false",
+                    "include_all_day": "false",
                     "days": "1",
                     "username": "username",
                     "password": "password",
