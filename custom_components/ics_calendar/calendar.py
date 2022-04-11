@@ -35,8 +35,10 @@ CONF_DEVICE_ID = "device_id"
 CONF_CALENDARS = "calendars"
 CONF_DAYS = "days"
 CONF_CALENDAR = "calendar"
-CONF_INCLUDE_ALL_DAY = "includeAllDay"
+CONF_INCLUDE_ALL_DAY = "include_all_day"
+CONF_INCLUDE_ALL_DAY2 = "includeAllDay"
 CONF_PARSER = "parser"
+CONF_DOWNLOAD_INTERVAL = "download_interval"
 
 OFFSET = "!!"
 
@@ -54,6 +56,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             vol.Optional(
                                 CONF_INCLUDE_ALL_DAY, default=False
                             ): cv.boolean,
+                            vol.Optional(
+                                CONF_INCLUDE_ALL_DAY2, default=False
+                            ): cv.boolean,
                             vol.Optional(CONF_USERNAME, default=""): cv.string,
                             vol.Optional(CONF_PASSWORD, default=""): cv.string,
                             vol.Optional(
@@ -61,6 +66,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             ): cv.string,
                             vol.Optional(
                                 CONF_DAYS, default=1
+                            ): cv.positive_int,
+                            vol.Optional(
+                                CONF_DOWNLOAD_INTERVAL, default=15
                             ): cv.positive_int,
                         }
                     )
@@ -71,11 +79,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 )
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
-# MIN_TIME_BETWEEN_DOWNLOADS is smaller than MIN_TIME_BETWEEN_UPDATES so that
-# it won't be skipped if an explicit update is called.  Eventually, if these
-# are configurable, we'll let end users worry about if they mean to have it
-# happen that way.
-MIN_TIME_BETWEEN_DOWNLOADS = timedelta(minutes=10)
 
 
 def setup_platform(
@@ -185,6 +188,9 @@ class ICSCalendarEventDevice(CalendarEventDevice):  # pylint: disable=R0902
             or self._last_call is None
             or (this_call - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
+            _LOGGER.debug(
+                "%s: async_get_events called; calling internal.", self.name
+            )
             self._last_call = this_call
             self._last_event_list = await self.data.async_get_events(
                 hass, start_date, end_date
@@ -225,7 +231,7 @@ class ICSCalendarData:
             _LOGGER,
             self.name,
             device_data[CONF_URL],
-            MIN_TIME_BETWEEN_DOWNLOADS,
+            timedelta(minutes=device_data[CONF_DOWNLOAD_INTERVAL]),
         )
 
         if (
@@ -250,6 +256,7 @@ class ICSCalendarData:
         if await hass.async_add_executor_job(
             self._calendar_data.download_calendar
         ):
+            _LOGGER.debug("%s: Setting calendar content", self.name)
             self.parser.set_content(self._calendar_data.get())
         try:
             events = self.parser.get_event_list(
@@ -271,7 +278,9 @@ class ICSCalendarData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the current or next event."""
+        _LOGGER.debug("%s: Update was called", self.name)
         if self._calendar_data.download_calendar():
+            _LOGGER.debug("%s: Setting calendar content", self.name)
             self.parser.set_content(self._calendar_data.get())
         try:
             self.event = self.parser.get_current_event(

@@ -61,6 +61,7 @@ class CalendarData:
         ):
             self._last_download = now
             self._calendar_data = None
+            self.logger.debug("%s: Downloading calendar data", self.name)
             try:
                 with urlopen(self.url) as conn:
                     self._calendar_data = (
