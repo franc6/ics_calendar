@@ -1,4 +1,4 @@
-## 2.9.0 2022/04/10
+## 2.9.0 2022/04/XX
 - Significant refactoring to change how data is cached and when; should resolve #38
 - Added new option, download_interval to set the time between downloading the calendar.
   Set to a multiple of 15.
