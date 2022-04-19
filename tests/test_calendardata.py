@@ -171,7 +171,7 @@ class TestCalendarData:
         "custom_components.ics_calendar.calendardata.hanow",
         return_value=dtparser.parse("2022-01-01T00:00:00"),
     )
-    def test_get_returns_new_data(self, mock_hanow, logger):
+    def test_download_returns_new_data(self, mock_hanow, logger):
         """Test that get causes downloads if enough time has passed."""
         mock_hanow.side_effect = [
             dtparser.parse("2022-01-01T00:00:00"),
@@ -194,7 +194,7 @@ class TestCalendarData:
         "custom_components.ics_calendar.calendardata.hanow",
         return_value=dtparser.parse("2022-01-01T00:00:00"),
     )
-    def test_get_too_quickly_returns_old_data(self, mock_hanow, logger):
+    def test_download_too_quickly_returns_old_data(self, mock_hanow, logger):
         """Test that get does not download if not enough time has passed."""
         mock_hanow.side_effect = [
             dtparser.parse("2022-01-01T00:00:00"),
