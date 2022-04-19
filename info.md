@@ -57,7 +57,7 @@ Key | Type | Required | Description
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 
 #### Download Interval
-The download interval should be a multiple of 15 at this time.  This is so downloads coincide with Home Assistant's update interval for the calendar entities. Setting a value smaller than 15 will increase both CPU and memory usage.
+The download interval should be a multiple of 15 at this time.  This is so downloads coincide with Home Assistant's update interval for the calendar entities. Setting a value smaller than 15 will increase both CPU and memory usage.  Higher values will reduce CPU usage.  The default of 15 is to keep the same behavior with regards to downloads as in the past.
 
 ## Parsers
 ics_calendar uses one of two parsers for generating events from calendars.  These parsers are written and maintained by third parties, not by me.  Each comes with its own sets of problems.

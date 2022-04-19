@@ -1,12 +1,9 @@
-## 2.9.0 2022/04/XX
+## 2.9.0 2022/04/19
 - Significant refactoring to change how data is cached and when; should resolve #38
-- Added new option, download_interval to set the time between downloading the calendar.
-  Set to a multiple of 15.
+- Added new option, download_interval to set the time between downloading the calendar.  Set to a multiple of 15.
 - Renamed includeAllDay to be include_all_day to better match other options.
   The old name will continue to work until version 3.1.0.
-- This release includes some aggressive data caching, and will consume more memory.
-  However, CPU usage should be signficantly reduced.  
-  A future release will attempt to reduce the memory usage.
+- This release includes some aggressive data caching, and will consume more memory. However, CPU usage should be signficantly reduced, especially if download_interval is set to a value of 60 or more. A future release will attempt to reduce the memory usage.
 
 ## 2.8.2 2022/04/04
 - Breaking change! Requires Home Assistant 2022.4 or later
