@@ -1,6 +1,6 @@
 """Test the calendar class."""
 import copy
-from unittest.mock import Mock, patch
+from unittest.mock import ANY, Mock, patch
 
 import pytest
 from dateutil import parser as dtparser
@@ -112,13 +112,125 @@ class TestCalendar:
         state = hass.states.get("calendar.noallday")
         assert state.name == "noallday"
 
+        mock_event.assert_called_with(include_all_day=False, now=ANY, days=ANY)
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData"
+        ".set_user_name_password",
+        return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_all_day(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_sup,
+        hass,
+        allday_config,
+    ):
+        """Test basic setup of platform with user name and password."""
+        assert await async_setup_component(hass, "calendar", allday_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.allday")
+        assert state.name == "allday"
+
+        mock_event.assert_called_with(include_all_day=True, now=ANY, days=ANY)
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData"
+        ".set_user_name_password",
+        return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_old_all_day(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_sup,
+        hass,
+        old_allday_config,
+    ):
+        """Test basic setup of platform with user name and password."""
+        assert await async_setup_component(hass, "calendar", old_allday_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.old_allday")
+        assert state.name == "old_allday"
+
+        mock_event.assert_called_with(include_all_day=True, now=ANY, days=ANY)
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData"
+        ".set_user_name_password",
+        return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_userpass(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_sup,
+        hass,
+        userpass_config,
+    ):
+        """Test basic setup of platform with user name and password."""
+        assert await async_setup_component(hass, "calendar", userpass_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.userpass")
+        assert state.name == "userpass"
+        mock_sup.assert_called_with(
+            userpass_config["calendar"]["calendars"][0]["username"],
+            userpass_config["calendar"]["calendars"][0]["password"],
+        )
+
     @patch(
         "custom_components.ics_calendar.calendar.hanow",
-        return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+        return_value=dtparser.parse("2021-01-03T00:00:01Z"),
     )
     @patch(
         "homeassistant.util.dt.now",
-        return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+        return_value=dtparser.parse("2021-01-03T00:00:01Z"),
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
@@ -158,51 +270,18 @@ class TestCalendar:
         mock_set_content.assert_called_with(
             _mocked_calendar_data("tests/allday.ics")
         )
-        mock_set_content.reset()
+        mock_set_content.reset_mock()
 
         events = await get_api_events("calendar.noallday")
         assert len(events) == len(mock_event_list())
         mock_set_content.assert_called_with(
             _mocked_calendar_data("tests/allday.ics")
         )
+        mock_set_content.reset_mock()
 
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_user_name_password",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
-        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
-        ".get_current_event",
-        return_value=_mocked_event(),
-    )
-    async def test_calendar_setup_userpass(
-        self,
-        mock_event,
-        mock_get,
-        mock_download,
-        mock_sup,
-        hass,
-        userpass_config,
-    ):
-        """Test basic setup of platform with user name and password."""
-        assert await async_setup_component(hass, "calendar", userpass_config)
-        await hass.async_block_till_done()
-
-        state = hass.states.get("calendar.userpass")
-        assert state.name == "userpass"
-        mock_sup.assert_called_with(
-            userpass_config["calendar"]["calendars"][0]["username"],
-            userpass_config["calendar"]["calendars"][0]["password"],
-        )
+        events = await get_api_events("calendar.noallday")
+        assert len(events) == len(mock_event_list())
+        mock_set_content.assert_not_called()
 
     @pytest.mark.parametrize(
         "set_tz", ["utc", "chicago", "baghdad"], indirect=True

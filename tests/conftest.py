@@ -58,7 +58,7 @@ def old_allday_config():
             "platform": PLATFORM,
             "calendars": [
                 {
-                    "name": "allday",
+                    "name": "old_allday",
                     "url": "http://test.local/tests/allday.ics",
                     "includeAllDay": "true",
                     "days": "1",
