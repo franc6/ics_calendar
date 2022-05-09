@@ -1,7 +1,7 @@
 """Support for ics parser."""
 import re
 from datetime import date, datetime, timedelta
-from typing import Union
+from typing import Optional, Union
 
 from arrow import Arrow, get as arrowget
 from homeassistant.components.calendar import CalendarEvent
@@ -42,7 +42,7 @@ class ParserICS(ICalendarParser):
         :param include_all_day if true, all day events will be included.
         :type boolean
         :returns a list of events, or an empty list
-        :rtype list
+        :rtype list[CalendarEvent]
         """
         event_list = []
 
@@ -69,15 +69,13 @@ class ParserICS(ICalendarParser):
                     location=event.location,
                     description=event.description,
                 )
-                # Note that we return a formatted date for start and end here,
-                # but a different format for get_current_event!
                 event_list.append(calendar_event)
 
         return event_list
 
     def get_current_event(
         self, include_all_day: bool, now: datetime, days: int
-    ) -> CalendarEvent:
+    ) -> Optional[CalendarEvent]:
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
@@ -88,7 +86,7 @@ class ParserICS(ICalendarParser):
         :type datetime
         :param days the number of days to check for an upcoming event
         :type int
-        :returns an event or None
+        :returns a CalendarEvent or None
         """
         if self._calendar is None:
             return None
@@ -118,7 +116,7 @@ class ParserICS(ICalendarParser):
         )
 
     @staticmethod
-    def is_event_newer(check_event, event):
+    def is_event_newer(check_event, event) -> bool:
         """Determine if check_event is newer than event."""
         return check_event is None or (
             check_event.end > event.end and check_event.begin <= event.begin

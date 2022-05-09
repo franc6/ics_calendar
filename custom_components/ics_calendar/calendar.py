@@ -249,7 +249,7 @@ class ICSCalendarData:
 
     async def async_get_events(
         self, hass: HomeAssistant, start_date: datetime, end_date: datetime
-    ):
+    ) -> list[CalendarEvent]:
         """Get all events in a specific time frame.
 
         :param hass: Home Assistant object
