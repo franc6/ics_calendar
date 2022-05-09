@@ -1,4 +1,4 @@
-## 3.0.0 2022/05/XX
+## 3.0.0 2022/05/09
 - Refactored to use new CalendarEvent and CalendarEntity classes from HA
 
 ## 2.9.0 2022/04/19
