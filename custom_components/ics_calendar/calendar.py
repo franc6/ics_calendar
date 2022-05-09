@@ -2,15 +2,16 @@
 import copy
 import logging
 from datetime import datetime, timedelta
+from typing import Optional
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.calendar import (
     ENTITY_ID_FORMAT,
     PLATFORM_SCHEMA,
-    CalendarEventDevice,
+    CalendarEntity,
+    CalendarEvent,
     extract_offset,
-    get_date,
     is_offset_reached,
 )
 from homeassistant.const import (
@@ -117,16 +118,16 @@ def setup_platform(
             )
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
-        calendar_devices.append(ICSCalendarEventDevice(entity_id, device_data))
+        calendar_devices.append(ICSCalendarEntity(entity_id, device_data))
 
     add_entities(calendar_devices)
 
 
-class ICSCalendarEventDevice(CalendarEventDevice):  # pylint: disable=R0902
-    """A device for getting the next Task from an ICS Calendar."""
+class ICSCalendarEntity(CalendarEntity):
+    """A CalendarEntity for an ICS Calendar."""
 
     def __init__(self, entity_id: str, device_data):
-        """Construct ICSCalendarEventDevice.
+        """Construct ICSCalendarEntity.
 
         :param entity_id: Entity id for the calendar
         :type entity_id: str
@@ -138,12 +139,11 @@ class ICSCalendarEventDevice(CalendarEventDevice):  # pylint: disable=R0902
         self.entity_id = entity_id
         self._event = None
         self._name = device_data[CONF_NAME]
-        self._offset_reached = False
         self._last_call = None
         self._last_event_list = None
 
     @property
-    def event(self):
+    def event(self) -> Optional[CalendarEvent]:
         """Return the current event for the calendar entity or None.
 
         :return: The current event as a dict
@@ -177,7 +177,7 @@ class ICSCalendarEventDevice(CalendarEventDevice):  # pylint: disable=R0902
 
     async def async_get_events(
         self, hass: HomeAssistant, start_date: datetime, end_date: datetime
-    ):
+    ) -> list[CalendarEvent]:
         """Get all events in a specific time frame.
 
         :param hass: Home Assistant object
@@ -209,12 +209,12 @@ class ICSCalendarEventDevice(CalendarEventDevice):  # pylint: disable=R0902
         if event is None:
             self._event = event
             return
-        [summary, offset] = extract_offset(event["summary"], OFFSET)
-        event["summary"] = summary
+        [summary, offset] = extract_offset(event.summary, OFFSET)
+        event.summary = summary
         self._event = event
         self._attr_extra_state_attributes = {
             "offset_reached": is_offset_reached(
-                get_date(event["start"]), offset
+                event.start_datetime_local, offset
             )
         }
 
@@ -247,7 +247,9 @@ class ICSCalendarData:
                 device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
             )
 
-    async def async_get_events(self, hass, start_date, end_date):
+    async def async_get_events(
+        self, hass: HomeAssistant, start_date: datetime, end_date: datetime
+    ):
         """Get all events in a specific time frame.
 
         :param hass: Home Assistant object
@@ -264,12 +266,11 @@ class ICSCalendarData:
             _LOGGER.debug("%s: Setting calendar content", self.name)
             self.parser.set_content(self._calendar_data.get())
         try:
-            events = self.parser.get_event_list(
+            event_list = self.parser.get_event_list(
                 start=start_date,
                 end=end_date,
                 include_all_day=self.include_all_day,
             )
-            event_list = list(map(self.format_dates, events))
         except:  # pylint: disable=W0702
             _LOGGER.error(
                 "async_get_events: %s: Failed to parse ICS!",
@@ -301,64 +302,12 @@ class ICSCalendarData:
             _LOGGER.debug(
                 "%s: got event: %s; start: %s; end: %s; all_day: %s",
                 self.name,
-                self.event["summary"],
-                self.event["start"],
-                self.event["end"],
-                self.event["all_day"],
-            )
-            self.event["start"] = self.get_hass_date(
-                self.event["start"], self.event["all_day"]
-            )
-            self.event["end"] = self.get_hass_date(
-                self.event["end"], self.event["all_day"]
+                self.event.summary,
+                self.event.start,
+                self.event.end,
+                self.event.all_day,
             )
             return True
 
         _LOGGER.debug("%s: No event found!", self.name)
         return False
-
-    def format_dates(self, event):
-        """Format the dates in the event for HA.
-
-        :param event: The event
-        :return: The event with the dates and times formatted as a string.
-        """
-        event["start"] = self.get_date_formatted(
-            event["start"], event["all_day"]
-        )
-        event["end"] = self.get_date_formatted(event["end"], event["all_day"])
-        return event
-
-    def get_date_formatted(  # pylint: disable=R0201
-        self, date_time: datetime, is_all_day: bool
-    ) -> str:
-        """Return the formatted date.
-
-        :param date_time The datetime to be formatted
-        :type date_time datetime
-        :param is_all_day True if this is an all day event
-        :type is_all_day bool
-        :returns The datetime formatted as a date and time if is_all_day is
-            false, or the datetime formatted as a date.
-        :rtype str
-        """
-        # Note that all day events should have a time of 0, and the timezone
-        # must be local.
-        if is_all_day:
-            return date_time.strftime("%Y-%m-%d")
-
-        return date_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-
-    def get_hass_date(self, date_time, is_all_day: bool):
-        """Return the wrapped and formatted date.
-
-        :param date_time The datetime or date
-        :type date_time datetime or date
-        :param is_all_day True if this is an all day event
-        :type is_all_day bool
-        :returns An object with the date or date and time, which indicates if
-            it's a date only or a date and time.
-        """
-        if is_all_day:
-            return {"date": self.get_date_formatted(date_time, is_all_day)}
-        return {"dateTime": self.get_date_formatted(date_time, is_all_day)}

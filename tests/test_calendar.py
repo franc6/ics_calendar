@@ -71,8 +71,8 @@ def _mocked_event_allday():
     """Provide fixture to mock a single all day event."""
     return {
         "summary": "Test event",
-        "start": dtparser.parse("2022-01-03"),
-        "end": dtparser.parse("2022-01-04"),
+        "start": dtparser.parse("2022-01-03").date(),
+        "end": dtparser.parse("2022-01-04").date(),
         "location": "Test location",
         "description": "Test description",
         "all_day": True,
@@ -394,8 +394,6 @@ class TestCalendar:
         # Make a deep copy into mocked_event now, so we can use it with
         # strftime later.
         mocked_event = copy.deepcopy(mock_event())
-        mocked_event["start"] = hadt.as_local(mocked_event["start"])
-        mocked_event["end"] = hadt.as_local(mocked_event["end"])
 
         mock_dt_now.return_value = hadt.as_local(
             dtparser.parse("2022-01-03T00:00:01")
@@ -411,8 +409,8 @@ class TestCalendar:
 
         assert dict(state.attributes) == {
             "message": mocked_event["summary"],
-            "start_time": mocked_event["start"].strftime("%Y-%m-%d %H:%M:%S"),
-            "end_time": mocked_event["end"].strftime("%Y-%m-%d %H:%M:%S"),
+            "start_time": mocked_event["start"],
+            "end_time": mocked_event["end"],
             "all_day": mocked_event["all_day"],
             "friendly_name": "noallday",
             "location": mocked_event["location"],

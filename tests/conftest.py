@@ -132,6 +132,8 @@ def datetime_hook(pairs):
         if isinstance(value, str):
             try:
                 _dict[key] = dtparser.parse(value)
+                if "T" not in value:
+                    _dict[key] = _dict[key].date()
             except ValueError:
                 _dict[key] = value
         else:
@@ -234,4 +236,4 @@ def compare_event(expected, actual):
     for key in expected.keys():
         assert expected is not None
         assert actual is not None
-        assert expected[key] == actual[key]
+        assert expected[key] == getattr(actual, key)

@@ -1,3 +1,6 @@
+## 3.0.0 2022/05/XX
+- Refactored to use new CalendarEvent and CalendarEntity classes from HA
+
 ## 2.9.0 2022/04/19
 - Significant refactoring to change how data is cached and when; should resolve #38
 - Added new option, download_interval to set the time between downloading the calendar.  Set to a multiple of 15.

@@ -1,6 +1,9 @@
 """Provide ICalendarParser class."""
 import importlib
 from datetime import datetime
+from typing import Optional
+
+from homeassistant.components.calendar import CalendarEvent
 
 
 class ICalendarParser:
@@ -44,7 +47,7 @@ class ICalendarParser:
         start: datetime,
         end: datetime,
         include_all_day: bool,
-    ) -> list:
+    ) -> list[CalendarEvent]:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
@@ -56,12 +59,12 @@ class ICalendarParser:
         :param include_all_day if true, all day events will be included.
         :type include_all_day boolean
         :returns a list of events, or an empty list
-        :rtype list
+        :rtype list[CalendarEvent]
         """
 
     def get_current_event(
         self, include_all_day: bool, now: datetime, days: int
-    ):
+    ) -> Optional[CalendarEvent]:
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
@@ -72,5 +75,5 @@ class ICalendarParser:
         :type now datetime
         :param days the number of days to check for an upcoming event
         :type days int
-        :returns an event or None
+        :returns a CalendarEvent or None
         """

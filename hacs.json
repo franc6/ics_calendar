@@ -1,5 +1,5 @@
 {
     "domains": [ "ics_calendar" ],
-    "homeassistant": "2022.4.0b0",
+    "homeassistant": "2022.5.0",
     "name": "ICS Calendar (iCalendar)"
 }

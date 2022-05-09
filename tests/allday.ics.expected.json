@@ -2,26 +2,26 @@
     {
         "all_day": true,
         "summary": "1 All Day, No Times, No Time Zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-04T00:00:00-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-04"
     },
     {
         "all_day": true,
         "summary": "2 All Day, Time, No Time Zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-04T00:00:00-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-04"
     },
     {
         "all_day": true,
         "summary": "3 All Day, No Times, TZID, current time zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-04T00:00:00-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-04"
     },
     {
         "all_day": true,
         "summary": "4 All Day, Time, TZID, current time zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-04T00:00:00-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-04"
     },
     {
         "all_day": false,
@@ -38,20 +38,20 @@
     {
         "all_day": true,
         "summary": "7 All Day, 00:00:00 - 23:59:59, No Time Zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-03T23:59:59-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-03"
     },
     {
         "all_day": true,
         "summary": "8 All Day, No Time, No End, No Time Zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-04T00:00:00-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-04"
     },
     {
         "all_day": true,
         "summary": "9 All Day, Time, No End, No Time Zone",
-        "start": "2022-01-03T00:00:00-05:00",
-        "end": "2022-01-04T00:00:00-05:00"
+        "start": "2022-01-03",
+        "end": "2022-01-04"
     },
     {
         "all_day": false,

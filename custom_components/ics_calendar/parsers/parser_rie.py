@@ -1,7 +1,9 @@
 """Support for recurring_ical_events parser."""
 from datetime import date, datetime, timedelta
+from typing import Union
 
 import recurring_ical_events as rie
+from homeassistant.components.calendar import CalendarEvent
 from icalendar import Calendar
 
 from ..icalendarparser import ICalendarParser
@@ -28,7 +30,7 @@ class ParserRIE(ICalendarParser):
 
     def get_event_list(
         self, start: datetime, end: datetime, include_all_day: bool
-    ) -> str:
+    ) -> list[CalendarEvent]:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
@@ -51,28 +53,22 @@ class ParserRIE(ICalendarParser):
                 if all_day and not include_all_day:
                     continue
 
-                uid = None
-                if event.get("UID"):
-                    uid = event.get("UID")
-
-                data = {
-                    "uid": uid,
-                    "summary": event.get("SUMMARY"),
-                    "start": start,
-                    "end": end,
-                    "location": event.get("LOCATION"),
-                    "description": event.get("DESCRIPTION"),
-                    "all_day": all_day,
-                }
+                calendar_event = CalendarEvent(
+                    summary=event.get("SUMMARY"),
+                    start=start,
+                    end=end,
+                    location=event.get("LOCATION"),
+                    description=event.get("DESCRIPTION"),
+                )
                 # Note that we return a formatted date for start and end here,
                 # but a different format for get_current_event!
-                event_list.append(data)
+                event_list.append(calendar_event)
 
         return event_list
 
     def get_current_event(
         self, include_all_day: bool, now: datetime, days: int
-    ):
+    ) -> CalendarEvent:
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
@@ -100,19 +96,17 @@ class ParserRIE(ICalendarParser):
                 temp_event = event
                 temp_start = start
                 temp_end = end
-                temp_all_day = all_day
 
         if temp_event is None:
             return None
 
-        return {
-            "summary": temp_event.get("SUMMARY"),
-            "start": temp_start,
-            "end": temp_end,
-            "location": temp_event.get("LOCATION"),
-            "description": temp_event.get("DESCRIPTION"),
-            "all_day": temp_all_day,
-        }
+        return CalendarEvent(
+            summary=temp_event.get("SUMMARY"),
+            start=temp_start,
+            end=temp_end,
+            location=temp_event.get("LOCATION"),
+            description=temp_event.get("DESCRIPTION"),
+        )
 
     @staticmethod
     def is_event_newer(end2, start2, end, start):
@@ -120,7 +114,7 @@ class ParserRIE(ICalendarParser):
         return start2 is None or (end2 > end and start <= start2)
 
     @staticmethod
-    def get_date(date_time) -> datetime:
+    def get_date(date_time) -> Union[datetime, date]:
         """Get datetime with timezone information.
 
         If a date object is passed, it will first have a time component added,
@@ -153,6 +147,9 @@ class ParserRIE(ICalendarParser):
         if diff in {self.oneday, self.oneday2} and all(
             x == 0 for x in [start.hour, start.minute, start.second]
         ):
+            # if all_day, start and end must be date, not datetime!
+            start = start.date()
+            end = end.date()
             all_day = True
 
         return start, end, all_day
