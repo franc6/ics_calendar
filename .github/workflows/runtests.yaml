@@ -33,7 +33,7 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest --allow-unix-socket --cov=custom_components.ics_calendar --cov-report xml tests/
+          pytest --allow-unix-socket --cov=custom_components.ics_calendar --cov-branch --cov-report xml tests/
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
