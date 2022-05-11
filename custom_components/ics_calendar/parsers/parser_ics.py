@@ -134,9 +134,9 @@ class ParserICS(ICalendarParser):
         :returns The datetime.
         :rtype datetime
         """
-        if isinstance(arw, Arrow):
-            if is_all_day:
-                return arw.date()
+        # if isinstance(arw, Arrow):
+        if is_all_day:
+            return arw.date()
         # else:
         # if arw.tzinfo is None or arw.tzinfo.utcoffset(arw) is None
         #     or is_all_day:
