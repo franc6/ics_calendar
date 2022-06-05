@@ -141,6 +141,8 @@ class ICSCalendarEntity(CalendarEntity):
         self._name = device_data[CONF_NAME]
         self._last_call = None
         self._last_event_list = None
+        self._last_start_date = None
+        self._last_end_date = None
 
     @property
     def event(self) -> Optional[CalendarEvent]:
@@ -191,12 +193,16 @@ class ICSCalendarEntity(CalendarEntity):
         if (
             self._last_event_list is None
             or self._last_call is None
+            or self._last_start_date != start_date
+            or self._last_end_date != end_date
             or (this_call - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
             _LOGGER.debug(
                 "%s: async_get_events called; calling internal.", self.name
             )
             self._last_call = this_call
+            self._last_start_date = start_date
+            self._last_end_date = end_date
             self._last_event_list = await self.data.async_get_events(
                 hass, start_date, end_date
             )
