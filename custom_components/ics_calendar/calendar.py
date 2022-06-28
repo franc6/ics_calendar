@@ -1,5 +1,4 @@
 """Support for ICS Calendar."""
-import copy
 import logging
 from datetime import datetime, timedelta
 from typing import Optional
@@ -193,16 +192,10 @@ class ICSCalendarEntity(CalendarEntity):
     def update(self):
         """Get the current or next event."""
         self.data.update()
-        event = copy.deepcopy(self.data.event)
-        if event is None:
-            self._event = event
-            return
-        [summary, offset] = extract_offset(event.summary, OFFSET)
-        event.summary = summary
-        self._event = event
+        self._event = self.data.event
         self._attr_extra_state_attributes = {
             "offset_reached": is_offset_reached(
-                event.start_datetime_local, offset
+                self._event.start_datetime_local, self.data.offset
             )
         }
 
@@ -219,6 +212,7 @@ class ICSCalendarData:
         self._days = device_data[CONF_DAYS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
+        self.offset = None
         self.event = None
         self._calendar_data = CalendarData(
             _LOGGER,
@@ -295,6 +289,9 @@ class ICSCalendarData:
                 self.event.end,
                 self.event.all_day,
             )
+            (summary, offset) = extract_offset(self.event.summary, OFFSET)
+            self.event.summary = summary
+            self.offset = offset
             return True
 
         _LOGGER.debug("%s: No event found!", self.name)
