@@ -140,7 +140,6 @@ class ICSCalendarEntity(CalendarEntity):
         self._event = None
         self._name = device_data[CONF_NAME]
         self._last_call = None
-        self._last_event_list = None
 
     @property
     def event(self) -> Optional[CalendarEvent]:
@@ -167,8 +166,7 @@ class ICSCalendarEntity(CalendarEntity):
         """
         this_call = hanow()
         if (
-            self._last_event_list is None
-            or self._last_call is None
+            self._last_call is None
             or (this_call - self._last_call) > MIN_TIME_BETWEEN_UPDATES
         ):
             self._last_call = this_call
@@ -187,20 +185,10 @@ class ICSCalendarEntity(CalendarEntity):
         :param end_date: The last starting date to consider
         :type end_date: datetime
         """
-        this_call = hanow()
-        if (
-            self._last_event_list is None
-            or self._last_call is None
-            or (this_call - self._last_call) > MIN_TIME_BETWEEN_UPDATES
-        ):
-            _LOGGER.debug(
-                "%s: async_get_events called; calling internal.", self.name
-            )
-            self._last_call = this_call
-            self._last_event_list = await self.data.async_get_events(
-                hass, start_date, end_date
-            )
-        return self._last_event_list
+        _LOGGER.debug(
+            "%s: async_get_events called; calling internal.", self.name
+        )
+        return await self.data.async_get_events(hass, start_date, end_date)
 
     def update(self):
         """Get the current or next event."""

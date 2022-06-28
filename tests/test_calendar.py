@@ -274,11 +274,6 @@ class TestCalendar:
         mock_set_content.assert_called_with(
             _mocked_calendar_data("tests/allday.ics")
         )
-        mock_set_content.reset_mock()
-
-        events = await get_api_events("calendar.noallday")
-        assert len(events) == len(mock_event_list())
-        mock_set_content.assert_not_called()
 
     @pytest.mark.parametrize(
         "set_tz", ["utc", "chicago", "baghdad"], indirect=True
