@@ -1,3 +1,6 @@
+## 3.0.2 2022/06/30
+- Updated dependencies
+
 ## 3.0.1 2022/06/28
 - Fixed #54 which I believe was introduced by PR 71887 of home-assisstant/core. This fix reduces some of the aggressive caching, since the HA calendar code now behaves differently. Given the changes, caching the result of async_get_events is undesirable.
 - This may also fix #56
