@@ -197,6 +197,8 @@ class ICSCalendarEntity(CalendarEntity):
             "offset_reached": is_offset_reached(
                 self._event.start_datetime_local, self.data.offset
             )
+            if self._event
+            else False
         }
 
 

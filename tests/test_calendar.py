@@ -450,6 +450,7 @@ class TestCalendar:
         assert state.state == STATE_OFF
         assert dict(state.attributes) == {
             "friendly_name": "noallday",
+            "offset_reached": False,
         }
 
     @pytest.mark.parametrize(
