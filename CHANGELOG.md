@@ -1,3 +1,8 @@
+## 3.0.3 2022/07/19
+- Fixed #57
+- Updated ics dependency to 0.7.2
+- Updated icalendar dependency to 4.1.0
+
 ## 3.0.2 2022/06/30
 - Updated dependencies
 
