@@ -36,7 +36,6 @@ CONF_CALENDARS = "calendars"
 CONF_DAYS = "days"
 CONF_CALENDAR = "calendar"
 CONF_INCLUDE_ALL_DAY = "include_all_day"
-CONF_INCLUDE_ALL_DAY2 = "includeAllDay"
 CONF_PARSER = "parser"
 CONF_DOWNLOAD_INTERVAL = "download_interval"
 
@@ -55,9 +54,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             vol.Required(CONF_NAME): cv.string,
                             vol.Optional(
                                 CONF_INCLUDE_ALL_DAY, default=False
-                            ): cv.boolean,
-                            vol.Optional(
-                                CONF_INCLUDE_ALL_DAY2, default=False
                             ): cv.boolean,
                             vol.Optional(CONF_USERNAME, default=""): cv.string,
                             vol.Optional(CONF_PASSWORD, default=""): cv.string,
@@ -104,17 +100,13 @@ def setup_platform(
         device_data = {
             CONF_NAME: calendar.get(CONF_NAME),
             CONF_URL: calendar.get(CONF_URL),
-            CONF_INCLUDE_ALL_DAY: calendar.get(CONF_INCLUDE_ALL_DAY2),
+            CONF_INCLUDE_ALL_DAY: calendar.get(CONF_INCLUDE_ALL_DAY),
             CONF_USERNAME: calendar.get(CONF_USERNAME),
             CONF_PASSWORD: calendar.get(CONF_PASSWORD),
             CONF_PARSER: calendar.get(CONF_PARSER),
             CONF_DAYS: calendar.get(CONF_DAYS),
             CONF_DOWNLOAD_INTERVAL: calendar.get(CONF_DOWNLOAD_INTERVAL),
         }
-        if calendar.get(CONF_INCLUDE_ALL_DAY):
-            device_data[CONF_INCLUDE_ALL_DAY] = calendar.get(
-                CONF_INCLUDE_ALL_DAY
-            )
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
         calendar_devices.append(ICSCalendarEntity(entity_id, device_data))

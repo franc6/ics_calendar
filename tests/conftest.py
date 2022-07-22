@@ -51,24 +51,6 @@ def get_api_events(hass_client):
 
 
 @pytest.fixture()
-def old_allday_config():
-    """Provide fixture for config that includes allday events."""
-    return {
-        "calendar": {
-            "platform": PLATFORM,
-            "calendars": [
-                {
-                    "name": "old_allday",
-                    "url": "http://test.local/tests/allday.ics",
-                    "includeAllDay": "true",
-                    "days": "1",
-                }
-            ],
-        }
-    }
-
-
-@pytest.fixture()
 def allday_config():
     """Provide fixture for config that includes allday events."""
     return {

@@ -165,42 +165,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    async def test_calendar_setup_old_all_day(
-        self,
-        mock_event,
-        mock_get,
-        mock_download,
-        mock_sup,
-        hass,
-        old_allday_config,
-    ):
-        """Test basic setup of platform with user name and password."""
-        assert await async_setup_component(hass, "calendar", old_allday_config)
-        await hass.async_block_till_done()
-
-        state = hass.states.get("calendar.old_allday")
-        assert state.name == "old_allday"
-
-        mock_event.assert_called_with(include_all_day=True, now=ANY, days=ANY)
-
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_user_name_password",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
-        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
-        ".get_current_event",
-        return_value=_mocked_event(),
-    )
     async def test_calendar_setup_userpass(
         self,
         mock_event,
