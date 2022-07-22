@@ -49,8 +49,10 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
-`days` | `positive integer` | 1 | The number of days to look ahead (only affects the attributes of the calendar entity)
-`download_interval` | `positive integer` | 15 | The time between downloading new calendar data, in minutes; values above 15 are not recommended
+`days` | `positive integer` | `False` | The number of days to look ahead (only affects the attributes of the calendar entity), default is 1
+`download_interval` | `positive integer` | `False` | The time between downloading new calendar data, in minutes, default is 15
+`exclude` | `string` | `False` | Allows for filtering of events, see below
+`include` | `string` | `False` | Allows for filtering of events, see below
 `include_all_day` | `boolean` | `False` | Set to True if all day events should be included
 `parser` | `string` | `False` | 'rie' or 'ics', defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
@@ -72,5 +74,29 @@ In Version 2.5 and later, a new parser, "rie" is the default.  Like "icalevents"
 Starting with version 2.7, "icalevents" is no longer available.  If you have specified icalevents as the parser, please change it to rie or ics.
 
 As a general rule, I recommend sticking with the "rie" parser, which is the default.  If you see parsing errors, you can try switching to "ics" for the calendar with the parsing errors.
+
+## Filters
+The new exclude and include options allow for filtering events in the calendar.  This is a string representation of an array of strings or regular expressions.  They are used as follows:
+
+The exclude filters are applied first, searching in the summary and description only.  If an event is excluded by the exclude filters, the include filters will be checked to determine if the event should be included anyway.
+
+Regular expressions can be used, by surrounding the string with slashes (/).  You can also specify case insensitivity, multi-line match, and dotall matches by appending i, m, or s (respectively) after the ending slash.  If you don't understand what that means, you probably just want to stick with plain string matching.  For example, if you specify "['/^test/i']" as your exclude filter, then any event whose summary or description starts with "test", "Test", "TEST", etc. will be excluded.
+
+For plain string matching, the string will be searched for in a case insensitive manner.  For example, if you specify "['test']" for your exclude filter, any event whose summary or description contains "test", "Test", "TEST", etc. will be excluded.  Since this is not a whole-word match, this means if the summary or description contains "testing" or "stesting", the event will be excluded.
+
+You can also include multiple entries for exclude or include.
+
+### Examples
+```yaml
+calendar:
+- platform: ics_calendar
+  calendars:
+      - name: "Name of calendar"
+        url: "https://url.to/calendar.ics"
+        exclude: "['test', '/^regex$/']"
+        include: "['keepme']"
+```
+
+This example will exclude any event whose summary or description includes "test" in a case insensitive manner, or if the summary or description is "regex".  However, if the summary or description includes "keepme" (case insensitive), the event will be included anyway.
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
