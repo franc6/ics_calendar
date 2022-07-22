@@ -6,6 +6,7 @@ import recurring_ical_events as rie
 from homeassistant.components.calendar import CalendarEvent
 from icalendar import Calendar
 
+from ..filter import Filter
 from ..icalendarparser import ICalendarParser
 
 
@@ -17,6 +18,7 @@ class ParserRIE(ICalendarParser):
         self._calendar = None
         self.oneday = timedelta(days=1)
         self.oneday2 = timedelta(hours=23, minutes=59, seconds=59)
+        self._filter = Filter("", "")
 
     def set_content(self, content: str):
         """Parse content into a calendar object.
@@ -27,6 +29,16 @@ class ParserRIE(ICalendarParser):
         :type content str
         """
         self._calendar = Calendar.from_ical(content)
+
+    def set_filter(self, exclude: str, include: str):
+        """Creates a Filter object to filter events
+
+        :param exclude: The exclude rules
+        :type exclude: str
+        :param include: The include rules
+        :type include: str
+        """
+        self._filter = Filter(exclude, include)
 
     def get_event_list(
         self, start: datetime, end: datetime, include_all_day: bool
@@ -60,11 +72,12 @@ class ParserRIE(ICalendarParser):
                     location=event.get("LOCATION"),
                     description=event.get("DESCRIPTION"),
                 )
-                event_list.append(calendar_event)
+                if self._filter.filter_event(calendar_event):
+                    event_list.append(calendar_event)
 
         return event_list
 
-    def get_current_event(
+    def get_current_event(  # noqa: R701
         self, include_all_day: bool, now: datetime, days: int
     ) -> Optional[CalendarEvent]:
         """Get the current or next event.
@@ -88,6 +101,11 @@ class ParserRIE(ICalendarParser):
             start, end, all_day = self.is_all_day(event)
 
             if all_day and not include_all_day:
+                continue
+
+            if not self._filter.filter(
+                event.get("SUMMARY"), event.get("DESCRIPTION")
+            ):
                 continue
 
             if ParserRIE.is_event_newer(temp_end, temp_start, end, start):

@@ -42,6 +42,15 @@ class ICalendarParser:
         :type content str
         """
 
+    def set_filter(self, exclude: str, include: str):
+        """Sets a filter for the parser, with the given exclude and include rules
+
+        :param exclude: The exclude rules
+        :type exclude: str
+        :param include: The include rules
+        :type include: str
+        """
+
     def get_event_list(
         self,
         start: datetime,

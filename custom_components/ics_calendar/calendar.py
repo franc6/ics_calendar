@@ -14,6 +14,8 @@ from homeassistant.components.calendar import (
     is_offset_reached,
 )
 from homeassistant.const import (
+    CONF_EXCLUDE,
+    CONF_INCLUDE,
     CONF_NAME,
     CONF_PASSWORD,
     CONF_URL,
@@ -70,6 +72,8 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             vol.Optional(
                                 CONF_USER_AGENT, default=""
                             ): cv.string,
+                            vol.Optional(CONF_EXCLUDE, default=""): cv.string,
+                            vol.Optional(CONF_INCLUDE, default=""): cv.string,
                         }
                     )
                 ]
@@ -111,6 +115,8 @@ def setup_platform(
             CONF_DAYS: calendar.get(CONF_DAYS),
             CONF_DOWNLOAD_INTERVAL: calendar.get(CONF_DOWNLOAD_INTERVAL),
             CONF_USER_AGENT: calendar.get(CONF_USER_AGENT),
+            CONF_EXCLUDE: calendar.get(CONF_EXCLUDE),
+            CONF_INCLUDE: calendar.get(CONF_INCLUDE),
         }
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -217,6 +223,10 @@ class ICSCalendarData:
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.offset = None
         self.event = None
+        self.parser.set_filter(
+            device_data[CONF_EXCLUDE], device_data[CONF_INCLUDE]
+        )
+
         self._calendar_data = CalendarData(
             _LOGGER,
             self.name,

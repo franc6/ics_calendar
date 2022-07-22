@@ -7,6 +7,7 @@ from arrow import Arrow, get as arrowget
 from homeassistant.components.calendar import CalendarEvent
 from ics import Calendar
 
+from ..filter import Filter
 from ..icalendarparser import ICalendarParser
 
 
@@ -17,6 +18,7 @@ class ParserICS(ICalendarParser):
         """Construct ParserICS."""
         self._re_method = re.compile("^METHOD:.*$", flags=re.MULTILINE)
         self._calendar = None
+        self._filter = Filter("", "")
 
     def set_content(self, content: str):
         """Parse content into a calendar object.
@@ -27,6 +29,16 @@ class ParserICS(ICalendarParser):
         :type content str
         """
         self._calendar = Calendar(re.sub(self._re_method, "", content))
+
+    def set_filter(self, exclude: str, include: str):
+        """Creates a Filter object to filter events
+
+        :param exclude: The exclude rules
+        :type exclude: str
+        :param include: The include rules
+        :type include: str
+        """
+        self._filter = Filter(exclude, include)
 
     def get_event_list(
         self, start, end, include_all_day: bool
@@ -69,11 +81,12 @@ class ParserICS(ICalendarParser):
                     location=event.location,
                     description=event.description,
                 )
-                event_list.append(calendar_event)
+                if self._filter.filter_event(calendar_event):
+                    event_list.append(calendar_event)
 
         return event_list
 
-    def get_current_event(
+    def get_current_event(  # noqa: $701
         self, include_all_day: bool, now: datetime, days: int
     ) -> Optional[CalendarEvent]:
         """Get the current or next event.
@@ -98,6 +111,10 @@ class ParserICS(ICalendarParser):
         ):
             if event.all_day and not include_all_day:
                 continue
+
+            if not self._filter.filter(event.name, event.description):
+                continue
+
             if ParserICS.is_event_newer(temp_event, event):
                 temp_event = event
 
