@@ -1,3 +1,9 @@
+## 3.1.0 2022/07/22
+- Added new exclude/include filters (See README.md)
+- Added new user_agent option
+### Breaking Change!
+- As previously noted, "includeAllDay" was deprecated with v2.9.0.  This version removes support for it. Please use "include_all_day" instead!
+
 ## 3.0.3 2022/07/19
 - Fixed #57
 - Updated ics dependency to 0.7.2
