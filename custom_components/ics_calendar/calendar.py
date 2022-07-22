@@ -38,6 +38,7 @@ CONF_CALENDAR = "calendar"
 CONF_INCLUDE_ALL_DAY = "include_all_day"
 CONF_PARSER = "parser"
 CONF_DOWNLOAD_INTERVAL = "download_interval"
+CONF_USER_AGENT = "user_agent"
 
 OFFSET = "!!"
 
@@ -66,6 +67,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             vol.Optional(
                                 CONF_DOWNLOAD_INTERVAL, default=15
                             ): cv.positive_int,
+                            vol.Optional(
+                                CONF_USER_AGENT, default=""
+                            ): cv.string,
                         }
                     )
                 ]
@@ -106,6 +110,7 @@ def setup_platform(
             CONF_PARSER: calendar.get(CONF_PARSER),
             CONF_DAYS: calendar.get(CONF_DAYS),
             CONF_DOWNLOAD_INTERVAL: calendar.get(CONF_DOWNLOAD_INTERVAL),
+            CONF_USER_AGENT: calendar.get(CONF_USER_AGENT),
         }
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -219,13 +224,11 @@ class ICSCalendarData:
             timedelta(minutes=device_data[CONF_DOWNLOAD_INTERVAL]),
         )
 
-        if (
-            device_data[CONF_USERNAME] != ""
-            and device_data[CONF_PASSWORD] != ""
-        ):
-            self._calendar_data.set_user_name_password(
-                device_data[CONF_USERNAME], device_data[CONF_PASSWORD]
-            )
+        self._calendar_data.set_headers(
+            device_data[CONF_USERNAME],
+            device_data[CONF_PASSWORD],
+            device_data[CONF_USER_AGENT],
+        )
 
     async def async_get_events(
         self, hass: HomeAssistant, start_date: datetime, end_date: datetime

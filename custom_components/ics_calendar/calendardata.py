@@ -102,22 +102,40 @@ class CalendarData:
         """
         return self._calendar_data
 
-    def set_user_name_password(self, user_name: str, password: str):
-        """Set a user name and password to use.
+    def set_headers(
+        self,
+        user_name: str,
+        password: str,
+        user_agent: str,
+    ):
+        """Set a user agent string and/or user name and password to use.
 
         The user name and password will be set into an HTTPBasicAuthHandler an
         an HTTPDigestAuthHandler.  Both are attached to a new urlopener, so
         that HTTP Basic Auth and HTTP Digest Auth will be supported when
         opening the URL.
 
+        If the user_agent parameter is not "", a User-agent header will be
+        added to the urlopener.
+
         :param user_name: The user name
         :type user_name: str
         :param password: The password
         :type password: str
+        :param user_agent: The User Agent string to use, or None for default
+        :type user_agent: str
         """
-        passman = HTTPPasswordMgrWithDefaultRealm()
-        passman.add_password(None, self.url, user_name, password)
-        basic_auth_handler = HTTPBasicAuthHandler(passman)
-        digest_auth_handler = HTTPDigestAuthHandler(passman)
-        opener = build_opener(digest_auth_handler, basic_auth_handler)
-        install_opener(opener)
+        opener = None
+        if user_name != "" and password != "":
+            passman = HTTPPasswordMgrWithDefaultRealm()
+            passman.add_password(None, self.url, user_name, password)
+            basic_auth_handler = HTTPBasicAuthHandler(passman)
+            digest_auth_handler = HTTPDigestAuthHandler(passman)
+            opener = build_opener(digest_auth_handler, basic_auth_handler)
+        else:
+            opener = build_opener()
+        if user_agent != "":
+            opener.addheaders = [("User-agent", user_agent)]
+
+        if opener is not None:
+            install_opener(opener)

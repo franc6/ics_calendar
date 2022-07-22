@@ -87,6 +87,25 @@ def noallday_config():
 
 
 @pytest.fixture()
+def useragent_config():
+    """Provide fixture for config that uses user name and password."""
+    return {
+        "calendar": {
+            "platform": PLATFORM,
+            "calendars": [
+                {
+                    "name": "useragent",
+                    "url": "http://test.local/tests/allday.ics",
+                    "include_all_day": "false",
+                    "days": "1",
+                    "user_agent": "Mozilla/5.0",
+                }
+            ],
+        }
+    }
+
+
+@pytest.fixture()
 def userpass_config():
     """Provide fixture for config that uses user name and password."""
     return {

@@ -113,7 +113,7 @@ class TestCalendar:
 
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_user_name_password",
+        ".set_headers",
         return_value=None,
     )
     @patch(
@@ -134,7 +134,7 @@ class TestCalendar:
         mock_event,
         mock_get,
         mock_download,
-        mock_sup,
+        mock_sh,
         hass,
         allday_config,
     ):
@@ -149,7 +149,46 @@ class TestCalendar:
 
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_user_name_password",
+        ".set_headers",
+        return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_useragent(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_sh,
+        hass,
+        useragent_config,
+    ):
+        """Test basic setup of platform with user name and password."""
+        assert await async_setup_component(hass, "calendar", useragent_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.useragent")
+        assert state.name == "useragent"
+        mock_sh.assert_called_with(
+            "",
+            "",
+            useragent_config["calendar"]["calendars"][0]["user_agent"],
+        )
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData"
+        ".set_headers",
         return_value=None,
     )
     @patch(
@@ -170,7 +209,7 @@ class TestCalendar:
         mock_event,
         mock_get,
         mock_download,
-        mock_sup,
+        mock_sh,
         hass,
         userpass_config,
     ):
@@ -180,9 +219,10 @@ class TestCalendar:
 
         state = hass.states.get("calendar.userpass")
         assert state.name == "userpass"
-        mock_sup.assert_called_with(
+        mock_sh.assert_called_with(
             userpass_config["calendar"]["calendars"][0]["username"],
             userpass_config["calendar"]["calendars"][0]["password"],
+            "",
         )
 
     @patch(

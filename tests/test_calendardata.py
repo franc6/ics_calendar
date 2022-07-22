@@ -82,17 +82,36 @@ class MockHTTPHandler2(HTTPHandler):
 class TestCalendarData:
     """Test the CalendarData class."""
 
-    def test_set_username_and_password(self, logger):
-        """Test setting user name and password.
+    def test_set_headers_none(self, logger):
+        """Test setting user agent"""
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        calendar_data.set_headers("", "", "")
 
-        This doesn't do much, since set_user_name_and_password has no failure
-        conditions.  We could test that it actually does what it's supposed to
-        do, except that means checking the implementation.
+    def test_set_user_agent(self, logger):
+        """Test setting user agent
+
+        This doesn't do much, since set_headers has no failure conditions.  We
+        could test that it actually does what it's supposed to do, except that
+        means checking the implementation.
         """
         calendar_data = CalendarData(
             logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
-        calendar_data.set_user_name_password("username", "password")
+        calendar_data.set_headers("", "", "Mozilla/5.0")
+
+    def test_set_username_and_password(self, logger):
+        """Test setting user name and password.
+
+        This doesn't do much, since set_headers has no failure conditions.  We
+        could test that it actually does what it's supposed to do, except that
+        means checking the implementation.
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        calendar_data.set_headers("username", "password", "")
 
     def test_get(self, logger):
         """Test get method retrieves cached data."""
