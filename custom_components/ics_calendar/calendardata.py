@@ -61,7 +61,9 @@ class CalendarData:
         ):
             self._last_download = now
             self._calendar_data = None
-            self.logger.debug("%s: Downloading calendar data", self.name)
+            self.logger.debug(
+                "%s: Downloading calendar data from: %s", self.name, self.url
+            )
             try:
                 with urlopen(self.url) as conn:
                     self._calendar_data = (
@@ -70,7 +72,10 @@ class CalendarData:
                 return self._calendar_data is not None
             except HTTPError as http_error:
                 self.logger.error(
-                    "%s: Failed to open url: %s", self.name, http_error.reason
+                    "%s: Failed to open url(%s): %s",
+                    self.name,
+                    self.url,
+                    http_error.reason,
                 )
             except ContentTooShortError as content_too_short_error:
                 self.logger.error(
