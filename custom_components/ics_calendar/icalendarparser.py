@@ -5,6 +5,8 @@ from typing import Optional
 
 from homeassistant.components.calendar import CalendarEvent
 
+from .filter import Filter
+
 
 class ICalendarParser:
     """Provide interface for various parser classes.
@@ -42,13 +44,11 @@ class ICalendarParser:
         :type content str
         """
 
-    def set_filter(self, exclude: str, include: str):
-        """Sets a filter for the parser, with the given exclude and include rules
+    def set_filter(self, filt: Filter):
+        """Sets a Filter object to filter events
 
-        :param exclude: The exclude rules
-        :type exclude: str
-        :param include: The include rules
-        :type include: str
+        :param filt: The Filter object
+        :type exclude: Filter
         """
 
     def get_event_list(

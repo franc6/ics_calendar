@@ -30,15 +30,13 @@ class ParserICS(ICalendarParser):
         """
         self._calendar = Calendar(re.sub(self._re_method, "", content))
 
-    def set_filter(self, exclude: str, include: str):
-        """Creates a Filter object to filter events
+    def set_filter(self, filt: Filter):
+        """Sets a Filter object to filter events
 
-        :param exclude: The exclude rules
-        :type exclude: str
-        :param include: The include rules
-        :type include: str
+        :param filt: The Filter object
+        :type exclude: Filter
         """
-        self._filter = Filter(exclude, include)
+        self._filter = filt
 
     def get_event_list(
         self, start, end, include_all_day: bool

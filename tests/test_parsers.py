@@ -1,4 +1,6 @@
 """Test the parsers, especially for past issues."""
+from unittest.mock import Mock
+
 import ics
 import pytest
 from dateutil import parser as dtparser
@@ -108,6 +110,25 @@ class TestParsers:
         "which_parser",
         [
             "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["allday.ics"])
+    def test_no_all_day_current_filtered(self, parser, calendar_data):
+        """Test get_current_event for a calendar excluding all day events."""
+        parser.set_content(calendar_data)
+        filt = Mock()
+        filt.filter.return_value = False
+        parser.set_filter(filt)
+        event = parser.get_current_event(
+            False, dtparser.parse("2022-01-01T00:00:00"), 31
+        )
+        assert event is None
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
             pytest.param(
                 "ics_parser",
                 # ICS 0.8 uses a different class hierarchy for ParseError
@@ -202,6 +223,27 @@ class TestParsers:
             True,
         )
         pytest.helpers.assert_event_list_size(123, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["issue34.ics"])
+    def test_with_exclude_filter(self, parser, calendar_data):
+        """Test if still fixed, issue 34."""
+        parser.set_content(calendar_data)
+        filt = Mock()
+        filt.filter_event.return_value = False
+        parser.set_filter(filt)
+        event_list = parser.get_event_list(
+            dtparser.parse("2021-01-01T00:00:00"),
+            dtparser.parse("2021-12-31T23:59:59"),
+            True,
+        )
+        pytest.helpers.assert_event_list_size(0, event_list)
 
     @pytest.mark.parametrize(
         "which_parser",

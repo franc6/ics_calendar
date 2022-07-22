@@ -29,6 +29,7 @@ from homeassistant.util import Throttle
 from homeassistant.util.dt import now as hanow
 
 from .calendardata import CalendarData
+from .filter import Filter
 from .icalendarparser import ICalendarParser
 
 _LOGGER = logging.getLogger(__name__)
@@ -221,11 +222,11 @@ class ICSCalendarData:
         self._days = device_data[CONF_DAYS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
+        self.parser.set_filter(
+            Filter(device_data[CONF_EXCLUDE], device_data[CONF_INCLUDE])
+        )
         self.offset = None
         self.event = None
-        self.parser.set_filter(
-            device_data[CONF_EXCLUDE], device_data[CONF_INCLUDE]
-        )
 
         self._calendar_data = CalendarData(
             _LOGGER,

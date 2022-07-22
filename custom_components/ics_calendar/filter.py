@@ -49,9 +49,9 @@ class Filter:
                                 re_flags |= re.MULTILINE
                             case "s":
                                 re_flags |= re.DOTALL
-                    arr.append(re.compile(expr), re_flags)
+                    arr.append(re.compile(expr, re_flags))
                 else:
-                    arr.append(re.compile(f"{rule}", re.IGNORECASE))
+                    arr.append(re.compile(rule, re.IGNORECASE))
         return arr
 
     def _is_match(
@@ -69,7 +69,7 @@ class Filter:
         :rtype: bool
         """
         for regex in regexes:
-            if regex.match(summary) or regex.match(description):
+            if regex.search(summary) or regex.search(description):
                 return True
 
         return False
