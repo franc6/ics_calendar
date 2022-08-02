@@ -1,8 +1,19 @@
+## 3.1.1 2022/08/02
+### This release is to correct 3.1.0, which should have required HA 2022.7!
+- Added new exclude/include filters (See README.md)
+- Added new user_agent option
+### Breaking Changes!
+- As previously noted, "includeAllDay" was deprecated with v2.9.0.  This version removes support for it. Please use "include_all_day" instead!
+- Python 3.10 is now required!
+- HA 2022.7 is now required!
+
 ## 3.1.0 2022/07/22
 - Added new exclude/include filters (See README.md)
 - Added new user_agent option
-### Breaking Change!
+### Breaking Changes!
 - As previously noted, "includeAllDay" was deprecated with v2.9.0.  This version removes support for it. Please use "include_all_day" instead!
+- Python 3.10 is now required!
+- HA 2022.7 is now required!
 
 ## 3.0.3 2022/07/19
 - Fixed #57
