@@ -1,7 +1,7 @@
 """Provide Filter class."""
 import re
 from ast import literal_eval
-from typing import List, Pattern
+from typing import List, Pattern, Optional
 
 from homeassistant.components.calendar import CalendarEvent
 
@@ -55,56 +55,58 @@ class Filter:
         return arr
 
     def _is_match(
-        self, summary: str, description: str, regexes: List[Pattern]
+        self, summary: str, description: Optional[str], regexes: List[Pattern]
     ) -> bool:
         """Indicates if the event matches the given list of regular expressions.
 
         :param summary: The event summary to examine
         :type summary: str
         :param description: The event description summary to examine
-        :type description: str
+        :type description: Optional[str]
         :param regexes: The regular expressions to match against
         :type regexes: List[]
         :return: True if the event matches the exclude filter
         :rtype: bool
         """
         for regex in regexes:
-            if regex.search(summary) or regex.search(description):
+            if regex.search(summary) or (
+                description and regex.search(description)
+            ):
                 return True
 
         return False
 
-    def _is_excluded(self, summary: str, description: str) -> bool:
+    def _is_excluded(self, summary: str, description: Optional[str]) -> bool:
         """Indicates if the event should be excluded
 
         :param summary: The event summary to examine
         :type summary: str
         :param description: The event description summary to examine
-        :type description: str
+        :type description: Optional[str]
         :return: True if the event matches the exclude filter
         :rtype: bool
         """
         return self._is_match(summary, description, self._exclude)
 
-    def _is_included(self, summary: str, description: str) -> bool:
+    def _is_included(self, summary: str, description: Optional[str]) -> bool:
         """Indicates if the event should be included.
 
         :param summary: The event summary to examine
         :type summary: str
         :param description: The event description summary to examine
-        :type description: str
+        :type description: Optional[str]
         :return: True if the event matches the include filter
         :rtype: bool
         """
         return self._is_match(summary, description, self._include)
 
-    def filter(self, summary: str, description: str) -> bool:
+    def filter(self, summary: str, description: Optional[str]) -> bool:
         """Checks if the event should be included or not.
 
         :param summary: The event summary to examine
         :type summary: str
         :param description: The event description summary to examine
-        :type description: str
+        :type description: Optional[str]
         :return: true if the event should be included, otherwise false
         :rtype: bool
         """
