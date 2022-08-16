@@ -1,5 +1,5 @@
 # ics_calendar
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar)
 [![Coverage](https://codecov.io/gh/franc6/ics_calendar/branch/releases/graph/badge.svg)](https://app.codecov.io/gh/franc6/ics_calendar/branch/releases)
 ![Maintained:yes](https://img.shields.io/maintenance/yes/2022.svg)
@@ -10,7 +10,7 @@ Provides an ICS (icalendar) platform for the Home Assistant calendar
 > **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
 
 ## Installation
-You can install this through [HACS](https://github.com/custom-components/hacs) by adding https://github.com/franc6/ics_calendar as a custom repository.
+You can install this through [HACS](https://github.com/custom-components/hacs).
 
 Otherwise, you can install it manually.
 
