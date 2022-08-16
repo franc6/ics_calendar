@@ -1,7 +1,7 @@
 """Provide Filter class."""
 import re
 from ast import literal_eval
-from typing import List, Pattern, Optional
+from typing import List, Optional, Pattern
 
 from homeassistant.components.calendar import CalendarEvent
 
