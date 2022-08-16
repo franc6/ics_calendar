@@ -92,12 +92,12 @@ ion""",
     def test_filter_regex_exclude_multiline(self) -> None:
         filt = Filter("['/cript-$/m']", "")
         assert (
-                filt.filter(
-                    "summary",
-                    """descript-
+            filt.filter(
+                "summary",
+                """descript-
     ion""",
-                )
-                is False
+            )
+            is False
         )
 
     def test_filter_regex_exclude_multiline_dotall(self) -> None:
