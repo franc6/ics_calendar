@@ -8,6 +8,7 @@ from icalendar import Calendar
 
 from ..filter import Filter
 from ..icalendarparser import ICalendarParser
+from ..utility import compare_event_dates
 
 
 class ParserRIE(ICalendarParser):
@@ -31,7 +32,7 @@ class ParserRIE(ICalendarParser):
         self._calendar = Calendar.from_ical(content)
 
     def set_filter(self, filt: Filter):
-        """Sets a Filter object to filter events
+        """Set a Filter object to filter events.
 
         :param filt: The Filter object
         :type exclude: Filter
@@ -93,7 +94,7 @@ class ParserRIE(ICalendarParser):
         if self._calendar is None:
             return None
 
-        temp_event = temp_start = temp_end = None
+        temp_event = temp_start = temp_end = temp_all_day = None
         end = now + timedelta(days=days)
         for event in rie.of(self._calendar).between(now, end):
             start, end, all_day = self.is_all_day(event)
@@ -106,10 +107,13 @@ class ParserRIE(ICalendarParser):
             ):
                 continue
 
-            if ParserRIE.is_event_newer(temp_end, temp_start, end, start):
+            if temp_start is None or compare_event_dates(
+                now, temp_end, temp_start, temp_all_day, end, start, all_day
+            ):
                 temp_event = event
                 temp_start = start
                 temp_end = end
+                temp_all_day = all_day
 
         if temp_event is None:
             return None
@@ -121,11 +125,6 @@ class ParserRIE(ICalendarParser):
             location=temp_event.get("LOCATION"),
             description=temp_event.get("DESCRIPTION"),
         )
-
-    @staticmethod
-    def is_event_newer(end2, start2, end, start) -> bool:
-        """Determine if end2 and start2 are newer than end and start."""
-        return start2 is None or (end2 > end and start <= start2)
 
     @staticmethod
     def get_date(date_time) -> Union[datetime, date]:

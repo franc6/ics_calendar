@@ -9,6 +9,7 @@ from ics import Calendar
 
 from ..filter import Filter
 from ..icalendarparser import ICalendarParser
+from ..utility import compare_event_dates
 
 
 class ParserICS(ICalendarParser):
@@ -31,7 +32,7 @@ class ParserICS(ICalendarParser):
         self._calendar = Calendar(re.sub(self._re_method, "", content))
 
     def set_filter(self, filt: Filter):
-        """Sets a Filter object to filter events
+        """Set a Filter object to filter events.
 
         :param filt: The Filter object
         :type exclude: Filter
@@ -113,7 +114,15 @@ class ParserICS(ICalendarParser):
             if not self._filter.filter(event.name, event.description):
                 continue
 
-            if ParserICS.is_event_newer(temp_event, event):
+            if temp_event is None or compare_event_dates(
+                now,
+                temp_event.end,
+                temp_event.begin,
+                temp_event.all_day,
+                event.end,
+                event.begin,
+                event.all_day,
+            ):
                 temp_event = event
 
         if temp_event is None:
@@ -128,13 +137,6 @@ class ParserICS(ICalendarParser):
             end=ParserICS.get_date(temp_event.end, temp_event.all_day),
             location=temp_event.location,
             description=temp_event.description,
-        )
-
-    @staticmethod
-    def is_event_newer(check_event, event) -> bool:
-        """Determine if check_event is newer than event."""
-        return check_event is None or (
-            check_event.end > event.end and check_event.begin <= event.begin
         )
 
     @staticmethod
