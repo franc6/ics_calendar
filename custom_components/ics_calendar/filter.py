@@ -14,20 +14,19 @@ class Filter:
     """
 
     def __init__(self, exclude: str, include: str):
-        """Constructor for Filter class.
+        """Construct Filter class.
 
         :param exclude: The exclude rules
         :type exclude: str
         :param include: The include rules
         :type include: str
         """
-
         self._exclude = Filter.set_rules(exclude)
         self._include = Filter.set_rules(include)
 
     @staticmethod
     def set_rules(rules: str) -> List[Pattern]:
-        """Sets the given rules into an array which is returned.
+        """Set the given rules into an array which is returned.
 
         :param rules: The rules to set
         :type rules: str
@@ -57,7 +56,7 @@ class Filter:
     def _is_match(
         self, summary: str, description: Optional[str], regexes: List[Pattern]
     ) -> bool:
-        """Indicates if the event matches the given list of regular expressions.
+        """Indicate if the event matches the given list of regular expressions.
 
         :param summary: The event summary to examine
         :type summary: str
@@ -77,7 +76,7 @@ class Filter:
         return False
 
     def _is_excluded(self, summary: str, description: Optional[str]) -> bool:
-        """Indicates if the event should be excluded
+        """Indicate if the event should be excluded.
 
         :param summary: The event summary to examine
         :type summary: str
@@ -89,7 +88,7 @@ class Filter:
         return self._is_match(summary, description, self._exclude)
 
     def _is_included(self, summary: str, description: Optional[str]) -> bool:
-        """Indicates if the event should be included.
+        """Indicate if the event should be included.
 
         :param summary: The event summary to examine
         :type summary: str
@@ -101,7 +100,7 @@ class Filter:
         return self._is_match(summary, description, self._include)
 
     def filter(self, summary: str, description: Optional[str]) -> bool:
-        """Checks if the event should be included or not.
+        """Check if the event should be included or not.
 
         :param summary: The event summary to examine
         :type summary: str
@@ -116,7 +115,7 @@ class Filter:
         return add_event
 
     def filter_event(self, event: CalendarEvent) -> bool:
-        """Checks if the event should be included or not.
+        """Check if the event should be included or not.
 
         :param event: The event to examine
         :type event: CalendarEvent
