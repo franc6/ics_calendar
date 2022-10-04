@@ -45,7 +45,7 @@ class ICalendarParser:
         """
 
     def set_filter(self, filt: Filter):
-        """Sets a Filter object to filter events
+        """Set a Filter object to filter events.
 
         :param filt: The Filter object
         :type exclude: Filter
