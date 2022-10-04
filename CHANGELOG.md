@@ -1,3 +1,8 @@
+## 3.1.3 2022/10/04
+- Refactored code for comparing events when getting current event.  This is now consistent between parsers.  Please report problems if short-duration events don't trigger your automations!
+- Fixed #64
+- Updated dependencies
+
 ## 3.1.2 2022/08/16
 - Fixed filter bug for events without a description (thanks to jberrenberg for identifying and fixing it)
 - Please note ICS Calendar is now in the default store for HACS!  You don't need to do anything.
