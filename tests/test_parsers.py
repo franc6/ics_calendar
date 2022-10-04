@@ -33,8 +33,7 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("file_name", ["allday.ics"])
-    def test_no_content(self, parser, calendar_data, expected_data):
+    def test_no_content(self, parser):
         """Test parsing a calendar including all day events."""
         event_list = parser.get_event_list(
             dtparser.parse("2022-01-01T00:00:00"),
