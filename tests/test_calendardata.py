@@ -146,6 +146,19 @@ class TestCalendarData:
         calendar_data.download_calendar()
         assert calendar_data.get() == CALENDAR_DATA
 
+    def test_download_calendar_uses_self_opener(self, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPHandler)
+        calendar_data._opener = opener  # pylint: disable=W0212
+        calendar_data.download_calendar()
+        assert calendar_data.get() == CALENDAR_DATA
+
     def test_download_calendar_ContentTooShortError(self, logger):
         """Test that None is cached for ContentTooShortError.
 

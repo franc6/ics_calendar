@@ -104,7 +104,6 @@ class CalendarData:
         :param user_agent: The User Agent string to use, or None for default
         :type user_agent: str
         """
-        self._opener = None
         if user_name != "" and password != "":
             passman = HTTPPasswordMgrWithDefaultRealm()
             passman.add_password(None, self.url, user_name, password)
