@@ -1,3 +1,6 @@
+## 3.1.4 2022/10/17
+- Fixed a problem with using authentication with multiple calendars.  Thanks to @Romkabouter for finding the problem and suggesting a fix!
+
 ## 3.1.3 2022/10/04
 - Refactored code for comparing events when getting current event.  This is now consistent between parsers.  Please report problems if short-duration events don't trigger your automations!
 - Fixed #64
