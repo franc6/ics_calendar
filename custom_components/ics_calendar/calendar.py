@@ -233,9 +233,12 @@ class ICSCalendarData:
             self.name,
             device_data[CONF_URL],
             timedelta(minutes=device_data[CONF_DOWNLOAD_INTERVAL]),
+        )
+
+        self._calendar_data.set_headers(
             device_data[CONF_USERNAME],
             device_data[CONF_PASSWORD],
-            device_data[CONF_USER_AGENT]
+            device_data[CONF_USER_AGENT],
         )
 
     async def async_get_events(

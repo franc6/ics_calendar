@@ -23,7 +23,7 @@ class CalendarData:
     """
 
     def __init__(
-        self, logger: Logger, name: str, url: str, min_update_time: timedelta, username: str, password: str, agent: str
+        self, logger: Logger, name: str, url: str, min_update_time: timedelta
     ):
         """Construct CalendarData object.
 
@@ -43,9 +43,6 @@ class CalendarData:
         self.logger = logger
         self.name = name
         self.url = url
-        self.username = username
-        self.password = password
-        self.agent =  agent
 
     def download_calendar(self) -> bool:
         """Download the calendar data.
@@ -68,11 +65,6 @@ class CalendarData:
                 "%s: Downloading calendar data from: %s", self.name, self.url
             )
             try:
-                self.set_headers(
-                  self.username,
-                  self.password,
-                  self.agent,
-                )
                 with urlopen(self.url) as conn:
                     self._calendar_data = (
                         conn.read().decode().replace("\0", "")
