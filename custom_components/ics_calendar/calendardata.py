@@ -1,6 +1,7 @@
 """Provide CalendarData class."""
 from datetime import timedelta
 from logging import Logger
+from threading import Lock
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import (
     HTTPBasicAuthHandler,
@@ -22,6 +23,8 @@ class CalendarData:
     instance.
     """
 
+    opener_lock = Lock()
+
     def __init__(
         self, logger: Logger, name: str, url: str, min_update_time: timedelta
     ):
@@ -40,6 +43,7 @@ class CalendarData:
         self._calendar_data = None
         self._last_download = None
         self._min_update_time = min_update_time
+        self._opener = None
         self.logger = logger
         self.name = name
         self.url = url
@@ -64,33 +68,8 @@ class CalendarData:
             self.logger.debug(
                 "%s: Downloading calendar data from: %s", self.name, self.url
             )
-            try:
-                with urlopen(self.url) as conn:
-                    self._calendar_data = (
-                        conn.read().decode().replace("\0", "")
-                    )
-                return self._calendar_data is not None
-            except HTTPError as http_error:
-                self.logger.error(
-                    "%s: Failed to open url(%s): %s",
-                    self.name,
-                    self.url,
-                    http_error.reason,
-                )
-            except ContentTooShortError as content_too_short_error:
-                self.logger.error(
-                    "%s: Could not download calendar data: %s",
-                    self.name,
-                    content_too_short_error.reason,
-                )
-            except URLError as url_error:
-                self.logger.error(
-                    "%s: Failed to open url: %s", self.name, url_error.reason
-                )
-            except:  # pylint: disable=W0702
-                self.logger.error(
-                    "%s: Failed to open url!", self.name, exc_info=True
-                )
+            self._download_data()
+            return self._calendar_data is not None
 
         return False
 
@@ -125,17 +104,48 @@ class CalendarData:
         :param user_agent: The User Agent string to use, or None for default
         :type user_agent: str
         """
-        opener = None
         if user_name != "" and password != "":
             passman = HTTPPasswordMgrWithDefaultRealm()
             passman.add_password(None, self.url, user_name, password)
             basic_auth_handler = HTTPBasicAuthHandler(passman)
             digest_auth_handler = HTTPDigestAuthHandler(passman)
-            opener = build_opener(digest_auth_handler, basic_auth_handler)
-        else:
-            opener = build_opener()
-        if user_agent != "":
-            opener.addheaders = [("User-agent", user_agent)]
+            self._opener = build_opener(
+                digest_auth_handler, basic_auth_handler
+            )
 
-        if opener is not None:
-            install_opener(opener)
+        if user_agent != "":
+            if self._opener is None:
+                self._opener = build_opener()
+            self._opener.addheaders = [("User-agent", user_agent)]
+
+    def _download_data(self):
+        """Download the calendar data."""
+        try:
+            with CalendarData.opener_lock:
+                if self._opener is not None:
+                    install_opener(self._opener)
+                with urlopen(self.url) as conn:
+                    self._calendar_data = (
+                        conn.read().decode().replace("\0", "")
+                    )
+        except HTTPError as http_error:
+            self.logger.error(
+                "%s: Failed to open url(%s): %s",
+                self.name,
+                self.url,
+                http_error.reason,
+            )
+        except ContentTooShortError as content_too_short_error:
+            self.logger.error(
+                "%s: Could not download calendar data: %s",
+                self.name,
+                content_too_short_error.reason,
+            )
+        except URLError as url_error:
+            self.logger.error(
+                "%s: Failed to open url: %s", self.name, url_error.reason
+            )
+        except:  # pylint: disable=W0702
+            self.logger.error(
+                "%s: Failed to open url!", self.name, exc_info=True
+            )
