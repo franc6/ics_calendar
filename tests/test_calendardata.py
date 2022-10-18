@@ -83,14 +83,14 @@ class TestCalendarData:
     """Test the CalendarData class."""
 
     def test_set_headers_none(self, logger):
-        """Test setting user agent"""
+        """Test set_headers without user name, password, or user agent."""
         calendar_data = CalendarData(
             logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
         calendar_data.set_headers("", "", "")
 
     def test_set_user_agent(self, logger):
-        """Test setting user agent
+        """Test setting user agent without user name and password.
 
         This doesn't do much, since set_headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
@@ -102,7 +102,7 @@ class TestCalendarData:
         calendar_data.set_headers("", "", "Mozilla/5.0")
 
     def test_set_username_and_password(self, logger):
-        """Test setting user name and password.
+        """Test setting user name and password without user agent.
 
         This doesn't do much, since set_headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
@@ -112,6 +112,18 @@ class TestCalendarData:
             logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
         calendar_data.set_headers("username", "password", "")
+
+    def test_set_username_password_and_user_agent(self, logger):
+        """Test setting user name and password without user agent.
+
+        This doesn't do much, since set_headers has no failure conditions.  We
+        could test that it actually does what it's supposed to do, except that
+        means checking the implementation.
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        calendar_data.set_headers("username", "password", "Mozilla/5.0")
 
     def test_get(self, logger):
         """Test get method retrieves cached data."""
