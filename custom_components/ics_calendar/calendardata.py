@@ -1,5 +1,6 @@
 """Provide CalendarData class."""
 from datetime import timedelta
+from gzip import GzipFile
 from logging import Logger
 from threading import Lock
 from urllib.error import ContentTooShortError, HTTPError, URLError
@@ -125,8 +126,12 @@ class CalendarData:
                 if self._opener is not None:
                     install_opener(self._opener)
                 with urlopen(self.url) as conn:
+                    if 'Content-Encoding' in conn.headers and conn.headers['Content-Encoding'] == 'gzip':
+                       data = GzipFile(fileobj=conn).read()
+                    else:
+                       data = conn.read()
                     self._calendar_data = (
-                        conn.read().decode().replace("\0", "")
+                        data.decode().replace("\0", "")
                     )
         except HTTPError as http_error:
             self.logger.error(
