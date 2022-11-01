@@ -1,3 +1,6 @@
+## 3.1.5 2022/11/01
+- Handle gzip-encoded responses for servers that incorrectly return gzip'd data.  Thanks to @omnigrok for finding the problem and suggesting a fix!
+
 ## 3.1.4 2022/10/17
 - Fixed a problem with using authentication with multiple calendars.  Thanks to @Romkabouter for finding the problem and suggesting a fix!
 
@@ -7,7 +10,7 @@
 - Updated dependencies
 
 ## 3.1.2 2022/08/16
-- Fixed filter bug for events without a description (thanks to jberrenberg for identifying and fixing it)
+- Fixed filter bug for events without a description (thanks to jberrenberg for @identifying and fixing it)
 - Please note ICS Calendar is now in the default store for HACS!  You don't need to do anything.
 
 ## 3.1.1 2022/08/02
