@@ -1,5 +1,7 @@
 """Provide CalendarData class."""
+import zlib
 from datetime import timedelta
+from gzip import BadGzipFile, GzipFile
 from logging import Logger
 from threading import Lock
 from urllib.error import ContentTooShortError, HTTPError, URLError
@@ -118,6 +120,31 @@ class CalendarData:
                 self._opener = build_opener()
             self._opener.addheaders = [("User-agent", user_agent)]
 
+    def _decode_data(self, conn):
+        if (
+            "Content-Encoding" in conn.headers
+            and conn.headers["Content-Encoding"] == "gzip"
+        ):
+            reader = GzipFile(fileobj=conn)
+        else:
+            reader = conn
+        try:
+            return reader.read().decode().replace("\0", "")
+        except zlib.error:
+            self.logger.error(
+                "%s: Failed to uncompress gzip data from url(%s): zlib",
+                self.name,
+                self.url,
+            )
+        except BadGzipFile as gzip_error:
+            self.logger.error(
+                "%s: Failed to uncompress gzip data from url(%s): %s",
+                self.name,
+                self.url,
+                gzip_error.strerror,
+            )
+        return None
+
     def _download_data(self):
         """Download the calendar data."""
         try:
@@ -125,9 +152,7 @@ class CalendarData:
                 if self._opener is not None:
                     install_opener(self._opener)
                 with urlopen(self.url) as conn:
-                    self._calendar_data = (
-                        conn.read().decode().replace("\0", "")
-                    )
+                    self._calendar_data = self._decode_data(conn)
         except HTTPError as http_error:
             self.logger.error(
                 "%s: Failed to open url(%s): %s",

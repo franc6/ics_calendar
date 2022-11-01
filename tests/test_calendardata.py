@@ -1,4 +1,5 @@
 """Test the CalendarData class."""
+import email
 from datetime import timedelta
 from io import BytesIO
 from unittest.mock import patch
@@ -15,6 +16,25 @@ BINARY_CALENDAR_DATA_2 = b"2 calendar data"
 CALENDAR_DATA = "calendar data"
 CALENDAR_DATA_2 = "2 calendar data"
 CALENDAR_NAME = "TESTcalendar"
+GZIP_CALENDAR_DATA = (
+    b"\x1f\x8b\x08\x00\x5b\x41\x61\x63\x02\x03"  # GZIP header
+    b"\x4b\x4e\xcc\x49\xcd\x4b\x49\x2c\x52\x48\x49\x2c\x49\x04\x00"
+    b"\x29\x07\xe7\x84"  # CRC-32
+    b"\x0d\x00\x00\x00"  # uncompressed size
+)
+BAD_GZIP_CALENDAR_DATA = (
+    b"\x2f\x8b\x08\x00\x5b\x41\x61\x63\x02\x03"  # GZIP header
+    b"\x4b\x4e\xcc\x49\xcd\x4b\x49\x2c\x52\x48\x49\x2c\x49\x04\x00"
+    b"\x29\x07\xe7\x84"  # CRC-32
+    b"\x0d\x00\x00\x00"  # uncompressed size
+)
+BAD_DEFLATE_CALENDAR_DATA = (
+    b"\x1f\x8b\x08\x00\x5b\x41\x61\x63\x02\x03"  # GZIP header
+    b"\x4b\x4e\xcc\x49\xcd\x4b\x49\x2c\x52\x48\x49\x2c\x49\xf4\x00"
+    b"\x29\x07\xe7\x84"  # CRC-32
+    b"\x0d\x00\x00\x00"  # uncompressed size
+)
+
 TEST_URL = "http://127.0.0.1/test/allday.ics"
 
 
@@ -23,10 +43,21 @@ def set_calendar_data(calendar_data: CalendarData, data: str):
     calendar_data._calendar_data = data  # pylint: disable=W0212
 
 
-def mock_response(req, data: str):
+def mock_response(req, data: str, encoding: str = None):
     """Return an HttpResponse object with the given data."""
-    resp = addinfourl(BytesIO(data), "message", req.get_full_url())
-    resp.code = 200
+    # resp = addinfourl(BytesIO(data), "message", req.get_full_url())
+    header_string = """Content-type: application/octet-stream
+Content-length: {len(data)}
+"""
+    if encoding is not None:
+        header_string += f"Content-Encoding: {encoding}\n"
+
+    resp = addinfourl(
+        BytesIO(data),
+        email.message_from_string(header_string),
+        req.get_full_url(),
+        200,
+    )
     resp.msg = "OK"
     return resp
 
@@ -69,6 +100,30 @@ class MockHTTPHandler(HTTPHandler):
     def http_open(self, req):
         """Provide http_open to rreturn BINARY_CALENDAR_DATA."""
         return mock_response(req, BINARY_CALENDAR_DATA)
+
+
+class MockHTTPGzipHandler(HTTPHandler):
+    """Mock HTTPHandler that returns GZIP_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to rreturn GZIP_CALENDAR_DATA."""
+        return mock_response(req, GZIP_CALENDAR_DATA, "gzip")
+
+
+class MockHTTPGzipHandlerBadGzip(HTTPHandler):
+    """Mock HTTPHandler that returns BAD_GZIP_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to return BAD_GZIP_CALENDAR_DATA."""
+        return mock_response(req, BAD_GZIP_CALENDAR_DATA, "gzip")
+
+
+class MockHTTPGzipHandlerBadDeflate(HTTPHandler):
+    """Mock HTTPHandler that returns BAD_DEFLATE_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to rreturn BAD_DEFLATE_CALENDAR_DATA."""
+        return mock_response(req, BAD_DEFLATE_CALENDAR_DATA, "gzip")
 
 
 class MockHTTPHandler2(HTTPHandler):
@@ -158,6 +213,45 @@ class TestCalendarData:
         calendar_data._opener = opener  # pylint: disable=W0212
         calendar_data.download_calendar()
         assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_interprets_gzip(self, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPGzipHandler)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_bad_gzip(self, logger):
+        """Test that None is cached for BadGzipFile.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPGzipHandlerBadGzip)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() is None
+
+    def test_download_calendar_bad_deflate(self, logger):
+        """Test that None is cached for BadDeflate.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPGzipHandlerBadDeflate)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() is None
 
     def test_download_calendar_ContentTooShortError(self, logger):
         """Test that None is cached for ContentTooShortError.
