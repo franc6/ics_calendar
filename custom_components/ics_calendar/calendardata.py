@@ -129,7 +129,7 @@ class CalendarData:
         else:
             reader = conn
         try:
-            return reader.read().decode().replace("\0", "")
+            return self._decode_stream(reader.read()).replace("\0", "")
         except zlib.error:
             self.logger.error(
                 "%s: Failed to uncompress gzip data from url(%s): zlib",
@@ -143,6 +143,15 @@ class CalendarData:
                 self.url,
                 gzip_error.strerror,
             )
+        return None
+
+    def _decode_stream(self, strm):
+        self.logger.warning("Trying to decode strm!")
+        for encoding in "utf-8-sig", "utf-8", "utf-16":
+            try:
+                return strm.decode(encoding)
+            except UnicodeDecodeError:
+                continue
         return None
 
     def _download_data(self):

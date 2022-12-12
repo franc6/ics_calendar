@@ -16,6 +16,18 @@ BINARY_CALENDAR_DATA_2 = b"2 calendar data"
 CALENDAR_DATA = "calendar data"
 CALENDAR_DATA_2 = "2 calendar data"
 CALENDAR_NAME = "TESTcalendar"
+UTF8_BOM_CALENDAR_DATA = (
+    b"\xef\xbb\xbf\x63\x61\x6c\x65\x6e\x64\x61\x72\x20\x64\x61\x74\x61"
+)
+UTF16_BOM_BE_CALENDAR_DATA = (
+    b"\xfe\xff\x00\x63\x00\x61\x00\x6c\x00\x65\x00\x6e\x00\x64"
+    b"\x00\x61\x00\x72\x00\x20\x00\x64\x00\x61\x00\x74\x00\x61"
+)
+UTF16_BOM_LE_CALENDAR_DATA = (
+    b"\xff\xfe\x63\x00\x61\x00\x6c\x00\x65\x00\x6e\x00\x64\x00"
+    b"\x61\x00\x72\x00\x20\x00\x64\x00\x61\x00\x74\x00\x61\x00"
+)
+BAD_UTF_CALENDAR_DATA = b"\xf0\xa4\xad"
 GZIP_CALENDAR_DATA = (
     b"\x1f\x8b\x08\x00\x5b\x41\x61\x63\x02\x03"  # GZIP header
     b"\x4b\x4e\xcc\x49\xcd\x4b\x49\x2c\x52\x48\x49\x2c\x49\x04\x00"
@@ -98,15 +110,47 @@ class MockHTTPHandler(HTTPHandler):
     """Mock HTTPHandler that returns BINARY_CALENDAR_DATA."""
 
     def http_open(self, req):
-        """Provide http_open to rreturn BINARY_CALENDAR_DATA."""
+        """Provide http_open to return BINARY_CALENDAR_DATA."""
         return mock_response(req, BINARY_CALENDAR_DATA)
+
+
+class MockHTTPHandlerUTF8BOM(HTTPHandler):
+    """Mock HTTPHandler that returns UTF8_BOM_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to return UTF8_BOM_CALENDAR_DATA."""
+        return mock_response(req, UTF8_BOM_CALENDAR_DATA)
+
+
+class MockHTTPHandlerUTF16BOMBE(HTTPHandler):
+    """Mock HTTPHandler that returns UTF16_BOM_BE_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to return UTF16_BOM_BE_CALENDAR_DATA."""
+        return mock_response(req, UTF16_BOM_BE_CALENDAR_DATA)
+
+
+class MockHTTPHandlerUTF16BOMLE(HTTPHandler):
+    """Mock HTTPHandler that returns UTF16_BOM_LE_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to return UTF16_BOM_LE_CALENDAR_DATA."""
+        return mock_response(req, UTF16_BOM_LE_CALENDAR_DATA)
+
+
+class MockHTTPHandlerBadUTF(HTTPHandler):
+    """Mock HTTPHandler that returns BAD_UTF_CALENDAR_DATA."""
+
+    def http_open(self, req):
+        """Provide http_open to return BAD_UTF_CALENDAR_DATA."""
+        return mock_response(req, BAD_UTF_CALENDAR_DATA)
 
 
 class MockHTTPGzipHandler(HTTPHandler):
     """Mock HTTPHandler that returns GZIP_CALENDAR_DATA."""
 
     def http_open(self, req):
-        """Provide http_open to rreturn GZIP_CALENDAR_DATA."""
+        """Provide http_open to return GZIP_CALENDAR_DATA."""
         return mock_response(req, GZIP_CALENDAR_DATA, "gzip")
 
 
@@ -122,7 +166,7 @@ class MockHTTPGzipHandlerBadDeflate(HTTPHandler):
     """Mock HTTPHandler that returns BAD_DEFLATE_CALENDAR_DATA."""
 
     def http_open(self, req):
-        """Provide http_open to rreturn BAD_DEFLATE_CALENDAR_DATA."""
+        """Provide http_open to return BAD_DEFLATE_CALENDAR_DATA."""
         return mock_response(req, BAD_DEFLATE_CALENDAR_DATA, "gzip")
 
 
@@ -130,7 +174,7 @@ class MockHTTPHandler2(HTTPHandler):
     """Mock HTTPHandler that returns BINARY_CALENDAR_DATA_2."""
 
     def http_open(self, req):
-        """Provide http_open to rreturn BINARY_CALENDAR_DATA_2."""
+        """Provide http_open to return BINARY_CALENDAR_DATA_2."""
         return mock_response(req, BINARY_CALENDAR_DATA_2)
 
 
@@ -213,6 +257,58 @@ class TestCalendarData:
         calendar_data._opener = opener  # pylint: disable=W0212
         calendar_data.download_calendar()
         assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_handles_utf8BOM(self, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPHandlerUTF8BOM)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_handles_utf16BOMBE(self, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPHandlerUTF16BOMBE)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_handles_utf16BOMLE(self, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPHandlerUTF16BOMLE)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_returns_none_for_really_bad_data(self, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPHandlerBadUTF)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() is None
 
     def test_download_calendar_interprets_gzip(self, logger):
         """Test download_calendar sets cache from the mocked HTTPHandler.
