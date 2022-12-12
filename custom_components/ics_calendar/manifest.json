@@ -7,5 +7,5 @@
     "issue_tracker": "https://github.com/franc6/ics_calendar/issues",
     "name": "ics Calendar",
     "requirements": ["ics>=0.7.2", "recurring_ical_events>=1.0.2b0", "icalendar>=4.1.0"],
-    "version": "3.1.5"
+    "version": "3.1.6"
 }

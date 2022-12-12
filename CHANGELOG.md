@@ -1,3 +1,7 @@
+## 3.1.6 2022/12/12
+- Handle UTF-8 BOM in calendar data.
+- Properly decode UTF-16 calendar data.
+
 ## 3.1.5 2022/11/01
 - Handle gzip-encoded responses for servers that incorrectly return gzip'd data.  Thanks to @omnigrok for finding the problem and suggesting a fix!
 
