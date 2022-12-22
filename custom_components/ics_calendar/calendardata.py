@@ -146,7 +146,6 @@ class CalendarData:
         return None
 
     def _decode_stream(self, strm):
-        self.logger.warning("Trying to decode strm!")
         for encoding in "utf-8-sig", "utf-8", "utf-16":
             try:
                 return strm.decode(encoding)
