@@ -99,6 +99,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_calendar_setup(
         self, mock_event, mock_get, mock_download, hass, noallday_config
     ):
@@ -131,6 +132,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_calendar_setup_all_day(
         self,
         mock_event,
@@ -164,6 +166,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_calendar_setup_negative_offset_hours(
         self,
         mock_event,
@@ -198,6 +201,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_calendar_setup_positive_offset_hours(
         self,
         mock_event,
@@ -237,6 +241,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_calendar_setup_useragent(
         self,
         mock_event,
@@ -276,6 +281,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_calendar_setup_userpass(
         self,
         mock_event,
@@ -375,6 +381,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_future_event(
         self,
         mock_event,
@@ -442,6 +449,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_ongoing_event(
         self,
         mock_event,
@@ -506,6 +514,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    @pytest.mark.asyncio
     async def test_ongoing_event_exception(
         self,
         mock_event,
@@ -553,6 +562,7 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event_allday(),
     )
+    @pytest.mark.asyncio
     async def test_ongoing_event_allday(
         self,
         mock_event,
