@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//team_2_nl//NONSGML kigkonsult.se iCalcreator 2.20.2//
+X-WR-TIMEZONE:Europe/Brussels
+BEGIN:VEVENT
+UID:match_1025179
+DTSTAMP:20210911T014015Z
+DESCRIPTION:Wedstrijd van Speeldag 1 uit de Europa League  tussen Olympiako
+ s Piraeus en Antwerp.\n\nOlympiakos Piraeus wint @ 1.76\nGelijk @ 4.00\nAn
+ twerp wint @ 4.35\nWed op https://banners.livepartners.com/click.php?id=34
+ 9374&p=10&t=betslip&MasterEventID=24267084\n\nOnderlinge duels:\n\n09/12/2
+ 021 Antwerp - Olympiakos Piraeus: 0-0\n16/09/2021 Olympiakos Piraeus - Ant
+ werp: 0-0
+DTSTART:20210916T210000Z
+DTEND:20210916T224500Z
+SUMMARY:Olympiakos Piraeus - Antwerp
+END:VEVENT
+END:VCALENDAR

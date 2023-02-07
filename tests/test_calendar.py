@@ -109,7 +109,9 @@ class TestCalendar:
         state = hass.states.get("calendar.noallday")
         assert state.name == "noallday"
 
-        mock_event.assert_called_with(include_all_day=False, now=ANY, days=ANY)
+        mock_event.assert_called_with(
+            include_all_day=False, now=ANY, days=ANY, offset_hours=0
+        )
 
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
@@ -145,7 +147,77 @@ class TestCalendar:
         state = hass.states.get("calendar.allday")
         assert state.name == "allday"
 
-        mock_event.assert_called_with(include_all_day=True, now=ANY, days=ANY)
+        mock_event.assert_called_with(
+            include_all_day=True, now=ANY, days=ANY, offset_hours=0
+        )
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_negative_offset_hours(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        hass,
+        negative_offset_hours_config,
+    ):
+        """Test basic setup of platform not including all day events."""
+        assert await async_setup_component(
+            hass, "calendar", negative_offset_hours_config
+        )
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.negative_offset_hours")
+        assert state.name == "negative_offset_hours"
+
+        mock_event.assert_called_with(
+            include_all_day=False, now=ANY, days=ANY, offset_hours=-5
+        )
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_positive_offset_hours(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        hass,
+        positive_offset_hours_config,
+    ):
+        """Test basic setup of platform not including all day events."""
+        assert await async_setup_component(
+            hass, "calendar", positive_offset_hours_config
+        )
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.positive_offset_hours")
+        assert state.name == "positive_offset_hours"
+
+        mock_event.assert_called_with(
+            include_all_day=False, now=ANY, days=ANY, offset_hours=5
+        )
 
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"

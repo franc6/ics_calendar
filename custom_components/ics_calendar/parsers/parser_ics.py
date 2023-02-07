@@ -40,7 +40,7 @@ class ParserICS(ICalendarParser):
         self._filter = filt
 
     def get_event_list(
-        self, start, end, include_all_day: bool
+        self, start, end, include_all_day: bool, offset_hours: int = 0
     ) -> list[CalendarEvent]:
         """Get a list of events.
 
@@ -52,6 +52,8 @@ class ParserICS(ICalendarParser):
         :type datetime
         :param include_all_day if true, all day events will be included.
         :type boolean
+        :param offset_hours the number of hours to offset the event
+        :type offset_hours int
         :returns a list of events, or an empty list
         :rtype list[CalendarEvent]
         """
@@ -61,8 +63,8 @@ class ParserICS(ICalendarParser):
             # ics 0.8 takes datetime not Arrow objects
             # ar_start = start
             # ar_end = end
-            ar_start = arrowget(start)
-            ar_end = arrowget(end)
+            ar_start = arrowget(start - timedelta(hours=offset_hours))
+            ar_end = arrowget(end - timedelta(hours=offset_hours))
 
             for event in self._calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
@@ -75,8 +77,12 @@ class ParserICS(ICalendarParser):
                 summary = event.name
                 calendar_event = CalendarEvent(
                     summary=summary,
-                    start=ParserICS.get_date(event.begin, event.all_day),
-                    end=ParserICS.get_date(event.end, event.all_day),
+                    start=ParserICS.get_date(
+                        event.begin, event.all_day, offset_hours
+                    ),
+                    end=ParserICS.get_date(
+                        event.end, event.all_day, offset_hours
+                    ),
                     location=event.location,
                     description=event.description,
                 )
@@ -86,7 +92,11 @@ class ParserICS(ICalendarParser):
         return event_list
 
     def get_current_event(  # noqa: $701
-        self, include_all_day: bool, now: datetime, days: int
+        self,
+        include_all_day: bool,
+        now: datetime,
+        days: int,
+        offset_hours: int = 0,
     ) -> Optional[CalendarEvent]:
         """Get the current or next event.
 
@@ -98,12 +108,15 @@ class ParserICS(ICalendarParser):
         :type datetime
         :param days the number of days to check for an upcoming event
         :type int
+        :param offset_hours the number of hours to offset the event
+        :type int
         :returns a CalendarEvent or None
         """
         if self._calendar is None:
             return None
 
         temp_event = None
+        now = now - timedelta(offset_hours)
         end = now + timedelta(days=days)
         for event in self._calendar.timeline.included(
             arrowget(now), arrowget(end)
@@ -133,14 +146,20 @@ class ParserICS(ICalendarParser):
         summary = temp_event.name
         return CalendarEvent(
             summary=summary,
-            start=ParserICS.get_date(temp_event.begin, temp_event.all_day),
-            end=ParserICS.get_date(temp_event.end, temp_event.all_day),
+            start=ParserICS.get_date(
+                temp_event.begin, temp_event.all_day, offset_hours
+            ),
+            end=ParserICS.get_date(
+                temp_event.end, temp_event.all_day, offset_hours
+            ),
             location=temp_event.location,
             description=temp_event.description,
         )
 
     @staticmethod
-    def get_date(arw: Arrow, is_all_day: bool) -> Union[datetime, date]:
+    def get_date(
+        arw: Arrow, is_all_day: bool, offset_hours: int
+    ) -> Union[datetime, date]:
         """Get datetime.
 
         :param arw The arrow object representing the date.
@@ -148,6 +167,8 @@ class ParserICS(ICalendarParser):
         :param is_all_day If true, the returned datetime will have the time
         component set to 0.
         :type: bool
+        :param offset_hours the number of hours to offset the event
+        :type int
         :returns The datetime.
         :rtype datetime
         """
@@ -161,4 +182,5 @@ class ParserICS(ICalendarParser):
         # if is_all_day:
         #    return arw.date()
         #
+        arw = arw.shift(hours=offset_hours)
         return arw.datetime
