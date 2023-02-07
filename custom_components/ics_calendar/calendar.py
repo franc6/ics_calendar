@@ -42,6 +42,7 @@ CONF_INCLUDE_ALL_DAY = "include_all_day"
 CONF_PARSER = "parser"
 CONF_DOWNLOAD_INTERVAL = "download_interval"
 CONF_USER_AGENT = "user_agent"
+CONF_OFFSET_HOURS = "offset_hours"
 
 OFFSET = "!!"
 
@@ -75,6 +76,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             ): cv.string,
                             vol.Optional(CONF_EXCLUDE, default=""): cv.string,
                             vol.Optional(CONF_INCLUDE, default=""): cv.string,
+                            vol.Optional(CONF_OFFSET_HOURS, default=0): int,
                         }
                     )
                 ]
@@ -118,6 +120,7 @@ def setup_platform(
             CONF_USER_AGENT: calendar.get(CONF_USER_AGENT),
             CONF_EXCLUDE: calendar.get(CONF_EXCLUDE),
             CONF_INCLUDE: calendar.get(CONF_INCLUDE),
+            CONF_OFFSET_HOURS: calendar.get(CONF_OFFSET_HOURS),
         }
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -220,6 +223,7 @@ class ICSCalendarData:
         """
         self.name = device_data[CONF_NAME]
         self._days = device_data[CONF_DAYS]
+        self._offset_hours = device_data[CONF_OFFSET_HOURS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.parser.set_filter(
@@ -264,6 +268,7 @@ class ICSCalendarData:
                 start=start_date,
                 end=end_date,
                 include_all_day=self.include_all_day,
+                offset_hours=self._offset_hours,
             )
         except:  # pylint: disable=W0702
             _LOGGER.error(
@@ -287,6 +292,7 @@ class ICSCalendarData:
                 include_all_day=self.include_all_day,
                 now=hanow(),
                 days=self._days,
+                offset_hours=self._offset_hours,
             )
         except:  # pylint: disable=W0702
             _LOGGER.error(

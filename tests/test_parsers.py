@@ -353,3 +353,91 @@ class TestParsers:
         )
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["positive_offset.ics"])
+    def test_positive_offset_hours(self, parser, calendar_data, expected_data):
+        """Test if offset_hours works."""
+        parser.set_content(calendar_data)
+        event_list = parser.get_event_list(
+            dtparser.parse("2021-09-16T00:00:00"),
+            dtparser.parse("2021-09-17T23:59:59"),
+            True,
+            2,
+        )
+
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["negative_offset.ics"])
+    def test_negative_offset_hours(self, parser, calendar_data, expected_data):
+        """Test if offset_hours works."""
+        parser.set_content(calendar_data)
+        event_list = parser.get_event_list(
+            dtparser.parse("2021-09-16T00:00:00"),
+            dtparser.parse("2021-09-17T23:59:59"),
+            True,
+            -4,
+        )
+
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["positive_offset_all_day.ics"])
+    def test_positive_offset_hours_all_day(
+        self, parser, calendar_data, expected_data
+    ):
+        """Test if offset_hours works."""
+        parser.set_content(calendar_data)
+        event_list = parser.get_event_list(
+            dtparser.parse("2021-09-16T00:00:00"),
+            dtparser.parse("2021-09-18T23:59:59"),
+            True,
+            2,
+        )
+
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize("file_name", ["negative_offset_all_day.ics"])
+    def test_negative_offset_hours_all_day(
+        self, parser, calendar_data, expected_data
+    ):
+        """Test if offset_hours works."""
+        parser.set_content(calendar_data)
+        event_list = parser.get_event_list(
+            dtparser.parse("2021-09-15T00:00:00"),
+            dtparser.parse("2021-09-17T23:59:59"),
+            True,
+            -4,
+        )
+
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)

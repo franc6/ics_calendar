@@ -56,6 +56,7 @@ class ICalendarParser:
         start: datetime,
         end: datetime,
         include_all_day: bool,
+        offset_hours: int = 0,
     ) -> list[CalendarEvent]:
         """Get a list of events.
 
@@ -67,12 +68,18 @@ class ICalendarParser:
         :type end datetime
         :param include_all_day if true, all day events will be included.
         :type include_all_day boolean
+        :param offset_hours the number of hours to offset the event
+        :type offset_hours int
         :returns a list of events, or an empty list
         :rtype list[CalendarEvent]
         """
 
     def get_current_event(
-        self, include_all_day: bool, now: datetime, days: int
+        self,
+        include_all_day: bool,
+        now: datetime,
+        days: int,
+        offset_hours: int = 0,
     ) -> Optional[CalendarEvent]:
         """Get the current or next event.
 
@@ -84,5 +91,7 @@ class ICalendarParser:
         :type now datetime
         :param days the number of days to check for an upcoming event
         :type days int
+        :param offset_hours the number of hours to offset the event
+        :type offset_hours int
         :returns a CalendarEvent or None
         """

@@ -40,6 +40,7 @@ Key | Type | Required | Description
 `exclude` | `string` | `False` | Allows for filtering of events, see below
 `include` | `string` | `False` | Allows for filtering of events, see below
 `include_all_day` | `boolean` | `False` | Set to True if all day events should be included
+`offset_hours` | `int` | `False` | A number of hours (positive or negative) to offset times by, see below
 `parser` | `string` | `False` | 'rie' or 'ics', defaults to 'rie' if not present
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
@@ -47,6 +48,9 @@ Key | Type | Required | Description
 
 #### Download Interval
 The download interval should be a multiple of 15 at this time.  This is so downloads coincide with Home Assistant's update interval for the calendar entities. Setting a value smaller than 15 will increase both CPU and memory usage.  Higher values will reduce CPU usage.  The default of 15 is to keep the same behavior with regards to downloads as in the past.
+
+#### Offset Hours
+This feature is to aid with calendars that present incorrect times.  If your calendar has an incorrect time, e.g. it lists your local time, but indicates that it's the time in UTC, this can be used to correct for your local time.  This affects all events, except all day events.  All day events do not include time information, and so the offset will not be applied.  Use a positive number to add hours to the time, and a negative number to subtract hours from the time.
 
 ## Parsers
 ics_calendar uses one of two parsers for generating events from calendars.  These parsers are written and maintained by third parties, not by me.  Each comes with its own sets of problems.
