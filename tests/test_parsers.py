@@ -404,7 +404,9 @@ class TestParsers:
         ],
     )
     @pytest.mark.parametrize("file_name", ["positive_offset_all_day.ics"])
-    def test_positive_offset_hours_all_day(self, parser, calendar_data, expected_data):
+    def test_positive_offset_hours_all_day(
+        self, parser, calendar_data, expected_data
+    ):
         """Test if offset_hours works."""
         parser.set_content(calendar_data)
         event_list = parser.get_event_list(
@@ -425,7 +427,9 @@ class TestParsers:
         ],
     )
     @pytest.mark.parametrize("file_name", ["negative_offset_all_day.ics"])
-    def test_negative_offset_hours_all_day(self, parser, calendar_data, expected_data):
+    def test_negative_offset_hours_all_day(
+        self, parser, calendar_data, expected_data
+    ):
         """Test if offset_hours works."""
         parser.set_content(calendar_data)
         event_list = parser.get_event_list(
