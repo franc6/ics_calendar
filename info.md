@@ -76,6 +76,14 @@ For plain string matching, the string will be searched for in a case insensitive
 
 You can also include multiple entries for exclude or include.
 
+## URL Templates
+If your ICS url requires specifying the current year and/or month, you can now use templates to specify the current year and month.  E.g. if you set your url to:
+```yaml
+url: "https://www.a-url?year={year}&month={month}"
+```
+
+The "{year}" part will be replaced with the current 4 digit year, and the "{month}" will be replaced with the current 2 digit month.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=02", in November 2024, the URL will be "https://www.a-url?year=2024&month=11".
+
 ### Examples
 ```yaml
 calendar:
