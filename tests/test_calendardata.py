@@ -48,6 +48,8 @@ BAD_DEFLATE_CALENDAR_DATA = (
 )
 
 TEST_URL = "http://127.0.0.1/test/allday.ics"
+TEST_TEMPLATE_URL = "http://127.0.0.1/test/{year}/{month}/allday.ics"
+TEST_TEMPLATE_URL_REPLACED = "http://127.0.0.1/test/2022/01/allday.ics"
 
 
 def set_calendar_data(calendar_data: CalendarData, data: str):
@@ -178,6 +180,23 @@ class MockHTTPHandler2(HTTPHandler):
         return mock_response(req, BINARY_CALENDAR_DATA_2)
 
 
+class MockHTTPHandlerInterpretTemplates(HTTPHandler):
+    """Mock HTTPHandler with a ContentTooShortError."""
+
+    def http_open(self, req):
+        """Provide http_open to check request doesn't have templates, but
+        interpreted them correctly."""
+        if req.get_full_url() == TEST_TEMPLATE_URL_REPLACED:
+            # Return good data only if URL matches!
+            return mock_response(req, BINARY_CALENDAR_DATA)
+        else:
+            # Indiciate what was wrong!
+            if req.get_full_url().find("{year}"):
+                raise BaseException("URL contains {year} template!")
+            if req.get_full_url().find("{month}"):
+                raise BaseException("URL contains {month} template!")
+
+
 class TestCalendarData:
     """Test the CalendarData class."""
 
@@ -241,6 +260,23 @@ class TestCalendarData:
             logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
         opener = build_opener(MockHTTPHandler)
+        install_opener(opener)
+        calendar_data.download_calendar()
+        assert calendar_data.get() == CALENDAR_DATA
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.hanow",
+        return_value=dtparser.parse("2022-01-01T00:00:00"),
+    )
+    def test_download_calendar_interprets_templates(self, mock_hanow, logger):
+        """Test download_calendar sets cache from the mocked HTTPHandler.
+
+        This test relies on the success of test_get!
+        """
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_TEMPLATE_URL, timedelta(minutes=5)
+        )
+        opener = build_opener(MockHTTPHandlerInterpretTemplates)
         install_opener(opener)
         calendar_data.download_calendar()
         assert calendar_data.get() == CALENDAR_DATA
@@ -409,6 +445,8 @@ class TestCalendarData:
         """Test that get causes downloads if enough time has passed."""
         mock_hanow.side_effect = [
             dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-01T00:05:05"),
             dtparser.parse("2022-01-01T00:05:05"),
         ]
         calendar_data = CalendarData(
@@ -432,6 +470,8 @@ class TestCalendarData:
         """Test that get does not download if not enough time has passed."""
         mock_hanow.side_effect = [
             dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-01T00:04:59"),
             dtparser.parse("2022-01-01T00:04:59"),
         ]
         calendar_data = CalendarData(
