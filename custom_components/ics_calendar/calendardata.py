@@ -159,7 +159,7 @@ class CalendarData:
             with CalendarData.opener_lock:
                 if self._opener is not None:
                     install_opener(self._opener)
-                with urlopen(self.url) as conn:
+                with urlopen(self._make_url()) as conn:
                     self._calendar_data = self._decode_data(conn)
         except HTTPError as http_error:
             self.logger.error(
@@ -182,3 +182,9 @@ class CalendarData:
             self.logger.error(
                 "%s: Failed to open url!", self.name, exc_info=True
             )
+
+    def _make_url(self):
+        now = hanow()
+        return self.url.replace("{year}", f"{now.year:04}").replace(
+            "{month}", f"{now.month:02}"
+        )
