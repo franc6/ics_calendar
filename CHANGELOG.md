@@ -1,3 +1,8 @@
+## 3.1.7 2023/02/07
+- Fixed #76/#85
+- Fixed #77; you can now use {year} and {month} in your URLs to get the current 4 digit year and 2 digit month.
+- Fixed #78; you can now specify an offset in hours if your calendar entries have the wrong time zone.
+
 ## 3.1.6 2022/12/12
 - Handle UTF-8 BOM in calendar data.
 - Properly decode UTF-16 calendar data.
