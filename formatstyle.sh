@@ -1,6 +1,4 @@
-# Keep it simple, use the defaults, except where they conflict;
-# prefer black defaults (except line-length) for style conflicts!
-
+# see pyproject.toml for settings
 echo "Sorting imports"
 isort custom_components/ics_calendar tests
 
