@@ -1,5 +1,6 @@
 """Test the calendar class."""
 import copy
+from http import HTTPStatus
 from unittest.mock import ANY, Mock, patch
 
 import pytest
@@ -13,6 +14,15 @@ from homeassistant.util import dt as hadt
 pytest_plugins = "pytest_homeassistant_custom_component"
 
 
+@pytest.fixture(autouse=True, name="skip_notifications")
+def skip_notifications_fixture():
+    """Skip notification calls."""
+    with patch(
+        "homeassistant.components.persistent_notification.async_create"
+    ), patch("homeassistant.components.persistent_notification.async_dismiss"):
+        yield
+
+
 @pytest.fixture(autouse=True)
 def enable_custom_integrations(
     enable_custom_integrations,
@@ -22,9 +32,24 @@ def enable_custom_integrations(
 
 
 @pytest.fixture(autouse=True)
+def prevent_io():
+    """Fixture to prevent certain I/O from happening."""
+    with patch("homeassistant.components.http.ban.load_yaml_config_file"):
+        yield
+
+
+@pytest.fixture(autouse=True)
 def mock_http(hass):
     """Provide mock_http fixture to mock the HomeAssistant.http object."""
     hass.http = Mock()
+
+
+@pytest.fixture(autouse=True)
+def mock_http_start_stop():
+    with patch(
+        "homeassistant.components.http.start_http_server_and_save_config"
+    ), patch("homeassistant.components.http.HomeAssistantHTTP.stop"):
+        yield
 
 
 def _mocked_event():
@@ -99,7 +124,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_calendar_setup(
         self, mock_event, mock_get, mock_download, hass, noallday_config
     ):
@@ -132,7 +156,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_calendar_setup_all_day(
         self,
         mock_event,
@@ -166,7 +189,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_calendar_setup_negative_offset_hours(
         self,
         mock_event,
@@ -201,7 +223,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_calendar_setup_positive_offset_hours(
         self,
         mock_event,
@@ -241,7 +262,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_calendar_setup_useragent(
         self,
         mock_event,
@@ -281,7 +301,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_calendar_setup_userpass(
         self,
         mock_event,
@@ -381,7 +400,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_future_event(
         self,
         mock_event,
@@ -449,7 +467,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_ongoing_event(
         self,
         mock_event,
@@ -514,7 +531,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
-    @pytest.mark.asyncio
     async def test_ongoing_event_exception(
         self,
         mock_event,
@@ -562,7 +578,6 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event_allday(),
     )
-    @pytest.mark.asyncio
     async def test_ongoing_event_allday(
         self,
         mock_event,
