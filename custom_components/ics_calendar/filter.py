@@ -37,7 +37,8 @@ class Filter:
         if rules != "":
             for rule in literal_eval(rules):
                 if rule.startswith("/"):
-                    # TODO: After updating to python 3.11, this should be re.NOFLAG
+                    # TODO: After updating to python 3.11, this should be
+                    # re.NOFLAG
                     re_flags = 0
                     [expr, flags] = rule[1:].split("/")
                     for flag in flags:
