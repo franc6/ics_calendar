@@ -1,6 +1,7 @@
 black
 isort
 flake8
+flake8-pyproject
 pydocstyle
 pylint
 radon
