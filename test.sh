@@ -5,6 +5,6 @@ else
 fi
 
 TOP=`pwd`
-rm -rf htmlcov/*
+rm -rf htmlcov/* coverage.xml
 pytest ${TEST}
 echo "To view coverage, open ${TOP}/htmlcov/index.html"
