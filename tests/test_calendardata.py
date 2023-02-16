@@ -184,8 +184,7 @@ class MockHTTPHandlerInterpretTemplates(HTTPHandler):
     """Mock HTTPHandler with a ContentTooShortError."""
 
     def http_open(self, req):
-        """Provide http_open to check request doesn't have templates, but
-        interpreted them correctly."""
+        """Check request URL no longer has templates."""
         if req.get_full_url() == TEST_TEMPLATE_URL_REPLACED:
             # Return good data only if URL matches!
             return mock_response(req, BINARY_CALENDAR_DATA)

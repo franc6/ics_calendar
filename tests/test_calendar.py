@@ -23,9 +23,7 @@ def skip_notifications_fixture():
 
 
 @pytest.fixture(autouse=True)
-def enable_custom_integrations(
-    enable_custom_integrations,
-):  # pylint: disable=W0621
+def ics_enable_custom_integrations(enable_custom_integrations):
     """Provide enable_custom_integrations fixture for HA."""
     yield
 
@@ -45,6 +43,7 @@ def mock_http(hass):
 
 @pytest.fixture(autouse=True)
 def mock_http_start_stop():
+    """Fixture to avoid stop/start of http server."""
     with patch(
         "homeassistant.components.http.start_http_server_and_save_config"
     ), patch("homeassistant.components.http.HomeAssistantHTTP.stop"):

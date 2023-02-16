@@ -196,7 +196,7 @@ class TestUtility:
         )
 
     def test_compare_event_dates_older_earlier_end_later_start(self) -> None:
-        """Test that Jan 1@12:30-1:30 is newer than Jan1@12:30-12:35"""
+        """Test that Jan 1@12:30-1:30 is newer than Jan1@12:30-12:35."""
         assert (
             compare_event_dates(
                 janOneTwelveThirtyFive,
@@ -211,7 +211,7 @@ class TestUtility:
         )
 
     def test_compare_event_dates_older_earlier_end_later_start2(self) -> None:
-        """Test that Jan 1@12:30-1:30 is newer than Jan1@12:30-12:35"""
+        """Test that Jan 1@12:30-1:30 is newer than Jan1@12:30-12:35."""
         assert (
             compare_event_dates(
                 janOneTwelveThirtyFive,
