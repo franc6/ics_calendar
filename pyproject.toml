@@ -546,5 +546,5 @@ ignored-argument-names = "_.*|^ignored_|^unused_"
 redefining-builtins-modules = ["six.moves", "past.builtins", "future.builtins", "builtins", "io"]
 
 [tool.pytest.ini_options]
-addopts = "--allow-unix-socket --cov=custom_components.ics_calendar --cov-branch --cov-report html"
+addopts = "--allow-unix-socket --cov=custom_components.ics_calendar --cov-branch --cov-report html --cov-report xml"
 asyncio_mode = "auto"
