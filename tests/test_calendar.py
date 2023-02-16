@@ -1,6 +1,5 @@
 """Test the calendar class."""
 import copy
-from http import HTTPStatus
 from unittest.mock import ANY, Mock, patch
 
 import pytest
