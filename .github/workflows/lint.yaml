@@ -23,6 +23,14 @@ jobs:
           pip install -r requirements.test.txt
           pip install -r requirements.dev.txt
 
+      - name: Run isort --check
+        run: |
+          isort --check custom_components/ics_calendar tests
+
+      - name: Run black --check
+        run: |
+          black --check custom_components/ics_calendar tests
+
       - name: Run flake8
         run: |
           flake8
