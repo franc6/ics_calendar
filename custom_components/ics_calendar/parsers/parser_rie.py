@@ -172,15 +172,15 @@ class ParserRIE(ICalendarParser):
         :param offset_hours the number of hours to offset the event
         :type offset_hours int
         """
-        start = ParserRIE.get_date(event.get("DTSTART").dt)
-        end = ParserRIE.get_date(event.get("DTEND").dt)
+        start: datetime | date = ParserRIE.get_date(event.get("DTSTART").dt)
+        end: datetime | date = ParserRIE.get_date(event.get("DTEND").dt)
         all_day = False
         diff = event.get("DURATION")
         if diff is not None:
             diff = diff.dt
         else:
             diff = end - start
-        if diff in {self.oneday, self.oneday2} and all(
+        if (start == end or diff in {self.oneday, self.oneday2}) and all(
             x == 0 for x in [start.hour, start.minute, start.second]
         ):
             # if all_day, start and end must be date, not datetime!
