@@ -61,7 +61,7 @@ class ParserRIE(ICalendarParser):
         :returns a list of events, or an empty list
         :rtype list[CalendarEvent]
         """
-        event_list = []
+        event_list: list[CalendarEvent] = []
 
         if self._calendar is not None:
             for event in rie.of(self._calendar).between(
@@ -73,7 +73,7 @@ class ParserRIE(ICalendarParser):
                 if all_day and not include_all_day:
                     continue
 
-                calendar_event = CalendarEvent(
+                calendar_event: CalendarEvent = CalendarEvent(
                     summary=event.get("SUMMARY"),
                     start=start,
                     end=end,
@@ -109,8 +109,11 @@ class ParserRIE(ICalendarParser):
         if self._calendar is None:
             return None
 
-        temp_event = temp_start = temp_end = temp_all_day = None
-        end = now + timedelta(days=days)
+        temp_event: CalendarEvent = None
+        temp_start: date | datetime = None
+        temp_end: date | datetime = None
+        temp_all_day: bool = None
+        end: datetime = now + timedelta(days=days)
         for event in rie.of(self._calendar).between(
             now - timedelta(hours=offset_hours),
             end - timedelta(hours=offset_hours),
@@ -187,5 +190,9 @@ class ParserRIE(ICalendarParser):
         else:
             start = start + timedelta(hours=offset_hours)
             end = end + timedelta(hours=offset_hours)
+            if start.tzinfo is None:
+                start = start.astimezone()
+            if end.tzinfo is None:
+                end = end.astimezone()
 
         return start, end, all_day

@@ -57,7 +57,7 @@ class ParserICS(ICalendarParser):
         :returns a list of events, or an empty list
         :rtype list[CalendarEvent]
         """
-        event_list = []
+        event_list: list[CalendarEvent] = []
 
         if self._calendar is not None:
             # ics 0.8 takes datetime not Arrow objects
@@ -69,13 +69,13 @@ class ParserICS(ICalendarParser):
             for event in self._calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
                     continue
-                summary = ""
+                summary: str = ""
                 # ics 0.8 uses 'summary' reliably, older versions use 'name'
                 # if hasattr(event, "summary"):
                 #    summary = event.summary
                 # elif hasattr(event, "name"):
                 summary = event.name
-                calendar_event = CalendarEvent(
+                calendar_event: CalendarEvent = CalendarEvent(
                     summary=summary,
                     start=ParserICS.get_date(
                         event.begin, event.all_day, offset_hours
@@ -183,4 +183,8 @@ class ParserICS(ICalendarParser):
         #    return arw.date()
         #
         arw = arw.shift(hours=offset_hours)
-        return arw.datetime
+
+        return_value = arw.datetime
+        if return_value.tzinfo is None:
+            return_value = return_value.astimezone()
+        return return_value
