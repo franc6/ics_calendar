@@ -157,7 +157,7 @@ class ParserRIE(ICalendarParser):
         :rtype datetime
         """
         # Must use type here, since a datetime is also a date!
-        if type(date_time) == date:  # pylint: disable=C0123
+        if isinstance(date_time, date) and not isinstance(date_time, datetime):
             date_time = datetime.combine(date_time, datetime.min.time())
         return date_time.astimezone()
 
