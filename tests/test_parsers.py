@@ -4,6 +4,7 @@ from unittest.mock import Mock
 import ics
 import pytest
 from dateutil import parser as dtparser
+from homeassistant.util import dt as hadt
 
 
 class TestParsers:
@@ -440,5 +441,27 @@ class TestParsers:
             -4,
         )
 
+        pytest.helpers.assert_event_list_size(1, event_list)
+        pytest.helpers.compare_event_list(expected_data, event_list)
+
+    @pytest.mark.parametrize(
+        "which_parser",
+        [
+            "rie_parser",
+            "ics_parser",
+        ],
+    )
+    @pytest.mark.parametrize(
+        "set_tz", ["utc", "chicago", "baghdad"], indirect=True
+    )
+    @pytest.mark.parametrize("file_name", ["issue92.ics"])
+    def test_issue_ninety_two(
+        self, parser, set_tz, calendar_data, expected_data
+    ):
+        """Test if still fixed, issue 92."""
+        now = hadt.as_local(dtparser.parse("2022-12-30T06:00:00"))
+        parser.set_content(calendar_data)
+        current_event = parser.get_current_event(True, now, 5)
+        event_list = [current_event]
         pytest.helpers.assert_event_list_size(1, event_list)
         pytest.helpers.compare_event_list(expected_data, event_list)
