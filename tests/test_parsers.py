@@ -271,12 +271,12 @@ class TestParsers:
             "ics_parser",
         ],
     )
-    @pytest.mark.parametrize("file_name", ["issue45.ics"])
+    @pytest.mark.parametrize("file_name", ["issue43.ics"])
     def test_issue_forty_three_two_days(
         self, parser, calendar_data, expected_data
     ):
         """Test if still fixed, issue 43."""
-        now = dtparser.parse("2022-02-28T06:00:00-05:00")
+        now = dtparser.parse("2022-02-28T06:00:00-04:00")
         parser.set_content(calendar_data)
         current_event = parser.get_current_event(True, now, 2)
         event_list = [current_event]
@@ -291,11 +291,12 @@ class TestParsers:
         ],
     )
     @pytest.mark.parametrize("file_name", ["issue43.ics"])
+    @pytest.mark.parametrize("expected_name", ["issue43-14.ics"])
     def test_issue_forty_three_fourteen_days(
         self, parser, calendar_data, expected_data
     ):
         """Test if still fixed, issue 43."""
-        now = dtparser.parse("2022-03-01T06:00:00-05:00")
+        now = dtparser.parse("2022-03-01T06:00:00-04:00")
         parser.set_content(calendar_data)
         current_event = parser.get_current_event(True, now, 14)
         event_list = [current_event]

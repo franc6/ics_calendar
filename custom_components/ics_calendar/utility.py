@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 def make_datetime(val):
     """Ensure val is a datetime, not a date."""
-    if type(val) == date:  # pylint: disable=C0123
+    if isinstance(val, date) and not isinstance(val, datetime):
         return datetime.combine(val, datetime.min.time()).astimezone()
     return val
 

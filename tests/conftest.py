@@ -219,14 +219,24 @@ def calendar_data(file_name):
 
 
 @pytest.fixture()
-def expected_data(file_name):
+def expected_name(file_name):
+    """Return {fileName}.
+
+    :param fileName: The base name of the file
+    :type fileName: str
+    """
+    return file_name
+
+
+@pytest.fixture()
+def expected_data(file_name, expected_name):
     """Return content of tests/{fileName}.expected.json.
 
     :param fileName: The base name of the file
     :type fileName: str
     """
     with open(
-        f"tests/{file_name}.expected.json", encoding="utf-8"
+        f"tests/{expected_name}.expected.json", encoding="utf-8"
     ) as file_handle:
         return json.loads(file_handle.read(), object_pairs_hook=datetime_hook)
 

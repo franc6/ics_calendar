@@ -54,8 +54,8 @@ def _mocked_event():
     """Provide fixture to mock a single event."""
     return CalendarEvent(
         summary="Test event",
-        start=dtparser.parse("2022-01-03T00:00:00"),
-        end=dtparser.parse("2022-01-03T05:00:00"),
+        start=hadt.as_local(dtparser.parse("2022-01-03T00:00:00")),
+        end=hadt.as_local(dtparser.parse("2022-01-03T05:00:00")),
         location="Test location",
         description="Test description",
     )

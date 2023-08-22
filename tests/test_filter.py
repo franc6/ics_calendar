@@ -1,5 +1,6 @@
 """Test the Filter class."""
 import pytest
+from dateutil import parser as dtparser
 from homeassistant.components.calendar import CalendarEvent
 
 from custom_components.ics_calendar.filter import Filter
@@ -10,8 +11,8 @@ def calendar_event() -> CalendarEvent:
     """Fixture to return a CalendarEvent."""
     return CalendarEvent(
         summary="summary",
-        start="start",
-        end="start",
+        start=dtparser.parse("2020-01-01T0:00:00").astimezone(),
+        end=dtparser.parse("2020-01-01T0:00:00").astimezone(),
         location="location",
         description="description",
     )
