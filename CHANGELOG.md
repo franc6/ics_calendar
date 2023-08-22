@@ -1,3 +1,10 @@
+## 3.1.8 2023/08/23
+- Fixed #90
+- Fixed #92
+
+### Breaking Change
+- Updated to require HA 2023.6.  This release requires python 3.11, which is also required by HA 2023.6 and later, so that's the new minimum.
+
 ## 3.1.7 2023/02/07
 - Fixed #76/#85
 - Fixed #77; you can now use {year} and {month} in your URLs to get the current 4 digit year and 2 digit month.
