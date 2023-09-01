@@ -115,10 +115,11 @@ class CalendarData:
                 digest_auth_handler, basic_auth_handler
             )
 
-        if user_agent != "":
-            if self._opener is None:
-                self._opener = build_opener()
-            self._opener.addheaders = [("User-agent", user_agent)]
+        if self._opener is None:
+            self._opener = build_opener()
+        self._opener.addheaders = [
+            ("User-agent", user_agent),
+            ("Accept", "text/html,application/xhtml+xml,application/xml")]
 
     def _decode_data(self, conn):
         if (
