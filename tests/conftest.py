@@ -125,6 +125,25 @@ def negative_offset_hours_config():
 
 
 @pytest.fixture()
+def acceptheader_config():
+    """Provide fixture for config that uses user name and password."""
+    return {
+        "calendar": {
+            "platform": PLATFORM,
+            "calendars": [
+                {
+                    "name": "acceptheader",
+                    "url": "http://test.local/tests/allday.ics",
+                    "include_all_day": "false",
+                    "days": "1",
+                    "accept_header": "text/calendar",
+                }
+            ],
+        }
+    }
+
+
+@pytest.fixture()
 def useragent_config():
     """Provide fixture for config that uses user name and password."""
     return {

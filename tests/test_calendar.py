@@ -260,6 +260,48 @@ class TestCalendar:
         ".get_current_event",
         return_value=_mocked_event(),
     )
+    async def test_calendar_setup_acceptheader(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_sh,
+        hass,
+        acceptheader_config,
+    ):
+        """Test basic setup of platform with user name and password."""
+        assert await async_setup_component(
+            hass, "calendar", acceptheader_config
+        )
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.acceptheader")
+        assert state.name == "acceptheader"
+        mock_sh.assert_called_with(
+            "",
+            "",
+            "",
+            acceptheader_config["calendar"]["calendars"][0]["accept_header"],
+        )
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData"
+        ".set_headers",
+        return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
     async def test_calendar_setup_useragent(
         self,
         mock_event,
@@ -279,6 +321,7 @@ class TestCalendar:
             "",
             "",
             useragent_config["calendar"]["calendars"][0]["user_agent"],
+            "",
         )
 
     @patch(
@@ -317,6 +360,7 @@ class TestCalendar:
         mock_sh.assert_called_with(
             userpass_config["calendar"]["calendars"][0]["username"],
             userpass_config["calendar"]["calendars"][0]["password"],
+            "",
             "",
         )
 

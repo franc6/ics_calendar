@@ -43,6 +43,7 @@ CONF_PARSER = "parser"
 CONF_DOWNLOAD_INTERVAL = "download_interval"
 CONF_USER_AGENT = "user_agent"
 CONF_OFFSET_HOURS = "offset_hours"
+CONF_ACCEPT_HEADER = "accept_header"
 
 OFFSET = "!!"
 
@@ -77,6 +78,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
                             vol.Optional(CONF_EXCLUDE, default=""): cv.string,
                             vol.Optional(CONF_INCLUDE, default=""): cv.string,
                             vol.Optional(CONF_OFFSET_HOURS, default=0): int,
+                            vol.Optional(
+                                CONF_ACCEPT_HEADER, default=""
+                            ): cv.string,
                         }
                     )
                 ]
@@ -121,6 +125,7 @@ def setup_platform(
             CONF_EXCLUDE: calendar.get(CONF_EXCLUDE),
             CONF_INCLUDE: calendar.get(CONF_INCLUDE),
             CONF_OFFSET_HOURS: calendar.get(CONF_OFFSET_HOURS),
+            CONF_ACCEPT_HEADER: calendar.get(CONF_ACCEPT_HEADER),
         }
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -243,6 +248,7 @@ class ICSCalendarData:
             device_data[CONF_USERNAME],
             device_data[CONF_PASSWORD],
             device_data[CONF_USER_AGENT],
+            device_data[CONF_ACCEPT_HEADER],
         )
 
     async def async_get_events(

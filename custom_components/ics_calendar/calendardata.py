@@ -88,8 +88,9 @@ class CalendarData:
         user_name: str,
         password: str,
         user_agent: str,
+        accept_header: str,
     ):
-        """Set a user agent string and/or user name and password to use.
+        """Set a user agent, accept header, and/or user name and password.
 
         The user name and password will be set into an HTTPBasicAuthHandler an
         an HTTPDigestAuthHandler.  Both are attached to a new urlopener, so
@@ -103,8 +104,10 @@ class CalendarData:
         :type user_name: str
         :param password: The password
         :type password: str
-        :param user_agent: The User Agent string to use, or None for default
+        :param user_agent: The User Agent string to use or ""
         :type user_agent: str
+        :param accept_header: The accept header string to use or ""
+        :type accept_header: str
         """
         if user_name != "" and password != "":
             passman = HTTPPasswordMgrWithDefaultRealm()
@@ -115,10 +118,15 @@ class CalendarData:
                 digest_auth_handler, basic_auth_handler
             )
 
+        additional_headers = []
         if user_agent != "":
+            additional_headers.append(("User-agent", user_agent))
+        if accept_header != "":
+            additional_headers.append(("Accept", accept_header))
+        if len(additional_headers) > 0:
             if self._opener is None:
                 self._opener = build_opener()
-            self._opener.addheaders = [("User-agent", user_agent)]
+            self._opener.addheaders = additional_headers
 
     def _decode_data(self, conn):
         if (
