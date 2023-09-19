@@ -1,3 +1,7 @@
+## 3.2.0 2023/09/19
+- Added new option, accept_header to allow setting an Accept header for misconfigured servers.
+- Updated dependencies
+
 ## 3.1.8 2023/08/23
 - Fixed #90
 - Fixed #92
