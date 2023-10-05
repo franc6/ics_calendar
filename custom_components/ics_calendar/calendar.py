@@ -155,6 +155,7 @@ class ICSCalendarEntity(CalendarEntity):
         self._event = None
         self._name = device_data[CONF_NAME]
         self._last_call = None
+        self._unique_id = device_data[CONF_URL]
 
     @property
     def event(self) -> Optional[CalendarEvent]:
@@ -169,6 +170,11 @@ class ICSCalendarEntity(CalendarEntity):
     def name(self):
         """Return the name of the calendar."""
         return self._name
+    
+    @property
+    def unique_id(self):
+        """Return the unique id."""
+        return self._unique_id
 
     @property
     def should_poll(self):
