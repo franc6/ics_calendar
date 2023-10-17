@@ -1,3 +1,7 @@
+## 4.0.0 2023/XX/XX
+### Breaking Change
+You must update your YAML configuration with this update.  This integration is no longer just a platform for the calendar component.  Instead, it's a full component on its own that also provides a calendar.  Please see XXXX for more information.
+
 ## 3.2.0 2023/09/19
 - Added new option, accept_header to allow setting an Accept header for misconfigured servers.
 - Updated dependencies

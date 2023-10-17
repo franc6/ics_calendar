@@ -10,6 +10,8 @@ from homeassistant.helpers.template import DATE_STR_FORMAT
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as hadt
 
+from custom_components.ics_calendar.const import DOMAIN
+
 pytest_plugins = "pytest_homeassistant_custom_component"
 
 
@@ -126,7 +128,7 @@ class TestCalendar:
         self, mock_event, mock_get, mock_download, hass, noallday_config
     ):
         """Test basic setup of platform not including all day events."""
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.noallday")
@@ -164,7 +166,7 @@ class TestCalendar:
         allday_config,
     ):
         """Test basic setup of platform with user name and password."""
-        assert await async_setup_component(hass, "calendar", allday_config)
+        assert await async_setup_component(hass, DOMAIN, allday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.allday")
@@ -197,7 +199,7 @@ class TestCalendar:
     ):
         """Test basic setup of platform not including all day events."""
         assert await async_setup_component(
-            hass, "calendar", negative_offset_hours_config
+            hass, DOMAIN, negative_offset_hours_config
         )
         await hass.async_block_till_done()
 
@@ -231,7 +233,7 @@ class TestCalendar:
     ):
         """Test basic setup of platform not including all day events."""
         assert await async_setup_component(
-            hass, "calendar", positive_offset_hours_config
+            hass, DOMAIN, positive_offset_hours_config
         )
         await hass.async_block_till_done()
 
@@ -270,9 +272,7 @@ class TestCalendar:
         acceptheader_config,
     ):
         """Test basic setup of platform with user name and password."""
-        assert await async_setup_component(
-            hass, "calendar", acceptheader_config
-        )
+        assert await async_setup_component(hass, DOMAIN, acceptheader_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.acceptheader")
@@ -281,7 +281,7 @@ class TestCalendar:
             "",
             "",
             "",
-            acceptheader_config["calendar"]["calendars"][0]["accept_header"],
+            acceptheader_config[DOMAIN]["calendars"][0]["accept_header"],
         )
 
     @patch(
@@ -312,7 +312,7 @@ class TestCalendar:
         useragent_config,
     ):
         """Test basic setup of platform with user name and password."""
-        assert await async_setup_component(hass, "calendar", useragent_config)
+        assert await async_setup_component(hass, DOMAIN, useragent_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.useragent")
@@ -320,7 +320,7 @@ class TestCalendar:
         mock_sh.assert_called_with(
             "",
             "",
-            useragent_config["calendar"]["calendars"][0]["user_agent"],
+            useragent_config[DOMAIN]["calendars"][0]["user_agent"],
             "",
         )
 
@@ -352,14 +352,14 @@ class TestCalendar:
         userpass_config,
     ):
         """Test basic setup of platform with user name and password."""
-        assert await async_setup_component(hass, "calendar", userpass_config)
+        assert await async_setup_component(hass, DOMAIN, userpass_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.userpass")
         assert state.name == "userpass"
         mock_sh.assert_called_with(
-            userpass_config["calendar"]["calendars"][0]["username"],
-            userpass_config["calendar"]["calendars"][0]["password"],
+            userpass_config[DOMAIN]["calendars"][0]["username"],
+            userpass_config[DOMAIN]["calendars"][0]["password"],
             "",
             "",
         )
@@ -402,7 +402,7 @@ class TestCalendar:
         noallday_config,
     ):
         """Test get_api_events."""
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.noallday")
@@ -468,7 +468,7 @@ class TestCalendar:
             dtparser.parse("2022-01-01T00:00:01")
         )
 
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.noallday")
@@ -535,7 +535,7 @@ class TestCalendar:
             dtparser.parse("2022-01-03T00:00:01")
         )
 
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.noallday")
@@ -585,7 +585,7 @@ class TestCalendar:
     ):
         """Test state if exception is thrown."""
         mock_event.side_effect = Exception("Parse Error")
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.noallday")
@@ -646,7 +646,7 @@ class TestCalendar:
             dtparser.parse("2022-01-03T00:00:01")
         )
 
-        assert await async_setup_component(hass, "calendar", allday_config)
+        assert await async_setup_component(hass, DOMAIN, allday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.allday")
@@ -696,7 +696,7 @@ class TestCalendar:
         noallday_config,
     ):
         """Test get_api_events."""
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         events = await get_api_events("calendar.noallday")
@@ -736,7 +736,7 @@ class TestCalendar:
     ):
         """Test get_api_events when exception is thrown."""
         mock_event_list.side_effect = BaseException("Failed to get events")
-        assert await async_setup_component(hass, "calendar", noallday_config)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         events = await get_api_events("calendar.noallday")

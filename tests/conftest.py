@@ -6,7 +6,7 @@ from http import HTTPStatus
 import pytest
 from dateutil import parser as dtparser
 
-from custom_components.ics_calendar.const import PLATFORM
+from custom_components.ics_calendar.const import DOMAIN
 from custom_components.ics_calendar.icalendarparser import ICalendarParser
 
 
@@ -54,8 +54,7 @@ def get_api_events(hass_client):
 def allday_config():
     """Provide fixture for config that includes allday events."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "allday",
@@ -72,8 +71,7 @@ def allday_config():
 def noallday_config():
     """Provide fixture for config that does not include allday events."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "noallday",
@@ -90,8 +88,7 @@ def noallday_config():
 def positive_offset_hours_config():
     """Provide fixture for config that does not include allday events."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "positive_offset_hours",
@@ -109,8 +106,7 @@ def positive_offset_hours_config():
 def negative_offset_hours_config():
     """Provide fixture for config that does not include allday events."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "negative_offset_hours",
@@ -128,8 +124,7 @@ def negative_offset_hours_config():
 def acceptheader_config():
     """Provide fixture for config that uses user name and password."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "acceptheader",
@@ -147,8 +142,7 @@ def acceptheader_config():
 def useragent_config():
     """Provide fixture for config that uses user name and password."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "useragent",
@@ -166,8 +160,7 @@ def useragent_config():
 def userpass_config():
     """Provide fixture for config that uses user name and password."""
     return {
-        "calendar": {
-            "platform": PLATFORM,
+        DOMAIN: {
             "calendars": [
                 {
                     "name": "userpass",

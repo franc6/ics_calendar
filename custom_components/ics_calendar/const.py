@@ -1,3 +1,3 @@
 """Constants for ics_calendar platform."""
-PLATFORM = "ics_calendar"
-VERSION = "3.2.0"
+VERSION = "4.0.0"
+DOMAIN = "ics_calendar"
