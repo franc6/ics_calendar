@@ -41,16 +41,16 @@ This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not suppo
 ```yaml
 ics_calendar:
   calendars:
-      - name: "Name of calendar"
-        url: "https://url.to/calendar.ics"
-      - name: "Name of another calendar"
-        url: "https://url.to/other_calendar.ics"
-        include_all_day: True
-      - name: "Name of a calendar that requires authentication"
-        url: "https://url.to/auth/calendar.ics"
-        include_all_day: True
-        username: True
-        password: !secret auth_calendar
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+    - name: "Name of another calendar"
+      url: "https://url.to/other_calendar.ics"
+      include_all_day: True
+    - name: "Name of a calendar that requires authentication"
+      url: "https://url.to/auth/calendar.ics"
+      include_all_day: True
+      username: True
+      password: !secret auth_calendar
 ```
 
 ## Configuration options
@@ -117,10 +117,10 @@ The "{year}" part will be replaced with the current 4 digit year, and the "{mont
 ```yaml
 ics_calendar:
   calendars:
-      - name: "Name of calendar"
-        url: "https://url.to/calendar.ics"
-        exclude: "['test', '/^regex$/']"
-        include: "['keepme']"
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+      exclude: "['test', '/^regex$/']"
+      include: "['keepme']"
 ```
 
 This example will exclude any event whose summary or description includes "test" in a case insensitive manner, or if the summary or description is "regex".  However, if the summary or description includes "keepme" (case insensitive), the event will be included anyway.

@@ -21,23 +21,6 @@ Current configuration.yaml
 calendar:
   - platform: ics_calendar
     calendars:
-        - name: "Name of calendar"
-            url: "https://url.to/calendar.ics"
-        - name: "Name of another calendar"
-            url: "https://url.to/other_calendar.ics"
-            include_all_day: True
-        - name: "Name of a calendar that requires authentication"
-            url: "https://url.to/auth/calendar.ics"
-            include_all_day: True
-            username: True
-            password: !secret auth_calendar
-```
-
-New configuration.yaml
-
-```yaml
-ics_calendar:
-  calendars:
       - name: "Name of calendar"
         url: "https://url.to/calendar.ics"
       - name: "Name of another calendar"
@@ -48,6 +31,23 @@ ics_calendar:
         include_all_day: True
         username: True
         password: !secret auth_calendar
+```
+
+New configuration.yaml
+
+```yaml
+ics_calendar:
+  calendars:
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+    - name: "Name of another calendar"
+      url: "https://url.to/other_calendar.ics"
+      include_all_day: True
+    - name: "Name of a calendar that requires authentication"
+      url: "https://url.to/auth/calendar.ics"
+      include_all_day: True
+      username: True
+      password: !secret auth_calendar
 ```
 
 ### Example in configuration.yaml with caldav and ics_calendar calendars:
@@ -62,16 +62,16 @@ calendar:
     url: https://example.com/.well-known/caldav
   - platform: ics_calendar
     calendars:
-        - name: "Name of calendar"
-            url: "https://url.to/calendar.ics"
-        - name: "Name of another calendar"
-            url: "https://url.to/other_calendar.ics"
-            include_all_day: True
-        - name: "Name of a calendar that requires authentication"
-            url: "https://url.to/auth/calendar.ics"
-            include_all_day: True
-            username: True
-            password: !secret auth_calendar
+      - name: "Name of calendar"
+        url: "https://url.to/calendar.ics"
+      - name: "Name of another calendar"
+        url: "https://url.to/other_calendar.ics"
+        include_all_day: True
+      - name: "Name of a calendar that requires authentication"
+        url: "https://url.to/auth/calendar.ics"
+        include_all_day: True
+        username: True
+        password: !secret auth_calendar
 ```
 
 New configuration.yaml
@@ -85,16 +85,16 @@ calendar:
 
 ics_calendar:
   calendars:
-      - name: "Name of calendar"
-        url: "https://url.to/calendar.ics"
-      - name: "Name of another calendar"
-        url: "https://url.to/other_calendar.ics"
-        include_all_day: True
-      - name: "Name of a calendar that requires authentication"
-        url: "https://url.to/auth/calendar.ics"
-        include_all_day: True
-        username: True
-        password: !secret auth_calendar
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+    - name: "Name of another calendar"
+      url: "https://url.to/other_calendar.ics"
+      include_all_day: True
+    - name: "Name of a calendar that requires authentication"
+      url: "https://url.to/auth/calendar.ics"
+      include_all_day: True
+      username: True
+      password: !secret auth_calendar
 ```
 
 ### Example in external yaml file with only ics_calendar calendars:
@@ -110,16 +110,16 @@ Current calendars.yaml
 ```yaml
 - platform: ics_calendar
   calendars:
-      - name: "Name of calendar"
-          url: "https://url.to/calendar.ics"
-      - name: "Name of another calendar"
-          url: "https://url.to/other_calendar.ics"
-          include_all_day: True
-      - name: "Name of a calendar that requires authentication"
-          url: "https://url.to/auth/calendar.ics"
-          include_all_day: True
-          username: True
-          password: !secret auth_calendar
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+    - name: "Name of another calendar"
+      url: "https://url.to/other_calendar.ics"
+      include_all_day: True
+    - name: "Name of a calendar that requires authentication"
+      url: "https://url.to/auth/calendar.ics"
+      include_all_day: True
+      username: True
+      password: !secret auth_calendar
 ```
 
 New configuration.yaml
@@ -131,12 +131,12 @@ ics_calendar: !include calendars.yaml
 New calendars.yaml
 ```yaml
 calendars:
-    - name: "Name of calendar"
+  - name: "Name of calendar"
     url: "https://url.to/calendar.ics"
-    - name: "Name of another calendar"
+  - name: "Name of another calendar"
     url: "https://url.to/other_calendar.ics"
     include_all_day: True
-    - name: "Name of a calendar that requires authentication"
+  - name: "Name of a calendar that requires authentication"
     url: "https://url.to/auth/calendar.ics"
     include_all_day: True
     username: True
@@ -160,16 +160,16 @@ Current calendars.yaml
   url: https://example.com/.well-known/caldav
 - platform: ics_calendar
   calendars:
-      - name: "Name of calendar"
-          url: "https://url.to/calendar.ics"
-      - name: "Name of another calendar"
-          url: "https://url.to/other_calendar.ics"
-          include_all_day: True
-      - name: "Name of a calendar that requires authentication"
-          url: "https://url.to/auth/calendar.ics"
-          include_all_day: True
-          username: True
-          password: !secret auth_calendar
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+    - name: "Name of another calendar"
+      url: "https://url.to/other_calendar.ics"
+      include_all_day: True
+    - name: "Name of a calendar that requires authentication"
+      url: "https://url.to/auth/calendar.ics"
+      include_all_day: True
+      username: True
+      password: !secret auth_calendar
 ```
 
 New configuration.yaml
@@ -192,12 +192,12 @@ New ics_calendars.yaml
 
 ```yaml
 calendars:
-    - name: "Name of calendar"
+  - name: "Name of calendar"
     url: "https://url.to/calendar.ics"
-    - name: "Name of another calendar"
+  - name: "Name of another calendar"
     url: "https://url.to/other_calendar.ics"
     include_all_day: True
-    - name: "Name of a calendar that requires authentication"
+  - name: "Name of a calendar that requires authentication"
     url: "https://url.to/auth/calendar.ics"
     include_all_day: True
     username: True
