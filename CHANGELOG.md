@@ -1,6 +1,7 @@
-## 4.0.0 2023/XX/XX
+## 4.0.0 2023/10/17
+- Change to be a component, since HA doesn't seem likely to allow UI configuration of the calendar component. :(
 ### Breaking Change
-You must update your YAML configuration with this update.  This integration is no longer just a platform for the calendar component.  Instead, it's a full component on its own that also provides a calendar.  Please see XXXX for more information.
+You must update your YAML configuration with this update.  This integration is no longer a platform for the calendar component.  Instead, it's a component on its own that provides calendars.  Please see [UpgradeTo4.0AndLater.md](https://github.com/franc6/ics_calendar/blob/releases/UpgradeTo4.0AndLater.md) for more information on upgrading.  Please read that carefully before upgrading to this version!
 
 ## 3.2.0 2023/09/19
 - Added new option, accept_header to allow setting an Accept header for misconfigured servers.

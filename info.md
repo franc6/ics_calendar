@@ -1,17 +1,16 @@
 # ics_calendar
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration) [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar) [![Coverage](https://codecov.io/gh/franc6/ics_calendar/branch/releases/graph/badge.svg)](https://app.codecov.io/gh/franc6/ics_calendar/branch/releases) ![Maintained:yes](https://img.shields.io/maintenance/yes/2023.svg) [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
 
-Provides an ICS (icalendar) platform for the Home Assistant calendar
+Provides a component for ICS (icalendar) calendars for Home Assistant
 
-> **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
+> **NOTE**: This component is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav calendar platform instead.  This one might work, but probably not well.
 
 ## Authentication
-This calendar platform supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
+This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
 
 ## Example configuration.yaml
 ```yaml
-calendar:
-- platform: ics_calendar
+ics_calendar:
   calendars:
       - name: "Name of calendar"
         url: "https://url.to/calendar.ics"
@@ -87,8 +86,7 @@ The "{year}" part will be replaced with the current 4 digit year, and the "{mont
 
 ### Examples
 ```yaml
-calendar:
-- platform: ics_calendar
+ics_calendar:
   calendars:
       - name: "Name of calendar"
         url: "https://url.to/calendar.ics"

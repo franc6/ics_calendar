@@ -5,9 +5,9 @@
 ![Maintained:yes](https://img.shields.io/maintenance/yes/2023.svg)
 [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
 
-Provides an ICS (icalendar) platform for the Home Assistant calendar
+Provides a component for ICS (icalendar) calendars for Home Assistant
 
-> **NOTE**: This calendar platform is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav platform instead.  This one might work, but probably not well.
+> **NOTE**: This component is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav calendar platform instead.  This one might work, but probably not well.
 
 ## Installation
 You can install this through [HACS](https://github.com/custom-components/hacs).
@@ -21,7 +21,7 @@ Otherwise, you can install it manually.
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Inside the new directory, run 'pip install -r requirements.txt'
 7. Restart Home Assistant
-8. Add platform: ics_calendar to your HA's calendar configuration.
+8. Add ics_calendar: to your HA's configuration.
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
@@ -35,12 +35,11 @@ custom_components/ics_calendar/parsers/parser_rie.py
 ```
 
 ## Authentication
-This calendar platform supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
+This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
 
 ## Example configuration.yaml
 ```yaml
-calendar:
-- platform: ics_calendar
+ics_calendar:
   calendars:
       - name: "Name of calendar"
         url: "https://url.to/calendar.ics"
@@ -116,8 +115,7 @@ The "{year}" part will be replaced with the current 4 digit year, and the "{mont
 
 ### Examples
 ```yaml
-calendar:
-- platform: ics_calendar
+ics_calendar:
   calendars:
       - name: "Name of calendar"
         url: "https://url.to/calendar.ics"
