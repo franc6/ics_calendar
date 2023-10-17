@@ -1,4 +1,4 @@
-This file covers upgrading from ics_calendar version 3.x or earlier to version 4.0.x.  Please read it carefully and make the necessary configuration changes, or you may experience problems.  If you are installing version 4.0.x and have not used ics_calendar before, you don't need to read this document.  Just follow the configuration instructions in [README.md](https://github.com/franc6/ics_calendar/blob/releases/UpgradeTo4.0AndLater.md).
+This file covers upgrading from ics_calendar version 3.x or earlier to version 4.0.x.  Please read it carefully and make the necessary configuration changes, or you may experience problems.  If you are installing version 4.0.x and have not used ics_calendar before, you don't need to read this document.  Just follow the configuration instructions in [README.md](https://github.com/franc6/ics_calendar/blob/releases/README.md).
 
 Version 4.0.0 includes some breaking changes that allow for a future version that is configurable via the UI, and supports unique_id.  This future version will fix issues 88 and 89.  They are not fixed in 4.0.0.
 
