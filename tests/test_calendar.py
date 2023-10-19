@@ -1,5 +1,6 @@
 """Test the calendar class."""
 import copy
+import logging
 from unittest.mock import ANY, Mock, patch
 
 import pytest
@@ -10,7 +11,7 @@ from homeassistant.helpers.template import DATE_STR_FORMAT
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as hadt
 
-from custom_components.ics_calendar.const import DOMAIN
+from custom_components.ics_calendar.const import DOMAIN, UPGRADE_URL
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -137,6 +138,13 @@ class TestCalendar:
         mock_event.assert_called_with(
             include_all_day=False, now=ANY, days=ANY, offset_hours=0
         )
+
+    async def test_calendar_setup_no_config(self, hass, caplog):
+        """Test basic setup of platform not including all day events."""
+        with caplog.at_level(logging.ERROR):
+            assert await async_setup_component(hass, DOMAIN, {})
+            await hass.async_block_till_done()
+        assert UPGRADE_URL in caplog.text
 
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"

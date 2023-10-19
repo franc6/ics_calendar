@@ -16,7 +16,7 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
-from .const import DOMAIN
+from .const import DOMAIN, UPGRADE_URL
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.CALENDAR]
@@ -94,7 +94,16 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     _LOGGER.debug("Setting up ics_calendar component")
     hass.data.setdefault(DOMAIN, {})
 
-    hass.helpers.discovery.load_platform(
-        PLATFORMS[0], DOMAIN, config[DOMAIN], config
-    )
+    if DOMAIN in config:
+        hass.helpers.discovery.load_platform(
+            PLATFORMS[0], DOMAIN, config[DOMAIN], config
+        )
+    else:
+        _LOGGER.error(
+            "No configuration found! If you upgraded from ics_calendar v3.2.0 "
+            "or older, you need to update your configuration! See "
+            "%s for more information.",
+            UPGRADE_URL,
+        )
+
     return True
