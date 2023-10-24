@@ -1,3 +1,6 @@
+## 4.0.1 2023/10/24
+- Attempt to give an error message for missing configuration
+
 ## 4.0.0 2023/10/17
 - Change to be a component, since HA doesn't seem likely to allow UI configuration of the calendar component. :(
 ### Breaking Change
