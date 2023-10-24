@@ -121,7 +121,7 @@ class ICSCalendarEntity(CalendarEntity):
 
     @property
     def event(self) -> Optional[CalendarEvent]:
-        """Return the current event for the calendar entity or None.
+        """Return the current or next upcoming event or None.
 
         :return: The current event as a dict
         :rtype: dict
