@@ -94,7 +94,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     _LOGGER.debug("Setting up ics_calendar component")
     hass.data.setdefault(DOMAIN, {})
 
-    if DOMAIN in config:
+    if DOMAIN in config and config[DOMAIN]:
         hass.helpers.discovery.load_platform(
             PLATFORMS[0], DOMAIN, config[DOMAIN], config
         )
