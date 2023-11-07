@@ -9,6 +9,7 @@ from homeassistant.const import (
     CONF_INCLUDE,
     CONF_NAME,
     CONF_PASSWORD,
+    CONF_PREFIX,
     CONF_URL,
     CONF_USERNAME,
     Platform,
@@ -55,6 +56,9 @@ CONFIG_SCHEMA = vol.Schema(
                                     ): cv.string,
                                     vol.Optional(
                                         CONF_PARSER, default="rie"
+                                    ): cv.string,
+                                    vol.Optional(
+                                        CONF_PREFIX, default=""
                                     ): cv.string,
                                     vol.Optional(
                                         CONF_DAYS, default=1

@@ -17,6 +17,7 @@ from homeassistant.const import (
     CONF_INCLUDE,
     CONF_NAME,
     CONF_PASSWORD,
+    CONF_PREFIX,
     CONF_URL,
     CONF_USERNAME,
 )
@@ -82,6 +83,7 @@ def setup_platform(
             CONF_USERNAME: calendar.get(CONF_USERNAME),
             CONF_PASSWORD: calendar.get(CONF_PASSWORD),
             CONF_PARSER: calendar.get(CONF_PARSER),
+            CONF_PREFIX: calendar.get(CONF_PREFIX),
             CONF_DAYS: calendar.get(CONF_DAYS),
             CONF_DOWNLOAD_INTERVAL: calendar.get(CONF_DOWNLOAD_INTERVAL),
             CONF_USER_AGENT: calendar.get(CONF_USER_AGENT),
@@ -181,7 +183,7 @@ class ICSCalendarEntity(CalendarEntity):
         }
 
 
-class ICSCalendarData:
+class ICSCalendarData:  # pylint: disable=R0902
     """Class to use the calendar ICS client object to get next event."""
 
     def __init__(self, device_data):
@@ -193,6 +195,7 @@ class ICSCalendarData:
         self._days = device_data[CONF_DAYS]
         self._offset_hours = device_data[CONF_OFFSET_HOURS]
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
+        self._summary_prefix: str = device_data[CONF_PREFIX]
         self.parser = ICalendarParser.get_instance(device_data[CONF_PARSER])
         self.parser.set_filter(
             Filter(device_data[CONF_EXCLUDE], device_data[CONF_INCLUDE])
@@ -247,6 +250,9 @@ class ICSCalendarData:
             )
             event_list = []
 
+        for event in event_list:
+            event.summary = self._summary_prefix + event.summary
+
         return event_list
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
@@ -277,7 +283,7 @@ class ICSCalendarData:
                 self.event.all_day,
             )
             (summary, offset) = extract_offset(self.event.summary, OFFSET)
-            self.event.summary = summary
+            self.event.summary = self._summary_prefix + summary
             self.offset = offset
             return True
 
