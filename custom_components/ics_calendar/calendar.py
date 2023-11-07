@@ -183,7 +183,7 @@ class ICSCalendarEntity(CalendarEntity):
         }
 
 
-class ICSCalendarData:
+class ICSCalendarData:  # pylint: disable=R0902
     """Class to use the calendar ICS client object to get next event."""
 
     def __init__(self, device_data):
