@@ -71,6 +71,7 @@ Key | Type | Required | Description
 `include_all_day` | `boolean` | `False` | Set to True if all day events should be included
 `offset_hours` | `int` | `False` | A number of hours (positive or negative) to offset times by, see below
 `parser` | `string` | `False` | 'rie' or 'ics', defaults to 'rie' if not present
+`prefix` | `string` | `False` | Specify a string to prefix every event summary with, see below
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
 `user_agent` | `string` | `False` | Allows setting the User-agent header.  Only specify this if your server rejects the normal python user-agent string.  You must set the entire and exact user agent string here.
@@ -80,6 +81,17 @@ The download interval should be a multiple of 15 at this time.  This is so downl
 
 #### Offset Hours
 This feature is to aid with calendars that present incorrect times.  If your calendar has an incorrect time, e.g. it lists your local time, but indicates that it's the time in UTC, this can be used to correct for your local time.  This affects all events, except all day events.  All day events do not include time information, and so the offset will not be applied.  Use a positive number to add hours to the time, and a negative number to subtract hours from the time.
+
+#### Prefix
+This feature prefixes each summary with the given string.  You might want to have some whitespace between the prefix and original event summary.  You must include whatever whitespace you want in your configuration, so be sure to quote the string.  E.g.:
+
+```yaml
+ics_calendar:
+  calendars:
+    - name: "Name of calendar"
+      url: "https://url.to/calendar.ics"
+      prefix: 'ICS Prefix '
+```
 
 ## Parsers
 ics_calendar uses one of two parsers for generating events from calendars.  These parsers are written and maintained by third parties, not by me.  Each comes with its own sets of problems.

@@ -184,6 +184,74 @@ class TestCalendar:
             include_all_day=True, now=ANY, days=ANY, offset_hours=0
         )
 
+    @pytest.mark.parametrize("set_tz", ["utc"], indirect=True)
+    @patch(
+        "custom_components.ics_calendar.calendar.hanow",
+        return_value=dtparser.parse("2021-01-03T00:00:01Z"),
+    )
+    @patch(
+        "homeassistant.util.dt.now",
+        return_value=dtparser.parse("2021-01-03T00:00:01Z"),
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_event_list",
+        return_value=_mocked_event_list(),
+    )
+    async def test_calendar_setup_prefix(
+        self,
+        mock_event_list,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_dt_now,
+        mock_now,
+        set_tz,
+        hass,
+        prefix_config,
+        get_api_events,
+    ):
+        """Test basic setup of platform not including all day events."""
+        mocked_event = copy.deepcopy(mock_event())
+
+        assert await async_setup_component(hass, DOMAIN, prefix_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.prefix")
+        assert state.name == "prefix"
+
+        assert dict(state.attributes) == {
+            "friendly_name": "prefix",
+            "message": prefix_config[DOMAIN]["calendars"][0]["prefix"]
+            + mocked_event.summary,
+            "all_day": False,
+            "start_time": mocked_event.start.strftime(DATE_STR_FORMAT),
+            "end_time": mocked_event.end.strftime(DATE_STR_FORMAT),
+            "location": mocked_event.location,
+            "description": mocked_event.description,
+            "offset_reached": False,
+        }
+
+        events = await get_api_events("calendar.prefix")
+        assert len(events) == len(mock_event_list())
+        for event in events:
+            assert event["summary"].startswith(
+                prefix_config[DOMAIN]["calendars"][0]["prefix"]
+            )
+
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,

@@ -121,6 +121,24 @@ def negative_offset_hours_config():
 
 
 @pytest.fixture()
+def prefix_config():
+    """Provide fixture for config that does not include allday events."""
+    return {
+        DOMAIN: {
+            "calendars": [
+                {
+                    "name": "prefix",
+                    "url": "http://test.local/tests/allday.ics",
+                    "include_all_day": "false",
+                    "days": "1",
+                    "prefix": "PREFIX ",
+                }
+            ],
+        }
+    }
+
+
+@pytest.fixture()
 def acceptheader_config():
     """Provide fixture for config that uses user name and password."""
     return {

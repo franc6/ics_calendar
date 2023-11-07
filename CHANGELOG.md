@@ -1,3 +1,6 @@
+## 4.1.0 2023/11/07
+- Add feature for #107
+
 ## 4.0.1 2023/10/24
 - Attempt to give an error message for missing configuration
 
