@@ -31,6 +31,7 @@ from homeassistant.util.dt import now as hanow
 from . import (
     CONF_ACCEPT_HEADER,
     CONF_CALENDARS,
+    CONF_CONNECTION_TIMEOUT,
     CONF_DAYS,
     CONF_DOWNLOAD_INTERVAL,
     CONF_INCLUDE_ALL_DAY,
@@ -91,6 +92,7 @@ def setup_platform(
             CONF_INCLUDE: calendar.get(CONF_INCLUDE),
             CONF_OFFSET_HOURS: calendar.get(CONF_OFFSET_HOURS),
             CONF_ACCEPT_HEADER: calendar.get(CONF_ACCEPT_HEADER),
+            CONF_CONNECTION_TIMEOUT: calendar.get(CONF_CONNECTION_TIMEOUT)
         }
         device_id = f"{device_data[CONF_NAME]}"
         entity_id = generate_entity_id(ENTITY_ID_FORMAT, device_id, hass=hass)
@@ -208,6 +210,7 @@ class ICSCalendarData:  # pylint: disable=R0902
             self.name,
             device_data[CONF_URL],
             timedelta(minutes=device_data[CONF_DOWNLOAD_INTERVAL]),
+            device_data[CONF_CONNECTION_TIMEOUT]
         )
 
         self._calendar_data.set_headers(
