@@ -28,7 +28,12 @@ class CalendarData:
     opener_lock = Lock()
 
     def __init__(
-        self, logger: Logger, name: str, url: str, min_update_time: timedelta, connection_timeout: float
+        self,
+        logger: Logger,
+        name: str,
+        url: str,
+        min_update_time: timedelta,
+        connection_timeout: float,
     ):
         """Construct CalendarData object.
 
