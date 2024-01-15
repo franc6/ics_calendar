@@ -7,6 +7,7 @@ import pytest
 from dateutil import parser as dtparser
 from homeassistant.components.calendar import CalendarEvent
 from homeassistant.const import STATE_OFF, STATE_ON
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.template import DATE_STR_FORMAT
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as hadt
@@ -856,3 +857,41 @@ class TestCalendar:
 
         events = await get_api_events("calendar.noallday")
         assert len(events) == 0
+
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_event_list",
+        return_value=_mocked_event_list(),
+    )
+    async def test_create_event_raises_error(
+        self,
+        mock_event_list,
+        mock_get,
+        mock_download,
+        hass,
+        noallday_config,
+    ):
+        """Test that create_event raises an error."""
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
+        await hass.async_block_till_done()
+
+        with pytest.raises(HomeAssistantError):
+            await hass.services.async_call(
+                "calendar",
+                "create_event",
+                {
+                    "start_date_time": "2024-01-15T12:00:00+00:00",
+                    "end_date_time": "2024-01-15T12:01:00+00:00",
+                    "summary": "Test event",
+                },
+                target={"entity_id": "calendar.noallday"},
+                blocking=True,
+            )

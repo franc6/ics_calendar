@@ -1,7 +1,7 @@
 """Support for ICS Calendar."""
 import logging
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Any, Optional
 
 # import homeassistant.helpers.config_validation as cv
 # import voluptuous as vol
@@ -183,6 +183,29 @@ class ICSCalendarEntity(CalendarEntity):
             if self._event
             else False
         }
+
+    async def async_create_event(self, **kwargs: Any):
+        """Raise error, this is a read-only calendar."""
+        raise NotImplementedError()
+
+    async def async_delete_event(
+        self,
+        uid: str,
+        recurrence_id: str | None = None,
+        recurrence_range: str | None = None,
+    ) -> None:
+        """Raise error, this is a read-only calendar."""
+        raise NotImplementedError()
+
+    async def async_update_event(
+        self,
+        uid: str,
+        event: dict[str, Any],
+        recurrence_id: str | None = None,
+        recurrence_range: str | None = None,
+    ) -> None:
+        """Raise error, this is a read-only calendar."""
+        raise NotImplementedError()
 
 
 class ICSCalendarData:  # pylint: disable=R0902

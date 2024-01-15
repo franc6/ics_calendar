@@ -1,6 +1,6 @@
-pytest>=7.2.1
+pytest==7.4.3
 pytest-cov==4.1.0
-pytest-homeassistant-custom-component>=0.13.66
+pytest-homeassistant-custom-component>=0.13.89
 pytest-helpers-namespace==2021.12.29
 pytest-asyncio
 pytest-aiohttp

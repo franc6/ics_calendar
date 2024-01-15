@@ -1,8 +1,10 @@
 """Provide CalendarData class."""
+import time
 import zlib
 from datetime import timedelta
 from gzip import BadGzipFile, GzipFile
 from logging import Logger
+from random import uniform
 from socket import (  # type: ignore[attr-defined]  # private, not in typeshed
     _GLOBAL_DEFAULT_TIMEOUT,
 )
@@ -20,7 +22,7 @@ from urllib.request import (
 from homeassistant.util.dt import now as hanow
 
 
-class CalendarData:
+class CalendarData:  # pylint: disable=R0902
     """CalendarData class.
 
     The CalendarData class is used to download and cache calendar data from a
@@ -57,6 +59,10 @@ class CalendarData:
         self.name = name
         self.url = url
         self.connection_timeout = _GLOBAL_DEFAULT_TIMEOUT
+        # set a random sleep between 0.001 seconds & 2.000 seconds to
+        # reduce server load, particularly if lots of calendars all use the
+        # same server.
+        self._sleep_time = uniform(0.001, 2.000)
 
     def download_calendar(self) -> bool:
         """Download the calendar data.
@@ -78,6 +84,7 @@ class CalendarData:
             self.logger.debug(
                 "%s: Downloading calendar data from: %s", self.name, self.url
             )
+            self._wait_for_server()
             self._download_data()
             return self._calendar_data is not None
 
@@ -143,6 +150,10 @@ class CalendarData:
         :type connection_timeout: float
         """
         self.connection_timeout = connection_timeout
+
+    def _wait_for_server(self):
+        """Sleep for self._sleep_time to reduce server load."""
+        time.sleep(self._sleep_time)
 
     def _decode_data(self, conn):
         if (
