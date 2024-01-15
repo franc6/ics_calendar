@@ -1,6 +1,6 @@
-icalendar >= 5.0.8
+icalendar >= 5.0.11
 python-dateutil >= 2.8.2
 pytz >= 2023.3.post1
-recurring_ical_events >= 2.0.2
+recurring_ical_events >= 2.1.2
 ics >= 0.7.2
 arrow
