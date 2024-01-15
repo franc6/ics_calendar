@@ -103,14 +103,6 @@ class MockHTTPHandlerURLError(HTTPHandler):
         raise URLError("bad url")
 
 
-class MockHTTPHandlerURLErrorTimeout(HTTPHandler):
-    """Mock HTTPHandler with an URLError."""
-
-    def http_open(self, req):
-        """Provide http_open to raise exception."""
-        raise URLError("<urlopen error timed out>")
-
-
 class MockHTTPHandlerError(HTTPHandler):
     """Mock HTTPHandler with a BaseException."""
 
@@ -205,6 +197,15 @@ class MockHTTPHandlerInterpretTemplates(HTTPHandler):
                 raise BaseException("URL contains {year} template!")
             if req.get_full_url().find("{month}"):
                 raise BaseException("URL contains {month} template!")
+
+
+class MockHTTPHandlerTimeoutValue(HTTPHandler):
+    """Mock HTTPHandler that reports timeout value."""
+
+    def http_open(self, req):
+        """Provide http_open to return the timeout value."""
+        timeout_str = f"{req.timeout}"
+        return mock_response(req, timeout_str.encode("utf-8"))
 
 
 class TestCalendarData:
@@ -630,3 +631,15 @@ class TestCalendarData:
         install_opener(opener)
         assert not calendar_data.download_calendar()
         assert calendar_data.get() == CALENDAR_DATA
+
+    def test_download_calendar_has_timeout(self, logger):
+        """Test that timeout is set properly."""
+        timeout = 1.5
+        timeout_str = f"{timeout}"
+        calendar_data = CalendarData(
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5), timeout
+        )
+        opener = build_opener(MockHTTPHandlerTimeoutValue)
+        install_opener(opener)
+        assert calendar_data.download_calendar()
+        assert calendar_data.get() == timeout_str
