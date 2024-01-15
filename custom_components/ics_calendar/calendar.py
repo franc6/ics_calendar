@@ -210,7 +210,6 @@ class ICSCalendarData:  # pylint: disable=R0902
             self.name,
             device_data[CONF_URL],
             timedelta(minutes=device_data[CONF_DOWNLOAD_INTERVAL]),
-            device_data[CONF_CONNECTION_TIMEOUT],
         )
 
         self._calendar_data.set_headers(
@@ -219,6 +218,8 @@ class ICSCalendarData:  # pylint: disable=R0902
             device_data[CONF_USER_AGENT],
             device_data[CONF_ACCEPT_HEADER],
         )
+
+        self._calendar_data.set_timeout(device_data[CONF_CONNECTION_TIMEOUT])
 
     async def async_get_events(
         self, hass: HomeAssistant, start_date: datetime, end_date: datetime

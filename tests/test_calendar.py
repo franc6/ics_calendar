@@ -441,6 +441,45 @@ class TestCalendar:
         )
 
     @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData"
+        ".set_timeout",
+        return_value=None,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
+        return_value=False,
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.CalendarData.get",
+        return_value=_mocked_calendar_data("tests/allday.ics"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_current_event",
+        return_value=_mocked_event(),
+    )
+    async def test_calendar_setup_timeout(
+        self,
+        mock_event,
+        mock_get,
+        mock_download,
+        mock_st,
+        hass,
+        timeout_config,
+    ):
+        """Test basic setup of platform with connection_timeout."""
+        assert await async_setup_component(hass, DOMAIN, timeout_config)
+        await hass.async_block_till_done()
+
+        state = hass.states.get("calendar.timeout")
+        assert state.name == "timeout"
+        mock_st.assert_called_with(
+            float(
+                timeout_config[DOMAIN]["calendars"][0]["connection_timeout"]
+            ),
+        )
+
+    @patch(
         "custom_components.ics_calendar.calendar.hanow",
         return_value=dtparser.parse("2021-01-03T00:00:01Z"),
     )

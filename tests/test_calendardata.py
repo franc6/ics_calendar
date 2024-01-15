@@ -2,9 +2,8 @@
 import email
 from datetime import timedelta
 from io import BytesIO
-from socket import (  # type: ignore[attr-defined]  # private, not in typeshed
-    _GLOBAL_DEFAULT_TIMEOUT,
-)
+
+# )
 from unittest.mock import patch
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import HTTPHandler, build_opener, install_opener
@@ -218,7 +217,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers("", "", "", "")
 
@@ -234,7 +232,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers("", "", "", "text/calendar")
 
@@ -250,7 +247,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers("", "", "Mozilla/5.0", "")
 
@@ -266,7 +262,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers("username", "password", "", "")
 
@@ -282,7 +277,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers("username", "password", "Mozilla/5.0", "")
 
@@ -298,7 +292,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers("username", "password", "", "text/calendar")
 
@@ -314,7 +307,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         calendar_data.set_headers(
             "username", "password", "Mozilla/5.0", "text/calendar"
@@ -327,7 +319,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         set_calendar_data(calendar_data, CALENDAR_DATA)
         assert calendar_data.get() == CALENDAR_DATA
@@ -342,7 +333,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandler)
         install_opener(opener)
@@ -363,7 +353,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_TEMPLATE_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerInterpretTemplates)
         install_opener(opener)
@@ -380,7 +369,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandler)
         calendar_data._opener = opener  # pylint: disable=W0212
@@ -397,7 +385,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerUTF8BOM)
         install_opener(opener)
@@ -414,7 +401,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerUTF16BOMBE)
         install_opener(opener)
@@ -431,7 +417,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerUTF16BOMLE)
         install_opener(opener)
@@ -448,7 +433,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerBadUTF)
         install_opener(opener)
@@ -465,7 +449,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPGzipHandler)
         install_opener(opener)
@@ -482,7 +465,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPGzipHandlerBadGzip)
         install_opener(opener)
@@ -499,7 +481,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPGzipHandlerBadDeflate)
         install_opener(opener)
@@ -516,7 +497,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerContentTooShortError)
         install_opener(opener)
@@ -533,7 +513,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerHTTPError)
         install_opener(opener)
@@ -550,7 +529,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerURLError)
         install_opener(opener)
@@ -567,7 +545,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandlerError)
         install_opener(opener)
@@ -591,7 +568,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandler)
         install_opener(opener)
@@ -620,7 +596,6 @@ class TestCalendarData:
             CALENDAR_NAME,
             TEST_URL,
             timedelta(minutes=5),
-            _GLOBAL_DEFAULT_TIMEOUT,
         )
         opener = build_opener(MockHTTPHandler)
         install_opener(opener)
@@ -632,13 +607,17 @@ class TestCalendarData:
         assert not calendar_data.download_calendar()
         assert calendar_data.get() == CALENDAR_DATA
 
+    # This isn't a good way to test this, since it relies on knowing how
+    # HTTPHandler passes the timeout, but since we're mocking that anyway,
+    # we might as well do it here, and use our knowledge. :(
     def test_download_calendar_has_timeout(self, logger):
         """Test that timeout is set properly."""
         timeout = 1.5
         timeout_str = f"{timeout}"
         calendar_data = CalendarData(
-            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5), timeout
+            logger, CALENDAR_NAME, TEST_URL, timedelta(minutes=5)
         )
+        calendar_data.set_timeout(timeout)
         opener = build_opener(MockHTTPHandlerTimeoutValue)
         install_opener(opener)
         assert calendar_data.download_calendar()
