@@ -27,7 +27,7 @@ class CalendarData:
 
     opener_lock = Lock()
 
-    def __init__(
+    def __init__(  # pylint: disable=R0913
         self,
         logger: Logger,
         name: str,
@@ -46,7 +46,8 @@ class CalendarData:
         :param min_update_time: The minimum time between downloading data from
             the URL when requested
         :type min_update_time: timedelta
-        :param connection_timeout: The timeout in seconds for blocking operations like the connection attempt
+        :param connection_timeout: The timeout in seconds for blocking
+            operations like the connection attempt
         :type connection_timeout: float
         """
         self._calendar_data = None
@@ -175,7 +176,9 @@ class CalendarData:
             with CalendarData.opener_lock:
                 if self._opener is not None:
                     install_opener(self._opener)
-                with urlopen(self._make_url(), timeout=self.connection_timeout) as conn:
+                with urlopen(
+                    self._make_url(), timeout=self.connection_timeout
+                ) as conn:
                     self._calendar_data = self._decode_data(conn)
         except HTTPError as http_error:
             self.logger.error(
