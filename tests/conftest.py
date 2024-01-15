@@ -193,6 +193,24 @@ def userpass_config():
     }
 
 
+@pytest.fixture()
+def timeout_config():
+    """Provide fixture for config that uses user name and password."""
+    return {
+        DOMAIN: {
+            "calendars": [
+                {
+                    "name": "timeout",
+                    "url": "http://test.local/tests/allday.ics",
+                    "include_all_day": "false",
+                    "days": "1",
+                    "connection_timeout": "1.5",
+                }
+            ],
+        }
+    }
+
+
 # Fixtures and methods for test_parsers.py
 def datetime_hook(pairs):
     """Parse datetime values from JSON."""

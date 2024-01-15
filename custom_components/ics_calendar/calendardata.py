@@ -3,6 +3,9 @@ import zlib
 from datetime import timedelta
 from gzip import BadGzipFile, GzipFile
 from logging import Logger
+from socket import (  # type: ignore[attr-defined]  # private, not in typeshed
+    _GLOBAL_DEFAULT_TIMEOUT,
+)
 from threading import Lock
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import (
@@ -27,13 +30,12 @@ class CalendarData:
 
     opener_lock = Lock()
 
-    def __init__(  # pylint: disable=R0913
+    def __init__(
         self,
         logger: Logger,
         name: str,
         url: str,
         min_update_time: timedelta,
-        connection_timeout: float,
     ):
         """Construct CalendarData object.
 
@@ -46,9 +48,6 @@ class CalendarData:
         :param min_update_time: The minimum time between downloading data from
             the URL when requested
         :type min_update_time: timedelta
-        :param connection_timeout: The timeout in seconds for blocking
-            operations like the connection attempt
-        :type connection_timeout: float
         """
         self._calendar_data = None
         self._last_download = None
@@ -57,7 +56,7 @@ class CalendarData:
         self.logger = logger
         self.name = name
         self.url = url
-        self.connection_timeout = connection_timeout
+        self.connection_timeout = _GLOBAL_DEFAULT_TIMEOUT
 
     def download_calendar(self) -> bool:
         """Download the calendar data.
@@ -136,6 +135,14 @@ class CalendarData:
             if self._opener is None:
                 self._opener = build_opener()
             self._opener.addheaders = additional_headers
+
+    def set_timeout(self, connection_timeout: float):
+        """Set the connection timeout.
+
+        :param connection_timeout: The timeout value in seconds.
+        :type connection_timeout: float
+        """
+        self.connection_timeout = connection_timeout
 
     def _decode_data(self, conn):
         if (
