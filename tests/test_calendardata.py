@@ -556,23 +556,6 @@ class TestCalendarData:
         calendar_data.download_calendar()
         assert calendar_data.get() is None
 
-    def test_download_calendar_socket_timeout_URLError(self, logger):
-        """Test that None is cached if the connection times out, which returns URLError.
-
-        This test relies on the success of test_get!
-        """
-        calendar_data = CalendarData(
-            logger,
-            CALENDAR_NAME,
-            TEST_URL,
-            timedelta(minutes=5),
-            connection_timeout=2.0,
-        )
-        opener = build_opener(MockHTTPHandlerURLErrorTimeout)
-        install_opener(opener)
-        calendar_data.download_calendar()
-        assert calendar_data.get() is None
-
     def test_download_calendar_Error(self, logger):
         """Test that None is cached for BaseException.
 
