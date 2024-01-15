@@ -31,6 +31,7 @@ CONF_DOWNLOAD_INTERVAL = "download_interval"
 CONF_USER_AGENT = "user_agent"
 CONF_OFFSET_HOURS = "offset_hours"
 CONF_ACCEPT_HEADER = "accept_header"
+CONF_CONNECTION_TIMEOUT = "connection_timeout"
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -81,6 +82,9 @@ CONFIG_SCHEMA = vol.Schema(
                                     vol.Optional(
                                         CONF_ACCEPT_HEADER, default=""
                                     ): cv.string,
+                                    vol.Optional(
+                                        CONF_CONNECTION_TIMEOUT, default=None
+                                    ): cv.socket_timeout,
                                 }
                             )
                         ]
