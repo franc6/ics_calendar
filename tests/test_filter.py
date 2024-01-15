@@ -131,7 +131,7 @@ ion""",
 
     def test_filter_regex_exclude_dotall(self) -> None:
         """Test that regex exclude filter with dotall works."""
-        filt = Filter("['/cript-./s']", "")
+        filt = Filter("['/cript-.ion/s']", "")
         assert (
             filt.filter(
                 "summary",
@@ -139,6 +139,18 @@ ion""",
 ion""",
             )
             is False
+        )
+
+    def test_filter_regex_exclude_unknown_flag_ignored(self) -> None:
+        """Test that regex exclude filter with dotall works."""
+        filt = Filter("['/cript-.ion/z']", "")
+        assert (
+            filt.filter(
+                "summary",
+                """descript-
+ion""",
+            )
+            is True
         )
 
     def test_filter_with_description_none(self) -> None:
