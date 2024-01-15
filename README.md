@@ -74,6 +74,7 @@ Key | Type | Required | Description
 `prefix` | `string` | `False` | Specify a string to prefix every event summary with, see below
 `username` | `string` | `False` | If the calendar requires authentication, this specifies the user name
 `password` | `string` | `False` | If the calendar requires authentication, this specifies the password
+`timeout` | `float` | `None` | Sets a timeout for the connection to donwload the calendar.  Use this if you have frequent connection issues with a calendar
 `user_agent` | `string` | `False` | Allows setting the User-agent header.  Only specify this if your server rejects the normal python user-agent string.  You must set the entire and exact user agent string here.
 
 #### Download Interval

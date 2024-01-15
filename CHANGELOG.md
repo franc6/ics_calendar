@@ -1,3 +1,6 @@
+## 4.2.0 2024/01/15
+- Add timeout feature.  Thanks to @iamjackg!
+
 ## 4.1.0 2023/11/07
 - Add feature for #107
 
