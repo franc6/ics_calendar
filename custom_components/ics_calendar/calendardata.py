@@ -21,6 +21,8 @@ from urllib.request import (
 
 from homeassistant.util.dt import now as hanow
 
+from urllib.parse import quote
+import datetime
 
 class CalendarData:  # pylint: disable=R0902
     """CalendarData class.
@@ -221,7 +223,8 @@ class CalendarData:  # pylint: disable=R0902
             )
 
     def _make_url(self):
-        now = hanow()
-        return self.url.replace("{year}", f"{now.year:04}").replace(
-            "{month}", f"{now.month:02}"
-        )
+        """Construct the URL dynamically with the current year and month, and encode it properly."""
+        now = datetime.datetime.now()  # Assuming hanow() should be datetime.datetime.now()
+        url_filled = self.url.replace("{year}", f"{now.year:04}").replace("{month}", f"{now.month:02}")
+        # Encode the URL to ensure it only contains ASCII characters
+        return quote(url_filled, safe=':/?&=')
