@@ -14,6 +14,7 @@ from homeassistant.const import (
     CONF_USERNAME,
     Platform,
 )
+from homeassistant.helpers import discovery
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
@@ -103,8 +104,12 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     hass.data.setdefault(DOMAIN, {})
 
     if DOMAIN in config and config[DOMAIN]:
-        hass.helpers.discovery.load_platform(
-            PLATFORMS[0], DOMAIN, config[DOMAIN], config
+        discovery.load_platform(
+            hass=hass,
+            component=PLATFORMS[0], 
+            platform=DOMAIN,
+            discovered=config[DOMAIN], 
+            hass_config=config
         )
     else:
         _LOGGER.error(
