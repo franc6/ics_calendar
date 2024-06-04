@@ -20,21 +20,21 @@ def set_tz(request):
 
 
 @pytest.fixture
-def utc(hass):
+async def utc(hass):
     """Set current time zone for HomeAssistant to UTC."""
-    hass.config.set_time_zone("UTC")
+    await hass.config.async_set_time_zone("UTC")
 
 
 @pytest.fixture
-def chicago(hass):
+async def chicago(hass):
     """Set current time zone for HomeAssistant to America/Chicago."""
-    hass.config.set_time_zone("America/Chicago")
+    await hass.config.async_set_time_zone("America/Chicago")
 
 
 @pytest.fixture
-def baghdad(hass):
+async def baghdad(hass):
     """Set current time zone for HomeAssistant to Asia/Baghdad."""
-    hass.config.set_time_zone("Asia/Baghdad")
+    await hass.config.async_set_time_zone("Asia/Baghdad")
 
 
 @pytest.fixture
