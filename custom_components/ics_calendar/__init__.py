@@ -14,8 +14,8 @@ from homeassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from homeassistant.helpers import discovery
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import discovery
 from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN, UPGRADE_URL
@@ -106,10 +106,10 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     if DOMAIN in config and config[DOMAIN]:
         discovery.load_platform(
             hass=hass,
-            component=PLATFORMS[0], 
+            component=PLATFORMS[0],
             platform=DOMAIN,
-            discovered=config[DOMAIN], 
-            hass_config=config
+            discovered=config[DOMAIN],
+            hass_config=config,
         )
     else:
         _LOGGER.error(
