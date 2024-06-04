@@ -182,18 +182,19 @@ class MockHTTPHandler2(HTTPHandler):
 
 
 class MockHTTPHandlerInterpretTemplates(HTTPHandler):
-    """Mock HTTPHandler with a ContentTooShortError."""
+    """Mock HTTPHandler with a Template."""
 
     def http_open(self, req):
         """Check request URL no longer has templates."""
-        if req.get_full_url() == TEST_TEMPLATE_URL_REPLACED:
+        url: str = req.get_full_url()
+        if url == TEST_TEMPLATE_URL_REPLACED:
             # Return good data only if URL matches!
             return mock_response(req, BINARY_CALENDAR_DATA)
         else:
             # Indiciate what was wrong!
-            if req.get_full_url().find("{year}"):
+            if "{year}" in url:
                 raise BaseException("URL contains {year} template!")
-            if req.get_full_url().find("{month}"):
+            if "{month}" in url:
                 raise BaseException("URL contains {month} template!")
 
 
