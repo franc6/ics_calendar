@@ -1,4 +1,5 @@
 """Support for ics parser."""
+
 import re
 from datetime import date, datetime, timedelta
 from typing import Optional, Union

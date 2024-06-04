@@ -1,4 +1,5 @@
 """Test utility.py."""
+
 from datetime import date, datetime
 
 from custom_components.ics_calendar.utility import compare_event_dates

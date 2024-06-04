@@ -1,4 +1,5 @@
 """Provide ICalendarParser class."""
+
 import importlib
 from datetime import datetime
 from typing import Optional

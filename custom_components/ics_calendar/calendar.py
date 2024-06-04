@@ -1,4 +1,5 @@
 """Support for ICS Calendar."""
+
 import logging
 from datetime import datetime, timedelta
 from typing import Any, Optional
@@ -177,11 +178,13 @@ class ICSCalendarEntity(CalendarEntity):
         self.data.update()
         self._event = self.data.event
         self._attr_extra_state_attributes = {
-            "offset_reached": is_offset_reached(
-                self._event.start_datetime_local, self.data.offset
+            "offset_reached": (
+                is_offset_reached(
+                    self._event.start_datetime_local, self.data.offset
+                )
+                if self._event
+                else False
             )
-            if self._event
-            else False
         }
 
     async def async_create_event(self, **kwargs: Any):

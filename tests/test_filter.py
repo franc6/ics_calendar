@@ -1,4 +1,5 @@
 """Test the Filter class."""
+
 import pytest
 from dateutil import parser as dtparser
 from homeassistant.components.calendar import CalendarEvent

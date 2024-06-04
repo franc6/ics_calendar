@@ -1,4 +1,5 @@
 """Support for recurring_ical_events parser."""
+
 from datetime import date, datetime, timedelta
 from typing import Optional, Union
 

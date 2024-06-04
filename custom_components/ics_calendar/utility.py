@@ -1,4 +1,5 @@
 """Utility methods."""
+
 from datetime import date, datetime
 
 

@@ -1,4 +1,5 @@
 """Test the calendar class."""
+
 import copy
 import logging
 from unittest.mock import ANY, Mock, patch

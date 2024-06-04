@@ -1,4 +1,5 @@
 """Provide Filter class."""
+
 import re
 from ast import literal_eval
 from typing import List, Optional, Pattern

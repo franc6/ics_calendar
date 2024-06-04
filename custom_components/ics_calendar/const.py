@@ -1,4 +1,5 @@
 """Constants for ics_calendar platform."""
+
 VERSION = "4.2.0"
 DOMAIN = "ics_calendar"
 UPGRADE_URL = (

@@ -1,4 +1,5 @@
 """Test the parsers, especially for past issues."""
+
 from unittest.mock import Mock
 
 import ics

@@ -1,4 +1,5 @@
 """Test the icalendarparser class."""
+
 from custom_components.ics_calendar.icalendarparser import ICalendarParser
 
 

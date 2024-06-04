@@ -1,4 +1,5 @@
 """Test the CalendarData class."""
+
 import email
 from datetime import timedelta
 from io import BytesIO
