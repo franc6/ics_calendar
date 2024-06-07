@@ -227,7 +227,7 @@ class CalendarData:  # pylint: disable=R0902
             self.url.replace("{year}", f"{now.year:04}").replace(
                 "{month}", f"{now.month:02}"
             ),
-            safe=":/?&=",
+            safe=":/?&=@",
         )
         self.logger.debug("%s: URL: %s", self.name, self.url)
         return self.url
