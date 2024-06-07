@@ -32,7 +32,8 @@ class CalendarData:  # pylint: disable=R0902
     instance.
     """
 
-    opener_lock = Lock()
+    # Allow only one download at a time globally
+    download_singleton_lock = Lock()
 
     def __init__(
         self,
@@ -76,21 +77,22 @@ class CalendarData:  # pylint: disable=R0902
         rtype: bool
         """
         self.logger.debug("%s: download_calendar start", self.name)
-        now = hanow()
-        if (
-            self._calendar_data is None
-            or self._last_download is None
-            or (now - self._last_download) > self._min_update_time
-        ):
-            self._last_download = now
-            self._calendar_data = None
-            self.logger.debug(
-                "%s: Downloading calendar data from: %s", self.name, self.url
-            )
-            self._wait_for_server()
-            self._download_data()
-            self.logger.debug("%s: download_calendar done", self.name)
-            return self._calendar_data is not None
+        with CalendarData.download_singleton_lock:
+            self.logger.debug("%s: download_calendar lock acquired", self.name)
+            if (
+                self._calendar_data is None
+                or self._last_download is None
+                or (hanow() - self._last_download) > self._min_update_time
+            ):
+                self._calendar_data = None
+                self.logger.debug(
+                    "%s: Downloading calendar data from: %s", self.name, self.url
+                )
+                self._wait_for_server()
+                self._download_data()
+                self._last_download = hanow()
+                self.logger.debug("%s: download_calendar done", self.name)
+                return self._calendar_data is not None
 
         self.logger.debug("%s: download_calendar skipped download", self.name)
         return False
@@ -195,13 +197,11 @@ class CalendarData:  # pylint: disable=R0902
         """Download the calendar data."""
         self.logger.debug("%s: _download_data start", self.name)
         try:
-            with CalendarData.opener_lock:
-                self.logger.debug("%s: _download_data lock acquired", self.name)
-                if self._opener is not None:
-                    install_opener(self._opener)
-                with urlopen(self._make_url(), timeout=self.connection_timeout) as conn:
-                    self._calendar_data = self._decode_data(conn)
-            self.logger.debug("%s: _download_data lock released, done", self.name)
+            if self._opener is not None:
+                install_opener(self._opener)
+            with urlopen(self._make_url(), timeout=self.connection_timeout) as conn:
+                self._calendar_data = self._decode_data(conn)
+            self.logger.debug("%s: _download_data done", self.name)
         except HTTPError as http_error:
             self.logger.error(
                 "%s: Failed to open url(%s): %s",
