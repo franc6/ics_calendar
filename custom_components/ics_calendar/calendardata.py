@@ -92,6 +92,7 @@ class CalendarData:  # pylint: disable=R0902
             self.logger.debug("%s: download_calendar done", self.name)
             return self._calendar_data is not None
 
+        self.logger.debug("%s: download_calendar skipped download", self.name)
         return False
 
     def get(self) -> str:
