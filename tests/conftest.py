@@ -2,7 +2,6 @@
 
 import json
 import logging
-import time
 from http import HTTPStatus
 
 import pytest
@@ -295,20 +294,6 @@ def expected_data(file_name, expected_name):
 def logger():
     """Provide autouse fixture for logger."""
     return logging.getLogger(__name__)
-
-
-@pytest.fixture(autouse=True)
-def sleepless(monkeypatch):
-    """Disable time.sleep() calls."""
-
-    def sleep(seconds):
-        pass
-
-    monkeypatch.setattr(
-        time,
-        "sleep",
-        sleep,
-    )
 
 
 @pytest.helpers.register
