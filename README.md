@@ -141,4 +141,19 @@ ics_calendar:
 
 This example will exclude any event whose summary or description includes "test" in a case insensitive manner, or if the summary or description is "regex".  However, if the summary or description includes "keepme" (case insensitive), the event will be included anyway.
 
+## Development environment setup
+
+```shell
+$ python3 -m venv ./env
+$ ./env/bin/pip install --upgrade setuptools
+$ ./env/bin/pip install --upgrade wheel
+
+$ ./env/bin/pip install -r ./requirements.txt
+$ ./env/bin/pip install -r ./requirements.dev.txt
+$ ./env/bin/pip install -r ./requirements.test.txt
+
+$ source ./env/bin/activate
+
+```
+
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
