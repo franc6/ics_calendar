@@ -1,4 +1,5 @@
 """Provide CalendarData class."""
+
 import zlib
 from datetime import timedelta
 from gzip import BadGzipFile, GzipFile
@@ -79,7 +80,9 @@ class CalendarData:
             ):
                 self._calendar_data = None
                 self.logger.debug(
-                    "%s: Downloading calendar data from: %s", self.name, self.url
+                    "%s: Downloading calendar data from: %s",
+                    self.name,
+                    self.url,
                 )
                 self._download_data()
                 self._last_download = hanow()
@@ -128,7 +131,9 @@ class CalendarData:
             passman.add_password(None, self.url, user_name, password)
             basic_auth_handler = HTTPBasicAuthHandler(passman)
             digest_auth_handler = HTTPDigestAuthHandler(passman)
-            self._opener = build_opener(digest_auth_handler, basic_auth_handler)
+            self._opener = build_opener(
+                digest_auth_handler, basic_auth_handler
+            )
 
         additional_headers = []
         if user_agent != "":
@@ -187,7 +192,9 @@ class CalendarData:
         try:
             if self._opener is not None:
                 install_opener(self._opener)
-            with urlopen(self._make_url(), timeout=self.connection_timeout) as conn:
+            with urlopen(
+                self._make_url(), timeout=self.connection_timeout
+            ) as conn:
                 self._calendar_data = self._decode_data(conn)
             self.logger.debug("%s: _download_data done", self.name)
         except HTTPError as http_error:
@@ -204,9 +211,13 @@ class CalendarData:
                 content_too_short_error.reason,
             )
         except URLError as url_error:
-            self.logger.error("%s: Failed to open url: %s", self.name, url_error.reason)
+            self.logger.error(
+                "%s: Failed to open url: %s", self.name, url_error.reason
+            )
         except:  # pylint: disable=W0702
-            self.logger.error("%s: Failed to open url!", self.name, exc_info=True)
+            self.logger.error(
+                "%s: Failed to open url!", self.name, exc_info=True
+            )
 
     def _make_url(self):
         """Replace templates in url and encode."""
