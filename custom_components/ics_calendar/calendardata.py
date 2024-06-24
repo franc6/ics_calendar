@@ -106,8 +106,8 @@ class CalendarData:
     ):
         """Set a user agent, accept header, and/or user name and password.
 
-        The user name and password will be set into an HTTPBasicAuthHandler an
-        an HTTPDigestAuthHandler.  Both are attached to a new urlopener, so
+        The user name and password will be set with HTTPBasicAuthHandler and
+        HTTPDigestAuthHandler.  Both are attached to a new urlopener, so
         that HTTP Basic Auth and HTTP Digest Auth will be supported when
         opening the URL.
 
