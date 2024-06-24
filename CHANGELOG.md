@@ -1,4 +1,5 @@
 ## 5.0.0 2024/09/11
+- Made sure the global download lock blocks and ensures min_update_time.
 - Add UI configuration support
 - Fixed #89
 - Fixed #126
