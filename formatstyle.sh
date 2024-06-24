@@ -19,7 +19,7 @@ do
 done
 
 echo "flake8 style and complexity checks"
-flake8 || exit
+flake8 custom_components/**/*.py || exit
 
 echo "pydocstyle checks"
 pydocstyle -v custom_components/ics_calendar tests || exit
