@@ -564,6 +564,7 @@ class TestCalendarData:
             dtparser.parse("2022-01-01T00:00:00"),
             dtparser.parse("2022-01-01T00:05:05"),
             dtparser.parse("2022-01-01T00:05:05"),
+            dtparser.parse("2022-01-01T00:05:05"),
         ]
         calendar_data = CalendarData(
             logger,
