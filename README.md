@@ -64,7 +64,7 @@ Key | Type | Required | Description
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the remote calendar
 `accept_header` | `string` | An accept header for servers that are misconfigured, default is not set
-`connection_timeout` | `float` | `None` | Sets a timeout in seconds for the connection to donwload the calendar.  Use this if you have frequent connection issues with a calendar
+`connection_timeout` | `float` | `None` | Sets a timeout in seconds for the connection to download the calendar.  Use this if you have frequent connection issues with a calendar
 `days` | `positive integer` | `False` | The number of days to look ahead (only affects the attributes of the calendar entity), default is 1
 `download_interval` | `positive integer` | `False` | The time between downloading new calendar data, in minutes, default is 15
 `exclude` | `string` | `False` | Allows for filtering of events, see below
@@ -78,7 +78,10 @@ Key | Type | Required | Description
 `user_agent` | `string` | `False` | Allows setting the User-agent header.  Only specify this if your server rejects the normal python user-agent string.  You must set the entire and exact user agent string here.
 
 #### Download Interval
-The download interval should be a multiple of 15 at this time.  This is so downloads coincide with Home Assistant's update interval for the calendar entities. Setting a value smaller than 15 will increase both CPU and memory usage.  Higher values will reduce CPU usage.  The default of 15 is to keep the same behavior with regards to downloads as in the past.  If you check the logs, the actual download may take place up to 2 seconds after it was requested.  For users that have many calendars all on the same server, this will reduce the server load.
+The download interval should be a multiple of 15 at this time.  This is so downloads coincide with Home Assistant's update interval for the calendar entities. Setting a value smaller than 15 will increase both CPU and memory usage.  Higher values will reduce CPU usage.  The default of 15 is to keep the same behavior with regards to downloads as in the past.
+
+Home Assistant does two types of queries. One is the 15 minute calendar entity update, the other is a query every time the `calendar.list_events` service is called. This interval limit applies to both.
+On top of that there can be globally only one download in progress for all calendars. This might be an issue with lots of calendars and slow server response.
 
 #### Offset Hours
 This feature is to aid with calendars that present incorrect times.  If your calendar has an incorrect time, e.g. it lists your local time, but indicates that it's the time in UTC, this can be used to correct for your local time.  This affects all events, except all day events.  All day events do not include time information, and so the offset will not be applied.  Use a positive number to add hours to the time, and a negative number to subtract hours from the time.
@@ -137,5 +140,20 @@ ics_calendar:
 ```
 
 This example will exclude any event whose summary or description includes "test" in a case insensitive manner, or if the summary or description is "regex".  However, if the summary or description includes "keepme" (case insensitive), the event will be included anyway.
+
+## Development environment setup
+
+```shell
+$ python3 -m venv ./env
+$ ./env/bin/pip install --upgrade setuptools
+$ ./env/bin/pip install --upgrade wheel
+
+$ ./env/bin/pip install -r ./requirements.txt
+$ ./env/bin/pip install -r ./requirements.dev.txt
+$ ./env/bin/pip install -r ./requirements.test.txt
+
+$ source ./env/bin/activate
+
+```
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
