@@ -1,5 +1,5 @@
-## 4.X.0 2024/06/24
-- Made sure the global download lock blocks and ensures min_update_time.
+## 4.X.X 2024/06/24
+- Made sure the global download lock blocks and ensures min_update_time. (@agroszer)
 
 ## 4.2.0 2024/01/15
 - Add timeout feature.  Thanks to @iamjackg!
