@@ -3,8 +3,6 @@
 import email
 from datetime import timedelta
 from io import BytesIO
-
-# )
 from unittest.mock import patch
 from urllib.error import ContentTooShortError, HTTPError, URLError
 from urllib.request import HTTPHandler, build_opener, install_opener
