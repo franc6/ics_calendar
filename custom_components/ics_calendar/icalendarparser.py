@@ -1,6 +1,5 @@
 """Provide ICalendarParser class."""
 
-import importlib
 from datetime import datetime
 from typing import Optional
 
@@ -10,31 +9,7 @@ from .filter import Filter
 
 
 class ICalendarParser:
-    """Provide interface for various parser classes.
-
-    The class provides a static method , get_instace, to get a parser instance.
-    The non static methods allow this class to act as an "interface" for the
-    parser classes.
-    """
-
-    @staticmethod
-    def get_class(parser: str):
-        """Get the class of the requested parser."""
-        parser_module_name = ".parsers.parser_" + parser
-        parser = "Parser" + parser.upper()
-        try:
-            module = importlib.import_module(parser_module_name, __package__)
-            return getattr(module, parser)
-        except ImportError:
-            return None
-
-    @staticmethod
-    def get_instance(parser: str, *args):
-        """Get an instance of the requested parser."""
-        parser_cls = ICalendarParser.get_class(parser)
-        if parser_cls is not None:
-            return parser_cls(*args)
-        return None
+    """Provide interface for various parser classes."""
 
     def set_content(self, content: str):
         """Parse content into a calendar object.

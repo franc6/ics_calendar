@@ -1,0 +1,244 @@
+"""Config Flow for ics Calendar."""
+
+import logging
+from typing import Any, Dict, Optional
+
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
+from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.const import (
+    CONF_EXCLUDE,
+    CONF_INCLUDE,
+    CONF_NAME,
+    CONF_PASSWORD,
+    CONF_PREFIX,
+    CONF_URL,
+    CONF_USERNAME,
+)
+from homeassistant.helpers.selector import selector
+
+from . import (
+    CONF_ACCEPT_HEADER,
+    CONF_CONNECTION_TIMEOUT,
+    CONF_DAYS,
+    CONF_DOWNLOAD_INTERVAL,
+    CONF_INCLUDE_ALL_DAY,
+    CONF_OFFSET_HOURS,
+    CONF_PARSER,
+    CONF_USER_AGENT,
+)
+from .const import DOMAIN
+
+_LOGGER = logging.getLogger(__name__)
+
+CONF_REQUIRES_AUTH = "requires_auth"
+CONF_ADV_CONNECT_OPTS = "advanced_connection_options"
+CONF_SET_TIMEOUT = "set_connection_timeout"
+
+CALENDAR_NAME_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_NAME): cv.string,
+        vol.Optional(CONF_DAYS, default=1): cv.positive_int,
+        vol.Optional(CONF_INCLUDE_ALL_DAY, default=False): cv.boolean,
+    }
+)
+
+CALENDAR_OPTS_SCHEMA = vol.Schema(
+    {
+        vol.Optional(CONF_EXCLUDE, default=""): cv.string,
+        vol.Optional(CONF_INCLUDE, default=""): cv.string,
+        vol.Optional(CONF_PREFIX, default=""): cv.string,
+        vol.Optional(CONF_DOWNLOAD_INTERVAL, default=15): cv.positive_int,
+        vol.Optional(CONF_OFFSET_HOURS, default=0): int,
+        vol.Optional(CONF_PARSER, default="rie"): selector(
+            {"select": {"options": ["rie", "ics"], "mode": "dropdown"}}
+        ),
+    }
+)
+
+CONNECT_OPTS_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_URL): cv.string,
+        vol.Optional(CONF_REQUIRES_AUTH, default=False): cv.boolean,
+        vol.Optional(CONF_ADV_CONNECT_OPTS, default=False): cv.boolean,
+    }
+)
+
+AUTH_OPTS_SCHEMA = vol.Schema(
+    {
+        vol.Optional(CONF_USERNAME, default=""): cv.string,
+        vol.Optional(CONF_PASSWORD, default=""): cv.string,
+    }
+)
+
+ADVANCED_CONNECT_OPTS_SCHEMA = vol.Schema(
+    {
+        vol.Optional(CONF_ACCEPT_HEADER, default=""): cv.string,
+        vol.Optional(CONF_USER_AGENT, default=""): cv.string,
+        vol.Optional(CONF_SET_TIMEOUT, default=False): cv.boolean,
+    }
+)
+
+TIMEOUT_OPTS_SCHEMA = vol.Schema(
+    {vol.Optional(CONF_CONNECTION_TIMEOUT, default=None): cv.positive_int}
+)
+
+
+class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
+    """Config Flow for ICS Calendar."""
+
+    VERSION = 1
+    MINOR_VERSION = 0
+
+    def __init__(self):
+        """Construct ICSCalendarConfigFlow."""
+        self.data: Optional[Dict[str, Any]] = None
+
+    async def async_step_reauth(self, user_input=None):
+        """Re-authenticateon auth error."""
+        # self.reauth_entry = self.hass.config_entries.async_get_entry(
+        # self.context["entry_id"]
+        # )
+        return await self.async_step_reauth_confirm(user_input)
+
+    async def async_step_reauth_confirm(
+        self, user_input=None
+    ) -> ConfigFlowResult:
+        """Dialog to inform user that reauthentication is required."""
+        if user_input is None:
+            return self.async_show_form(
+                step_id="reauth_confirm", data_schema=vol.Schema({})
+            )
+        return await self.async_step_user()
+
+    # Don't allow reconfigure for now!
+    # async def async_step_reconfigure(
+    #    self, user_input: dict[str, Any] | None = None
+    # ) -> ConfigFlowResult:
+    #    """Reconfigure entry."""
+    #    return await self.async_step_user(user_input)
+
+    async def async_step_user(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ) -> ConfigFlowResult:
+        """Start of Config Flow."""
+        errors = {}
+        if user_input is not None:
+            if not user_input[CONF_NAME].strip():
+                errors[CONF_NAME] = "empty_name"
+            else:
+                self._async_abort_entries_match(
+                    {CONF_NAME: user_input[CONF_NAME]}
+                )
+
+            if not errors:
+                self.data = user_input
+                return await self.async_step_calendar_opts()
+
+        return self.async_show_form(
+            step_id="user",
+            data_schema=CALENDAR_NAME_SCHEMA,
+            errors=errors,
+            last_step=False,
+        )
+
+    async def async_step_calendar_opts(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ):
+        """Calendar Options step for ConfigFlow."""
+        errors = {}
+        if user_input is not None:
+            if user_input[CONF_EXCLUDE] != user_input[CONF_INCLUDE]:
+                errors[CONF_EXCLUDE] = "exclude_include_cannot_be_the_same"
+            if user_input[CONF_DOWNLOAD_INTERVAL] < 15:
+                _LOGGER.error("download_interval_too_small error")
+                errors[CONF_DOWNLOAD_INTERVAL] = "download_interval_too_small"
+
+            if not errors:
+                self.data.update(user_input)
+                return await self.async_step_connect_opts()
+
+        return self.async_show_form(
+            step_id="calendar_opts",
+            data_schema=CALENDAR_OPTS_SCHEMA,
+            errors=errors,
+            last_step=False,
+        )
+
+    async def async_step_connect_opts(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ):
+        """Connect Options step for ConfigFlow."""
+        errors = {}
+        if user_input is not None:
+            if not user_input[CONF_URL].strip():
+                errors[CONF_URL] = "empty_url"
+
+            if not errors:
+                self.data.update(user_input)
+                if user_input.get(CONF_REQUIRES_AUTH, False):
+                    return await self.async_step_auth_opts()
+                if user_input.get(CONF_ADV_CONNECT_OPTS, False):
+                    return await self.async_step_adv_connect_opts()
+                return self.async_create_entry(title="", data=self.data)
+
+        return self.async_show_form(
+            step_id="connect_opts",
+            data_schema=CONNECT_OPTS_SCHEMA,
+            errors=errors,
+        )
+
+    async def async_step_auth_opts(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ):
+        """Auth Options step for ConfigFlow."""
+        if user_input is not None:
+            self.data.update(user_input)
+            if self.data.get(CONF_ADV_CONNECT_OPTS, False):
+                return await self.async_step_adv_connect_opts()
+            return self.async_create_entry(title="", data=self.data)
+
+        return self.async_show_form(
+            step_id="auth_opts", data_schema=AUTH_OPTS_SCHEMA
+        )
+
+    async def async_step_adv_connect_opts(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ):
+        """Advanced Connection Options step for ConfigFlow."""
+        errors = {}
+        if user_input is not None:
+
+            if not errors:
+                self.data.update(user_input)
+                if user_input.get(CONF_SET_TIMEOUT, False):
+                    return await self.async_step_timeout_opts()
+                return self.async_create_entry(title="", data=self.data)
+
+        return self.async_show_form(
+            step_id="adv_connect_opts",
+            data_schema=ADVANCED_CONNECT_OPTS_SCHEMA,
+            errors=errors,
+        )
+
+    async def async_step_timeout_opts(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ):
+        """Timeout Options step for ConfigFlow."""
+        errors = {}
+        if user_input is not None:
+
+            if not errors:
+                self.data.update(user_input)
+                return self.async_create_entry(title="", data=self.data)
+
+        return self.async_show_form(
+            step_id="timeout_opts",
+            data_schema=TIMEOUT_OPTS_SCHEMA,
+            errors=errors,
+            last_step=True,
+        )
+
+    async def async_step_import(self, import_data):
+        """Import config from configuration.yaml."""
+        return self.async_create_entry(title="", data=import_data)

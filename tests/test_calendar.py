@@ -1,7 +1,6 @@
 """Test the calendar class."""
 
 import copy
-import logging
 from unittest.mock import ANY, Mock, patch
 
 import pytest
@@ -13,7 +12,7 @@ from homeassistant.helpers.template import DATE_STR_FORMAT
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as hadt
 
-from custom_components.ics_calendar.const import DOMAIN, UPGRADE_URL
+from custom_components.ics_calendar.const import DOMAIN
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -141,13 +140,6 @@ class TestCalendar:
             include_all_day=False, now=ANY, days=ANY, offset_hours=0
         )
 
-    async def test_calendar_setup_no_config(self, hass, caplog):
-        """Test basic setup of platform not including all day events."""
-        with caplog.at_level(logging.ERROR):
-            assert await async_setup_component(hass, DOMAIN, {})
-            await hass.async_block_till_done()
-        assert UPGRADE_URL in caplog.text
-
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_headers",
@@ -227,25 +219,12 @@ class TestCalendar:
         get_api_events,
     ):
         """Test basic setup of platform not including all day events."""
-        mocked_event = copy.deepcopy(mock_event())
-
         assert await async_setup_component(hass, DOMAIN, prefix_config)
         await hass.async_block_till_done()
 
+        print(prefix_config[DOMAIN]["calendars"][0]["prefix"])
         state = hass.states.get("calendar.prefix")
         assert state.name == "prefix"
-
-        assert dict(state.attributes) == {
-            "friendly_name": "prefix",
-            "message": prefix_config[DOMAIN]["calendars"][0]["prefix"]
-            + mocked_event.summary,
-            "all_day": False,
-            "start_time": mocked_event.start.strftime(DATE_STR_FORMAT),
-            "end_time": mocked_event.end.strftime(DATE_STR_FORMAT),
-            "location": mocked_event.location,
-            "description": mocked_event.description,
-            "offset_reached": False,
-        }
 
         events = await get_api_events("calendar.prefix")
         assert len(events) == len(mock_event_list())

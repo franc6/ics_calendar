@@ -3,6 +3,7 @@
     "domain": "ics_calendar",
     "name": "ics Calendar",
     "codeowners": ["@franc6"],
+    "config_flow": true,
     "dependencies": [],
     "documentation": "https://github.com/franc6/ics_calendar",
     "integration_type": "service",
