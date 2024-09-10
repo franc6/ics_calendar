@@ -26,16 +26,29 @@ Otherwise, you can install it manually.
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
 custom_components/ics_calendar/__init__.py
-custom_components/ics_calendar/manifest.json
 custom_components/ics_calendar/calendar.py
+custom_components/ics_calendar/calendardata.py
+custom_components/ics_calendar/config_flow.py
+custom_components/ics_calendar/const.py
+custom_components/ics_calendar/filter.py
+custom_components/ics_calendar/getparser.py
 custom_components/ics_calendar/icalendarparser.py
+custom_components/ics_calendar/manifest.json
 custom_components/ics_calendar/parsers/__init__.py
 custom_components/ics_calendar/parsers/parser_ics.py
 custom_components/ics_calendar/parsers/parser_rie.py
+custom_components/ics_calendar/strings.json
+custom_components/ics_calendar/translations/en.json
+custom_components/ics_calendar/utility.py
 ```
 
 ## Authentication
 This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
+
+## Configuration
+Configuration is done via UI now.  Go to https://my.home-assistant.io/redirect/config/integrations/dashboard and click "Add Integration" to add ICS Calendar.  You'll want to do this for each calendar for this integration.
+
+Please note that if you previously used configuration.yaml, you can remove those entries after updating to a version that supports UI configuration.
 
 ## Example configuration.yaml
 ```yaml
@@ -62,7 +75,7 @@ Key | Type | Required | Description
 Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
-`url` | `string` | `True` | The URL of the remote calendar
+`url` | `string` | `True` | The URL of the calendar (https and file URI schemes are supported)
 `accept_header` | `string` | An accept header for servers that are misconfigured, default is not set
 `connection_timeout` | `float` | `None` | Sets a timeout in seconds for the connection to donwload the calendar.  Use this if you have frequent connection issues with a calendar
 `days` | `positive integer` | `False` | The number of days to look ahead (only affects the attributes of the calendar entity), default is 1

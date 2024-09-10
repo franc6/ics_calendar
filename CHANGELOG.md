@@ -1,3 +1,16 @@
+## 5.0.0 2024/09/11
+- Add UI configuration support
+- Fixed #88
+- Fixed #89
+- Fixed #126
+- Fixed #140
+- Fixed #144
+
+### IMPORTANT
+Because UI configuration is now supported, configuration via YAML is now deprecated. After installing this update, and after restarting Home Assistant, please remove your existing YAML configuration for ICS calendar. **Your existing configuration has been imported!** Failure to remove the entries doesn't hurt anything, but will cause additional log entries about it.
+
+In a future release, YAML configuration support will be removed entirely, so please be sure to update before that happens, or you will lose your existing configuration.
+
 ## 4.2.0 2024/01/15
 - Add timeout feature.  Thanks to @iamjackg!
 - Fixed #117

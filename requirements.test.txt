@@ -1,6 +1,6 @@
 pytest
 pytest-cov
-pytest-homeassistant-custom-component
+pytest-homeassistant-custom-component>=0.13.162
 pytest-helpers-namespace>=2021.12.29
 pytest-asyncio
 pytest-aiohttp
