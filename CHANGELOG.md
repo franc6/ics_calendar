@@ -1,15 +1,14 @@
 ## 5.0.0 2024/09/11
-- Made sure the global download lock blocks and ensures min_update_time.
+- Made sure the global download lock blocks and ensures min_update_time. (@agroszer)
 - Add UI configuration support
+- Fixed #88
 - Fixed #89
 - Fixed #126
 - Fixed #140
 - Fixed #144
 
 ### IMPORTANT
-Do **NOT** update to this version from version 3.2.0 or older! Update to versoin 4.0.0 and follow the instructions at [UpgradeTo4.0AndLater.md](https://github.com/franc6/ics_calendar/blob/releases/UpgradeTo4 **first**!
-
-UI configuration is now supported, and configuration via YAML is now deprecated. After installing this update, and after restarting Home Assistant, please remove your existing YAML configuration for ICS calendar. **Your existing configuration has been imported!** Failure to remove the entries doesn't hurt anything, but will cause additional log entries about it.
+Because UI configuration is now supported, configuration via YAML is now deprecated. After installing this update, and after restarting Home Assistant, please remove your existing YAML configuration for ICS calendar. **Your existing configuration has been imported!** Failure to remove the entries doesn't hurt anything, but will cause additional log entries about it.
 
 In a future release, YAML configuration support will be removed entirely, so please be sure to update before that happens, or you will lose your existing configuration.
 
