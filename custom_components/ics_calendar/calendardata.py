@@ -78,12 +78,13 @@ class CalendarData:
                 or (hanow() - self._last_download) > self._min_update_time
             ):
                 self._calendar_data = None
+                next_url: str = self._make_url()
                 self.logger.debug(
                     "%s: Downloading calendar data from: %s",
                     self.name,
-                    self._make_url(),
+                    next_url,
                 )
-                self._download_data()
+                self._download_data(next_url)
                 self._last_download = hanow()
                 self.logger.debug("%s: download_calendar done", self.name)
                 return self._calendar_data is not None
@@ -185,15 +186,13 @@ class CalendarData:
                 continue
         return None
 
-    def _download_data(self):
+    def _download_data(self, url):
         """Download the calendar data."""
         self.logger.debug("%s: _download_data start", self.name)
         try:
             if self._opener is not None:
                 install_opener(self._opener)
-            with urlopen(
-                self._make_url(), timeout=self.connection_timeout
-            ) as conn:
+            with urlopen(url, timeout=self.connection_timeout) as conn:
                 self._calendar_data = self._decode_data(conn)
             self.logger.debug("%s: _download_data done", self.name)
         except HTTPError as http_error:
