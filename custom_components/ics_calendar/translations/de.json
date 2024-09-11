@@ -1,0 +1,74 @@
+{
+    "issues": {
+        "YAML_Warning": {
+            "title": "YAML-Konfiguration für ICS-Kalender ist veraltet",
+            "description": "Die YAML-Konfiguration von ics_calendar ist veraltet und wird in ics_calendar v5.0.0 entfernt. Deine Konfigurationselemente wurden importiert. Bitte entferne sie aus deiner configuration.yaml-Datei."
+        }
+    },
+    "title": "ICS-Kalender",
+    "config": {
+        "step": {
+            "user": {
+                "data": {
+                    "name": "Name",
+                    "days": "Tage",
+                    "include_all_day": "Ganztägige Ereignisse einbeziehen?"
+                },
+                "title": "Kalender hinzufügen"
+            },
+            "calendar_opts": {
+                "data": {
+                    "exclude": "auszuschließender Ereignisse",
+                    "include": "einzuschließender Ereignisse",
+                    "prefix": "String, um allen Ereigniszusammenfassungen ein Präfix hinzuzufügen",
+                    "download_interval": "Download-Intervall (Minuten)",
+                    "offset_hours": "Anzahl der Stunden, um Ereigniszeiten zu versetzen",
+                    "parser": "Parser (rie oder ics)"
+                },
+                "title": "Kalender-Optionen"
+            },
+            "connect_opts": {
+                "data": {
+                    "url": "URL der ICS-Datei",
+                    "requires_auth": "Erfordert Authentifizierung?",
+                    "advanced_connection_options": "Erweiterte Verbindungsoptionen festlegen?"
+                },
+                "title": "Verbindungsoptionen"
+            },
+            "auth_opts": {
+                "data": {
+                    "username": "Benutzername",
+                    "password": "Passwort"
+                },
+                "description": "Bitte beachte, dass nur HTTP Basic Auth und HTTP Digest Auth unterstützt wird. Authentifizierungsmethoden wie OAuth werden derzeit nicht unterstützt.",
+                "title": "Authentifizierung"
+            },
+            "adv_connect_opts": {
+                "data": {
+                    "accept_header": "Eigener Accept-Header für fehlerhafte Server",
+                    "user_agent": "Eigener User-Agent-Header",
+                    "set_connection_timeout": "Verbindungstimeout ändern?"
+                },
+                "title": "Erweiterte Verbindungsoptionen"
+            },
+            "timeout_opts": {
+                "data": {
+                    "connection_timeout": "Verbindungstimeout in Sekunden"
+                },
+                "title": "Verbindungstimeout-Optionen"
+            },
+            "reauth_confirm": {
+                "description": "Die Autorisierung für den Kalender ist fehlgeschlagen. Bitte konfiguriere die Kalender-URL und/oder die Authentifizierungseinstellungen neu.",
+                "title": "Autorisierungsfehler für ICS-Kalender"
+            }
+        },
+        "error": {
+            "empty_name": "Der Kalendername darf nicht leer sein.",
+            "empty_url": "Die URL darf nicht leer sein.",
+            "download_interval_too_small": "Das Download-Intervall muss mindestens 15 betragen.",
+            "exclude_include_cannot_be_the_same": "Die Ausschluss- und Einschluss-Strings dürfen nicht identisch sein."
+        },
+        "abort": {
+        }
+    }
+}
