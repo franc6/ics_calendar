@@ -2,6 +2,7 @@
 
 import logging
 from typing import Any, Dict, Optional
+from urllib.parse import quote
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
@@ -175,6 +176,9 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors[CONF_URL] = "empty_url"
 
             if not errors:
+                user_input[CONF_URL] = quote(
+                    user_input[CONF_URL], safe=":/?&="
+                )
                 self.data.update(user_input)
                 if user_input.get(CONF_REQUIRES_AUTH, False):
                     return await self.async_step_auth_opts()
