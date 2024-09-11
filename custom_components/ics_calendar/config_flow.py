@@ -148,7 +148,7 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         """Calendar Options step for ConfigFlow."""
         errors = {}
         if user_input is not None:
-            if user_input[CONF_EXCLUDE] != user_input[CONF_INCLUDE]:
+            if user_input[CONF_EXCLUDE] == user_input[CONF_INCLUDE]:
                 errors[CONF_EXCLUDE] = "exclude_include_cannot_be_the_same"
             if user_input[CONF_DOWNLOAD_INTERVAL] < 15:
                 _LOGGER.error("download_interval_too_small error")
