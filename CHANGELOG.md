@@ -1,3 +1,11 @@
+## 5.0.2 2025/09/11
+- Fixed #149 again
+- Fixed #158
+- Added translations for German (thanks, @mbenecke) and French (thanks, @odouville).
+
+### Translator notes
+Sorry everyone!  I added two new strings for this release, which breaks the lovely translations for that.  They're just error messages, so if you're all perfect, then you won't notice. :)
+
 ## 5.0.1 2024/09/11
 - Fixed #149 Thanks, @jpbede!
 - Added German Translation by @mbenecke
