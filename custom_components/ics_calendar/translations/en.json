@@ -1,0 +1,74 @@
+{
+    "issues": {
+        "YAML_Warning": {
+            "title": "YAML configuration is deprecated for ICS Calendar",
+            "description": "YAML configuration of ics_calendar is deprecated and will be removed in ics_calendar v5.0.0. Your configuration items have been imported. Please remove them from your configuration.yaml file."
+        }
+    },
+    "title": "ICS Calendar",
+    "config": {
+        "step": {
+            "user": {
+                "data": {
+                    "name": "Name",
+                    "days": "Days",
+                    "include_all_day": "Include all day events?"
+                },
+                "title": "Add Calendar"
+            },
+            "calendar_opts": {
+                "data": {
+                    "exclude": "Exclude filter",
+                    "include": "Include filter",
+                    "prefix": "String to prefix all event summaries",
+                    "download_interval": "Download interval (minutes)",
+                    "offset_hours": "Number of hours to offset event times",
+                    "parser": "Parser (rie or ics)"
+                },
+                "title": "Calendar Options"
+            },
+            "connect_opts": {
+                "data": {
+                    "url": "URL of ICS file",
+                    "requires_auth": "Requires authentication?",
+                    "advanced_connection_options": "Set advanced connection options?"
+                },
+                "title": "Connection Options"
+            },
+            "auth_opts": {
+                "data": {
+                    "username": "Username",
+                    "password": "Password"
+                },
+                "description": "Please note this component supports only HTTP Basic Auth and HTTP Digest Auth. More advanced authentication, like OAuth is not supported at this time.",
+                "title": "Authentication"
+            },
+            "adv_connect_opts": {
+                "data": {
+                    "accept_header": "Custom Accept header for broken servers",
+                    "user_agent": "Custom User-agent header",
+                    "set_connection_timeout": "Change connection timeout?"
+                },
+                "title": "Advanced Connection Options"
+            },
+            "timeout_opts": {
+                "data": {
+                    "connection_timeout": "Connection timeout in seconds"
+                },
+                "title": "Connection Timeout Options"
+            },
+            "reauth_confirm": {
+                "description": "Authorization failed for calendar. Please re-configured the calendar URL and/or authentication settings.",
+                "title": "Authorization Failure for ICS Calendar"
+            }
+        },
+        "error": {
+            "empty_name": "The calendar name must not be empty.",
+            "empty_url": "The url must not be empty.",
+            "download_interval_too_small": "The download interval must be at least 15.",
+            "exclude_include_cannot_be_the_same": "The exclude and include strings must not be the same"
+        },
+        "abort": {
+        }
+    }
+}

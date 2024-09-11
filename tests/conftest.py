@@ -8,7 +8,7 @@ import pytest
 from dateutil import parser as dtparser
 
 from custom_components.ics_calendar.const import DOMAIN
-from custom_components.ics_calendar.icalendarparser import ICalendarParser
+from custom_components.ics_calendar.getparser import GetParser
 
 
 # Fixtures for test_calendar.py
@@ -232,13 +232,13 @@ def datetime_hook(pairs):
 @pytest.fixture
 def rie_parser():
     """Fixture for rie parser."""
-    return ICalendarParser.get_instance("rie")
+    return GetParser.get_parser("rie")
 
 
 @pytest.fixture
 def ics_parser():
     """Fixture for ics parser."""
-    return ICalendarParser.get_instance("ics")
+    return GetParser.get_parser("ics")
 
 
 @pytest.fixture

@@ -8,6 +8,11 @@ Provides a component for ICS (icalendar) calendars for Home Assistant
 ## Authentication
 This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
 
+## Configuration
+Configuration is done via UI now.  Go to https://my.home-assistant.io/redirect/config/integrations/dashboard and click "Add Integration" to add ICS Calendar.  You'll want to do this for each calendar for this integration.
+
+Please note that if you previously used configuration.yaml, you can remove those entries after updating to a version that supports UI configuration.
+
 ## Example configuration.yaml
 ```yaml
 ics_calendar:
@@ -33,7 +38,7 @@ Key | Type | Required | Description
 Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
-`url` | `string` | `True` | The URL of the remote calendar
+`url` | `string` | `True` | The URL of the calendar (https and file URI schemes are supported)
 `accept_header` | `string` | An accept header for servers that are misconfigured, default is not set
 `connection_timeout` | `float` | `None` | Sets a timeout in seconds for the connection to download the calendar.  Use this if you have frequent connection issues with a calendar
 `days` | `positive integer` | `False` | The number of days to look ahead (only affects the attributes of the calendar entity), default is 1
