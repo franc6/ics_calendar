@@ -9,7 +9,6 @@ from socket import (  # type: ignore[attr-defined]  # private, not in typeshed
 )
 from threading import Lock
 from urllib.error import ContentTooShortError, HTTPError, URLError
-from urllib.parse import quote
 from urllib.request import (
     HTTPBasicAuthHandler,
     HTTPDigestAuthHandler,
@@ -82,7 +81,7 @@ class CalendarData:
                 self.logger.debug(
                     "%s: Downloading calendar data from: %s",
                     self.name,
-                    self.url,
+                    self._make_url(),
                 )
                 self._download_data()
                 self._last_download = hanow()
@@ -222,12 +221,6 @@ class CalendarData:
     def _make_url(self):
         """Replace templates in url and encode."""
         now = hanow()
-        # Encode the URL to ensure it only contains ASCII characters
-        self.url = quote(
-            self.url.replace("{year}", f"{now.year:04}").replace(
-                "{month}", f"{now.month:02}"
-            ),
-            safe=":/?&=@",
+        return self.url.replace("{year}", f"{now.year:04}").replace(
+            "{month}", f"{now.month:02}"
         )
-        self.logger.debug("%s: URL: %s", self.name, self.url)
-        return self.url

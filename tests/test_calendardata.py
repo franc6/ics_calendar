@@ -560,6 +560,8 @@ class TestCalendarData:
         mock_hanow.side_effect = [
             dtparser.parse("2022-01-01T00:00:00"),
             dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-01T00:00:00"),
+            dtparser.parse("2022-01-01T00:05:05"),
             dtparser.parse("2022-01-01T00:05:05"),
             dtparser.parse("2022-01-01T00:05:05"),
             dtparser.parse("2022-01-01T00:05:05"),
