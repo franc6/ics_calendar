@@ -9,7 +9,6 @@ from socket import (  # type: ignore[attr-defined]  # private, not in typeshed
 )
 from threading import Lock
 from urllib.error import ContentTooShortError, HTTPError, URLError
-from urllib.parse import quote
 from urllib.request import (
     HTTPBasicAuthHandler,
     HTTPDigestAuthHandler,
@@ -79,12 +78,13 @@ class CalendarData:
                 or (hanow() - self._last_download) > self._min_update_time
             ):
                 self._calendar_data = None
+                next_url: str = self._make_url()
                 self.logger.debug(
                     "%s: Downloading calendar data from: %s",
                     self.name,
-                    self.url,
+                    next_url,
                 )
-                self._download_data()
+                self._download_data(next_url)
                 self._last_download = hanow()
                 self.logger.debug("%s: download_calendar done", self.name)
                 return self._calendar_data is not None
@@ -186,15 +186,13 @@ class CalendarData:
                 continue
         return None
 
-    def _download_data(self):
+    def _download_data(self, url):
         """Download the calendar data."""
         self.logger.debug("%s: _download_data start", self.name)
         try:
             if self._opener is not None:
                 install_opener(self._opener)
-            with urlopen(
-                self._make_url(), timeout=self.connection_timeout
-            ) as conn:
+            with urlopen(url, timeout=self.connection_timeout) as conn:
                 self._calendar_data = self._decode_data(conn)
             self.logger.debug("%s: _download_data done", self.name)
         except HTTPError as http_error:
@@ -222,12 +220,6 @@ class CalendarData:
     def _make_url(self):
         """Replace templates in url and encode."""
         now = hanow()
-        # Encode the URL to ensure it only contains ASCII characters
-        self.url = quote(
-            self.url.replace("{year}", f"{now.year:04}").replace(
-                "{month}", f"{now.month:02}"
-            ),
-            safe=":/?&=@",
+        return self.url.replace("{year}", f"{now.year:04}").replace(
+            "{month}", f"{now.month:02}"
         )
-        self.logger.debug("%s: URL: %s", self.name, self.url)
-        return self.url
