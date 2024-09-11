@@ -2,6 +2,10 @@
 - Fixed #149 Thanks, @jpbede!
 - Added German Translation by @mbenecke
 - Fixed #148
+- Fixed #151 Thanks to everyone who reported details on this one!
+
+### Breaking Change
+If you installed 5.0.0, you'll probably need to re-enable the YAML configuration, remove all entities from ICS Calendar (note: this might mean going to Settings | Devices & entities | Entities, and filtering for "calendar.") and then restart HA.  You can then disable your YAML configuration again.
 
 ## 5.0.0 2024/09/10
 - Fixed #117 Made sure the global download lock blocks and ensures min_update_time. (@agroszer)
