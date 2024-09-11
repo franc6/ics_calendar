@@ -2,7 +2,7 @@
     "issues": {
         "YAML_Warning": {
             "title": "La configuration YAML pour ICS Calendar est obsolète",
-            "description": "LA configuration YAML d'ICS Calendar est obsolète et sera supprimée dans la version 5.0.0 d'ics_calendar. Les éléments de votre configuration ont été importés. Veuillez les supprimer de votre fichier configuration.yaml."
+            "description": "La configuration YAML d'ICS Calendar est obsolète et sera supprimée dans la version 5.0.0 d'ics_calendar. Les éléments de votre configuration ont été importés. Veuillez les supprimer de votre fichier configuration.yaml."
         }
     },
     "title": "ICS Calendar",
@@ -23,7 +23,7 @@
                     "prefix": "Préfixer tous les résumés d'événements avec",
                     "download_interval": "Intervalle de téléchargement (minutes)",
                     "offset_hours": "Décalage à appliquer aux horaires des événements (heures)",
-                    "parser": "Parser (rie or ics)"
+                    "parser": "Parseur (rie ou ics)"
                 },
                 "title": "Options du calendrier"
             },
@@ -45,8 +45,8 @@
             },
             "adv_connect_opts": {
                 "data": {
-                    "accept_header": "Entête Accept personnalisée pour les serveurs injoignables",
-                    "user_agent": "Entête User-agent personnalisée",
+                    "accept_header": "Entête 'Accept' personnalisée pour les serveurs injoignables",
+                    "user_agent": "Entête 'User-agent' personnalisée",
                     "set_connection_timeout": "Modifier le délai maximum autorisé pour la connexion ?"
                 },
                 "title": "Options avancées de connexion"
@@ -63,7 +63,7 @@
             }
         },
         "error": {
-            "empty_name": "Le nom du calendrier ne doit pas être laissé vide.",
+            "empty_name": "Le nom du calendrier doit être renseigné.",
             "empty_url": "L'URL du calendrier doit être renseignée.",
             "download_interval_too_small": "L'intervalle de téléchargement ne peut pas être inférieur à 15 minutes.",
             "exclude_include_cannot_be_the_same": "Les valeurs d'exclusion et d'inclusion ne peuvent pas être identiques."
