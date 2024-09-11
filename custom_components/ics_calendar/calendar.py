@@ -40,6 +40,7 @@ from .const import (
     CONF_INCLUDE_ALL_DAY,
     CONF_OFFSET_HOURS,
     CONF_PARSER,
+    CONF_SET_TIMEOUT,
     CONF_USER_AGENT,
     DOMAIN,
 )
@@ -143,9 +144,9 @@ class ICSCalendarEntity(CalendarEntity):
         )
         self.data = ICSCalendarData(device_data)
         self.entity_id = entity_id
-        self.unique_id = unique_id
+        self._attr_unique_id = f"ICSCalendar.{unique_id}"
         self._event = None
-        self._name = device_data[CONF_NAME]
+        self._attr_name = device_data[CONF_NAME]
         self._last_call = None
 
     @property
@@ -158,12 +159,7 @@ class ICSCalendarEntity(CalendarEntity):
         return self._event
 
     @property
-    def name(self):
-        """Return the name of the calendar."""
-        return self._name
-
-    @property
-    def should_poll(self):
+    def should_poll(self) -> bool:
         """Indicate if the calendar should be polled.
 
         If the last call to update or get_api_events was not within the minimum
@@ -269,7 +265,11 @@ class ICSCalendarData:  # pylint: disable=R0902
             device_data[CONF_ACCEPT_HEADER],
         )
 
-        self._calendar_data.set_timeout(device_data[CONF_CONNECTION_TIMEOUT])
+        if CONF_SET_TIMEOUT in device_data:
+            if device_data[CONF_SET_TIMEOUT]:
+                self._calendar_data.set_timeout(
+                    device_data[CONF_CONNECTION_TIMEOUT]
+                )
 
     async def async_get_events(
         self, hass: HomeAssistant, start_date: datetime, end_date: datetime

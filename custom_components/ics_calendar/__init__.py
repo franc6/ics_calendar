@@ -25,6 +25,7 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import (
     CONF_ACCEPT_HEADER,
+    CONF_ADV_CONNECT_OPTS,
     CONF_CALENDARS,
     CONF_CONNECTION_TIMEOUT,
     CONF_DAYS,
@@ -32,6 +33,8 @@ from .const import (
     CONF_INCLUDE_ALL_DAY,
     CONF_OFFSET_HOURS,
     CONF_PARSER,
+    CONF_REQUIRES_AUTH,
+    CONF_SET_TIMEOUT,
     CONF_USER_AGENT,
     DOMAIN,
 )
@@ -89,8 +92,8 @@ CONFIG_SCHEMA = vol.Schema(
                                         CONF_ACCEPT_HEADER, default=""
                                     ): cv.string,
                                     vol.Optional(
-                                        CONF_CONNECTION_TIMEOUT, default=None
-                                    ): cv.socket_timeout,
+                                        CONF_CONNECTION_TIMEOUT, default=300
+                                    ): cv.positive_float,
                                 }
                             )
                         ]
@@ -205,15 +208,19 @@ def add_missing_defaults(  # noqa: C901,R701 # pylint: disable=R0912,R0915
     data = {}
     data[CONF_NAME] = entry.data[CONF_NAME]
     data[CONF_URL] = entry.data[CONF_URL]
+    data[CONF_ADV_CONNECT_OPTS] = False
+    data[CONF_REQUIRES_AUTH] = False
     if CONF_INCLUDE_ALL_DAY in entry.data:
         data[CONF_INCLUDE_ALL_DAY] = entry.data[CONF_INCLUDE_ALL_DAY]
     else:
         data[CONF_INCLUDE_ALL_DAY] = False
     if CONF_USERNAME in entry.data:
+        data[CONF_REQUIRES_AUTH] = True
         data[CONF_USERNAME] = entry.data[CONF_USERNAME]
     else:
         data[CONF_USERNAME] = ""
     if CONF_PASSWORD in entry.data:
+        data[CONF_REQUIRES_AUTH] = True
         data[CONF_PASSWORD] = entry.data[CONF_PASSWORD]
     else:
         data[CONF_PASSWORD] = ""
@@ -234,6 +241,7 @@ def add_missing_defaults(  # noqa: C901,R701 # pylint: disable=R0912,R0915
     else:
         data[CONF_DOWNLOAD_INTERVAL] = 15
     if CONF_USER_AGENT in entry.data:
+        data[CONF_ADV_CONNECT_OPTS] = True
         data[CONF_USER_AGENT] = entry.data[CONF_USER_AGENT]
     else:
         data[CONF_USER_AGENT] = ""
@@ -250,13 +258,17 @@ def add_missing_defaults(  # noqa: C901,R701 # pylint: disable=R0912,R0915
     else:
         data[CONF_OFFSET_HOURS] = 0
     if CONF_ACCEPT_HEADER in entry.data:
+        data[CONF_ADV_CONNECT_OPTS] = True
         data[CONF_ACCEPT_HEADER] = entry.data[CONF_ACCEPT_HEADER]
     else:
         data[CONF_ACCEPT_HEADER] = ""
     if CONF_CONNECTION_TIMEOUT in entry.data:
+        data[CONF_ADV_CONNECT_OPTS] = True
+        data[CONF_SET_TIMEOUT] = True
         data[CONF_CONNECTION_TIMEOUT] = entry.data[CONF_CONNECTION_TIMEOUT]
     else:
-        data[CONF_CONNECTION_TIMEOUT] = None
+        data[CONF_SET_TIMEOUT] = False
+        data[CONF_CONNECTION_TIMEOUT] = 300.0
 
     return data
 

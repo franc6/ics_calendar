@@ -20,21 +20,20 @@ from homeassistant.helpers.selector import selector
 
 from . import (
     CONF_ACCEPT_HEADER,
+    CONF_ADV_CONNECT_OPTS,
     CONF_CONNECTION_TIMEOUT,
     CONF_DAYS,
     CONF_DOWNLOAD_INTERVAL,
     CONF_INCLUDE_ALL_DAY,
     CONF_OFFSET_HOURS,
     CONF_PARSER,
+    CONF_REQUIRES_AUTH,
+    CONF_SET_TIMEOUT,
     CONF_USER_AGENT,
 )
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
-
-CONF_REQUIRES_AUTH = "requires_auth"
-CONF_ADV_CONNECT_OPTS = "advanced_connection_options"
-CONF_SET_TIMEOUT = "set_connection_timeout"
 
 CALENDAR_NAME_SCHEMA = vol.Schema(
     {
@@ -81,7 +80,7 @@ ADVANCED_CONNECT_OPTS_SCHEMA = vol.Schema(
 )
 
 TIMEOUT_OPTS_SCHEMA = vol.Schema(
-    {vol.Optional(CONF_CONNECTION_TIMEOUT, default=None): cv.positive_int}
+    {vol.Optional(CONF_CONNECTION_TIMEOUT, default=None): cv.positive_float}
 )
 
 
