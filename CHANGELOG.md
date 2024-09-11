@@ -1,3 +1,8 @@
+## 5.0.1 2024/09/11
+- Fixed #149 Thanks, @jpbede!
+- Added German Translation by @mbenecke
+- Fixed #148
+
 ## 5.0.0 2024/09/10
 - Fixed #117 Made sure the global download lock blocks and ensures min_update_time. (@agroszer)
 - Add UI configuration support
