@@ -18,9 +18,9 @@
             },
             "calendar_opts": {
                 "data": {
-                    "exclude": "auszuschließender Ereignisse",
-                    "include": "einzuschließender Ereignisse",
-                    "prefix": "String, um allen Ereigniszusammenfassungen ein Präfix hinzuzufügen",
+                    "exclude": "auszuschließende Ereignisse",
+                    "include": "einzuschließende Ereignisse",
+                    "prefix": "String, um allen Zusammenfassungen ein Präfix hinzuzufügen",
                     "download_interval": "Download-Intervall (Minuten)",
                     "offset_hours": "Anzahl der Stunden, um Ereigniszeiten zu versetzen",
                     "parser": "Parser (rie oder ics)"
