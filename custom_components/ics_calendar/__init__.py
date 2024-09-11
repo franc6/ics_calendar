@@ -128,7 +128,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             is_fixable=False,
             issue_domain=DOMAIN,
             severity=IssueSeverity.WARNING,
-            translation_key="YAML Warning",
+            translation_key="YAML_Warning",
         )
         _LOGGER.warning(
             "YAML configuration of ics_calendar is deprecated and will be "

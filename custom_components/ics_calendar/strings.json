@@ -1,6 +1,10 @@
 {
-    "ICS Calendar": "ICS Calendar",
-    "YAML Warning": "YAML configuration of ics_calendar is deprecated and will be removed in ics_calendar v5.0.0. Your configuration items have been imported. Please remove them from your configuration.yaml file.",
+    "issues": {
+        "YAML_Warning": {
+            "title": "YAML configuration is deprecated for ICS Calendar",
+            "description": "YAML configuration of ics_calendar is deprecated and will be removed in ics_calendar v5.0.0. Your configuration items have been imported. Please remove them from your configuration.yaml file."
+        }
+    },
     "title": "ICS Calendar",
     "config": {
         "step": {
