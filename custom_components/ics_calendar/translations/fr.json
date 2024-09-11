@@ -1,0 +1,74 @@
+{
+    "issues": {
+        "YAML_Warning": {
+            "title": "La configuration YAML pour ICS Calendar est obsolète",
+            "description": "LA configuration YAML d'ICS Calendar est obsolète et sera supprimée dans la version 5.0.0 d'ics_calendar. Les éléments de votre configuration ont été importés. Veuillez les supprimer de votre fichier configuration.yaml."
+        }
+    },
+    "title": "ICS Calendar",
+    "config": {
+        "step": {
+            "user": {
+                "data": {
+                    "name": "Nom",
+                    "days": "Jours",
+                    "include_all_day": "Inclure les événements à la journée ?"
+                },
+                "title": "Ajouter un calendrier"
+            },
+            "calendar_opts": {
+                "data": {
+                    "exclude": "Exclure les événements contenant",
+                    "include": "Inclure les événements contenant",
+                    "prefix": "Préfixer tous les résumés d'événements avec",
+                    "download_interval": "Intervalle de téléchargement (minutes)",
+                    "offset_hours": "Décalage à appliquer aux horaires des événements (heures)",
+                    "parser": "Parser (rie or ics)"
+                },
+                "title": "Options du calendrier"
+            },
+            "connect_opts": {
+                "data": {
+                    "url": "URL du fichier ICS",
+                    "requires_auth": "Authentification requise ?",
+                    "advanced_connection_options": "Définir les options avancées de la connexion ?"
+                },
+                "title": "Options de connexion"
+            },
+            "auth_opts": {
+                "data": {
+                    "username": "Utilisateur",
+                    "password": "Mot de passe"
+                },
+                "description": "Veuillez noter que cette intégration ne supporte que les modes d'authentification HTTP Basic et HTTP Digest. Les méthodes d'authentification plus avancées, telles que OAuth, ne sont pas supportées actuellement.",
+                "title": "Authentification"
+            },
+            "adv_connect_opts": {
+                "data": {
+                    "accept_header": "Entête Accept personnalisée pour les serveurs injoignables",
+                    "user_agent": "Entête User-agent personnalisée",
+                    "set_connection_timeout": "Modifier le délai maximum autorisé pour la connexion ?"
+                },
+                "title": "Options avancées de connexion"
+            },
+            "timeout_opts": {
+                "data": {
+                    "connection_timeout": "Délai maximum autorisé pour la connexion (secondes)"
+                },
+                "title": "Options de délai de connexion"
+            },
+            "reauth_confirm": {
+                "description": "L'autorisation a échoué pour le calendrier. Veuillez vérifier l'URL du calendrier et/ou les paramètres d'authentification.",
+                "title": "Échec d'autorisation pour ICS Calendar"
+            }
+        },
+        "error": {
+            "empty_name": "Le nom du calendrier ne doit pas être laissé vide.",
+            "empty_url": "L'URL du calendrier doit être renseignée.",
+            "download_interval_too_small": "L'intervalle de téléchargement ne peut pas être inférieur à 15 minutes.",
+            "exclude_include_cannot_be_the_same": "Les valeurs d'exclusion et d'inclusion ne peuvent pas être identiques."
+        },
+        "abort": {
+        }
+    }
+}
