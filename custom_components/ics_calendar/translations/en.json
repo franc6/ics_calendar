@@ -66,7 +66,9 @@
             "empty_name": "The calendar name must not be empty.",
             "empty_url": "The url must not be empty.",
             "download_interval_too_small": "The download interval must be at least 15.",
-            "exclude_include_cannot_be_the_same": "The exclude and include strings must not be the same"
+            "exclude_include_cannot_be_the_same": "The exclude and include strings must not be the same",
+            "exclude_must_be_array": "The exclude option must be an array of strings or regular expressions. See https://github.com/franc6/ics_calendar/blob/releases/README.md#filters for more information.",
+            "include_must_be_array": "The include option must be an array of strings or regular expressions. See https://github.com/franc6/ics_calendar/blob/releases/README.md#filters for more information."
         },
         "abort": {
         }

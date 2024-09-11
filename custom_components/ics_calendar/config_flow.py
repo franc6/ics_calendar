@@ -84,6 +84,11 @@ TIMEOUT_OPTS_SCHEMA = vol.Schema(
 )
 
 
+def is_array_string(arr_str: str) -> bool:
+    """Return true if arr_str starts with [ and ends with ]."""
+    return arr_str.startswith("[") and arr_str.endswith("]")
+
+
 class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
     """Config Flow for ICS Calendar."""
 
@@ -142,7 +147,7 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
             last_step=False,
         )
 
-    async def async_step_calendar_opts(
+    async def async_step_calendar_opts(  # noqa: R701
         self, user_input: Optional[Dict[str, Any]] = None
     ):
         """Calendar Options step for ConfigFlow."""
@@ -153,6 +158,16 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
                 and user_input[CONF_EXCLUDE] == user_input[CONF_INCLUDE]
             ):
                 errors[CONF_EXCLUDE] = "exclude_include_cannot_be_the_same"
+            else:
+                if user_input[CONF_EXCLUDE] and not is_array_string(
+                    user_input[CONF_EXCLUDE]
+                ):
+                    errors[CONF_EXCLUDE] = "exclude_must_be_array"
+                if user_input[CONF_INCLUDE] and not is_array_string(
+                    user_input[CONF_INCLUDE]
+                ):
+                    errors[CONF_INCLUDE] = "include_must_be_array"
+
             if user_input[CONF_DOWNLOAD_INTERVAL] < 15:
                 _LOGGER.error("download_interval_too_small error")
                 errors[CONF_DOWNLOAD_INTERVAL] = "download_interval_too_small"
