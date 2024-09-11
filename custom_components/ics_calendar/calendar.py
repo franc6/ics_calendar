@@ -270,10 +270,6 @@ class ICSCalendarData:  # pylint: disable=R0902
                 self._calendar_data.set_timeout(
                     device_data[CONF_CONNECTION_TIMEOUT]
                 )
-        else:
-            self._calendar_data.set_timeout(
-                device_data[CONF_CONNECTION_TIMEOUT]
-            )
 
     async def async_get_events(
         self, hass: HomeAssistant, start_date: datetime, end_date: datetime
