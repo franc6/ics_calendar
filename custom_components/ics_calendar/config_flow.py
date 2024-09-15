@@ -1,4 +1,4 @@
-"""Config Flow for ics Calendar."""
+"""Config Flow for ICS Calendar."""
 
 import logging
 import re
