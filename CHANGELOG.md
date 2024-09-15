@@ -1,6 +1,7 @@
 ## 5.0.3 2025/09/15
 - Fixed #165
 - Fixed #166
+- Updated dependencies in manifest.json
 
 ## 5.0.2 2025/09/11
 - Fixed #149 again
