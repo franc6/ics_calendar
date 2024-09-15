@@ -1,6 +1,6 @@
 """Constants for ics_calendar platform."""
 
-VERSION = "5.0.2"
+VERSION = "5.0.3"
 DOMAIN = "ics_calendar"
 
 CONF_DEVICE_ID = "device_id"
