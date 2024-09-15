@@ -1,6 +1,7 @@
-"""Config Flow for ics Calendar."""
+"""Config Flow for ICS Calendar."""
 
 import logging
+import re
 from typing import Any, Dict, Optional
 from urllib.parse import quote
 
@@ -193,9 +194,21 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors[CONF_URL] = "empty_url"
 
             if not errors:
+                has_template = (
+                    "{year}" in user_input[CONF_URL]
+                    or "{month}" in user_input[CONF_URL]
+                )
                 user_input[CONF_URL] = quote(
                     user_input[CONF_URL], safe=":/?&="
                 )
+                if has_template:
+                    user_input[CONF_URL] = re.sub(
+                        "%7[Bb]year%7[Dd]", "{year}", user_input[CONF_URL]
+                    )
+                    user_input[CONF_URL] = re.sub(
+                        "%7[Bb]month%7[Dd]", "{month}", user_input[CONF_URL]
+                    )
+
                 self.data.update(user_input)
                 if user_input.get(CONF_REQUIRES_AUTH, False):
                     return await self.async_step_auth_opts()

@@ -61,6 +61,17 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
+    """Set up the calendar in background."""
+    hass.async_create_task(
+        _async_setup_entry_bg_task(hass, config_entry, async_add_entities)
+    )
+
+
+async def _async_setup_entry_bg_task(
+    hass: HomeAssistant,
+    config_entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
     """Set up the calendar."""
     data = hass.data[DOMAIN][config_entry.entry_id]
     device_id = f"{data[CONF_NAME]}"
