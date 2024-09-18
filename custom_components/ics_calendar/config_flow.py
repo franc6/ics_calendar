@@ -214,7 +214,10 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
                     return await self.async_step_auth_opts()
                 if user_input.get(CONF_ADV_CONNECT_OPTS, False):
                     return await self.async_step_adv_connect_opts()
-                return self.async_create_entry(title="", data=self.data)
+                return self.async_create_entry(
+                    title=self.data[CONF_NAME],
+                    data=self.data,
+                )
 
         return self.async_show_form(
             step_id="connect_opts",
@@ -230,7 +233,10 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
             self.data.update(user_input)
             if self.data.get(CONF_ADV_CONNECT_OPTS, False):
                 return await self.async_step_adv_connect_opts()
-            return self.async_create_entry(title="", data=self.data)
+            return self.async_create_entry(
+                title=self.data[CONF_NAME],
+                data=self.data,
+            )
 
         return self.async_show_form(
             step_id="auth_opts", data_schema=AUTH_OPTS_SCHEMA
@@ -247,7 +253,10 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
                 self.data.update(user_input)
                 if user_input.get(CONF_SET_TIMEOUT, False):
                     return await self.async_step_timeout_opts()
-                return self.async_create_entry(title="", data=self.data)
+                return self.async_create_entry(
+                    title=self.data[CONF_NAME],
+                    data=self.data,
+                )
 
         return self.async_show_form(
             step_id="adv_connect_opts",
@@ -264,7 +273,10 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
 
             if not errors:
                 self.data.update(user_input)
-                return self.async_create_entry(title="", data=self.data)
+                return self.async_create_entry(
+                    title=self.data[CONF_NAME],
+                    data=self.data,
+                )
 
         return self.async_show_form(
             step_id="timeout_opts",
@@ -275,4 +287,7 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
 
     async def async_step_import(self, import_data):
         """Import config from configuration.yaml."""
-        return self.async_create_entry(title="", data=import_data)
+        return self.async_create_entry(
+            title=import_data[CONF_NAME],
+            data=import_data,
+        )
