@@ -5,7 +5,7 @@
 - [ ] Add unit tests for setup entry points in ics_calendar/__init__.py
 
 ## General
-- [X] Figure out how to get entries named something other than "ICS Calendar" when looking at separate entries in Setup
+- [X] Figure out how to get entries named something other than "ICS Calendar" when looking at separate entries in Setup (5.0.4)
 
 ## UI Config
 - [ ] Revamp UI config, especially for URLs (see #133, #116, #169)
