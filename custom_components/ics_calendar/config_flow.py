@@ -90,15 +90,28 @@ def is_array_string(arr_str: str) -> bool:
     return arr_str.startswith("[") and arr_str.endswith("]")
 
 
+def format_url(url: str) -> str:
+    """Format a URL using quote() and ensure any templates are not quoted."""
+    has_template = "{year}" in url or "{month}" in url
+    url = quote(url, safe=":/?&=")
+    if has_template:
+        url = re.sub("%7[Bb]year%7[Dd]", "{year}", url)
+        url = re.sub("%7[Bb]month%7[Dd]", "{month}", url)
+
+    return url
+
+
 class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
     """Config Flow for ICS Calendar."""
 
     VERSION = 1
     MINOR_VERSION = 0
 
+    data: Optional[Dict[str, Any]]
+
     def __init__(self):
         """Construct ICSCalendarConfigFlow."""
-        self.data: Optional[Dict[str, Any]] = None
+        self.data = {}
 
     async def async_step_reauth(self, user_input=None):
         """Re-authenticateon auth error."""
@@ -130,7 +143,8 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         """Start of Config Flow."""
         errors = {}
         if user_input is not None:
-            if not user_input[CONF_NAME].strip():
+            user_input[CONF_NAME] = user_input[CONF_NAME].strip()
+            if not user_input[CONF_NAME]:
                 errors[CONF_NAME] = "empty_name"
             else:
                 self._async_abort_entries_match(
@@ -154,6 +168,8 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         """Calendar Options step for ConfigFlow."""
         errors = {}
         if user_input is not None:
+            user_input[CONF_EXCLUDE] = user_input[CONF_EXCLUDE].strip()
+            user_input[CONF_INCLUDE] = user_input[CONF_INCLUDE].strip()
             if (
                 user_input[CONF_EXCLUDE]
                 and user_input[CONF_EXCLUDE] == user_input[CONF_INCLUDE]
@@ -190,24 +206,12 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         """Connect Options step for ConfigFlow."""
         errors = {}
         if user_input is not None:
-            if not user_input[CONF_URL].strip():
+            user_input[CONF_URL] = user_input[CONF_URL].strip()
+            if not user_input[CONF_URL]:
                 errors[CONF_URL] = "empty_url"
 
             if not errors:
-                has_template = (
-                    "{year}" in user_input[CONF_URL]
-                    or "{month}" in user_input[CONF_URL]
-                )
-                user_input[CONF_URL] = quote(
-                    user_input[CONF_URL], safe=":/?&="
-                )
-                if has_template:
-                    user_input[CONF_URL] = re.sub(
-                        "%7[Bb]year%7[Dd]", "{year}", user_input[CONF_URL]
-                    )
-                    user_input[CONF_URL] = re.sub(
-                        "%7[Bb]month%7[Dd]", "{month}", user_input[CONF_URL]
-                    )
+                user_input[CONF_URL] = format_url(user_input[CONF_URL])
 
                 self.data.update(user_input)
                 if user_input.get(CONF_REQUIRES_AUTH, False):
