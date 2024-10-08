@@ -10,7 +10,7 @@ def make_datetime(val):
     return val
 
 
-def compare_event_dates(  # pylint: disable=R0913
+def compare_event_dates(  # pylint: disable=R0913,R0917
     now, end2, start2, all_day2, end, start, all_day
 ) -> bool:
     """Determine if end2 and start2 are newer than end and start."""

@@ -316,7 +316,6 @@ class ICSCalendarData:  # pylint: disable=R0902
             event_list = []
 
         for event in event_list:
-            print("Adding prefix to summary 1")
             event.summary = self._summary_prefix + event.summary
 
         return event_list
