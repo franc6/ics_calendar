@@ -5,29 +5,32 @@
 from unittest.mock import ANY, patch
 
 import pytest
-from homeassistant.const import (  # CONF_PASSWORD,; CONF_PREFIX,; CONF_USERNAME,
+from homeassistant.const import (
     CONF_EXCLUDE,
     CONF_INCLUDE,
     CONF_NAME,
+    CONF_PASSWORD,
+    CONF_PREFIX,
     CONF_URL,
+    CONF_USERNAME,
 )
 from homeassistant.data_entry_flow import FlowResultType
 
-# CONF_ACCEPT_HEADER,
-# CONF_CONNECTION_TIMEOUT,
-# CONF_DAYS,
-# CONF_INCLUDE_ALL_DAY,
-# CONF_OFFSET_HOURS,
-# CONF_PARSER,
-# CONF_SET_TIMEOUT,
-# CONF_USER_AGENT,
 from custom_components.ics_calendar import (
+    CONF_ACCEPT_HEADER,
     CONF_ADV_CONNECT_OPTS,
+    CONF_CONNECTION_TIMEOUT,
+    CONF_DAYS,
     CONF_DOWNLOAD_INTERVAL,
+    CONF_INCLUDE_ALL_DAY,
+    CONF_OFFSET_HOURS,
+    CONF_PARSER,
     CONF_REQUIRES_AUTH,
+    CONF_SET_TIMEOUT,
+    CONF_USER_AGENT,
+    DOMAIN,
     config_flow,
 )
-from custom_components.ics_calendar.const import DOMAIN
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -371,7 +374,7 @@ class TestICSCalendarConfigFlow:
     async def test_async_step_connect_opts_moves_to_adv_connect_opts_step(
         self, hass
     ) -> None:
-        """Test that async_step_user moves to auth_opt step if auth required."""
+        """Test that async_step_connect_opts moves to adv_connect_opt step."""
         # Arrange
         expected = {
             "data_schema": config_flow.ADVANCED_CONNECT_OPTS_SCHEMA,
@@ -400,25 +403,33 @@ class TestICSCalendarConfigFlow:
         assert expected == result
 
     @pytest.mark.asyncio
-    @pytest.mark.xfail
     async def test_async_step_connect_opts_creates_entry(self, hass) -> None:
-        """Test that async_step_user moves to auth_opt step if auth required."""
+        """Test that async_step_connect_opts creates an entry."""
         # Arrange
-        # TODO: Figure out how to set self.data in the ICSCalendarConfigFlow,
-        # set CONF_NAME and CONF_URL!
         data = {
             CONF_NAME: "test calendar",
             CONF_URL: "https://localhost/test.ics",
             CONF_REQUIRES_AUTH: False,
             CONF_ADV_CONNECT_OPTS: False,
+            CONF_DOWNLOAD_INTERVAL: 15,
+            CONF_INCLUDE: "",
+            CONF_EXCLUDE: "",
+            CONF_DAYS: 1,
+            CONF_INCLUDE_ALL_DAY: False,
+            CONF_OFFSET_HOURS: 0,
+            CONF_PARSER: "rie",
+            CONF_PREFIX: "",
         }
         expected = {
-            "context": {"source": "connect_opts"},
+            "context": {"source": "user"},
             "data": data,
             "description": None,
             "description_placeholders": None,
             "flow_id": ANY,
             "handler": DOMAIN,
+            "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
+            "options": {},
+            "result": ANY,
             "title": data[CONF_NAME],
             "type": FlowResultType.CREATE_ENTRY,
             "version": config_flow.ICSCalendarConfigFlow.VERSION,
@@ -428,17 +439,472 @@ class TestICSCalendarConfigFlow:
             return_value=True,
         ):
             _result = await hass.config_entries.flow.async_init(
-                DOMAIN, context={"source": "connect_opts"}
+                DOMAIN, context={"source": "user"}
             )
             await hass.async_block_till_done()
+            _result_name = await hass.config_entries.flow.async_configure(
+                _result["flow_id"],
+                user_input={CONF_NAME: data[CONF_NAME]},
+            )
+            _result_cal_opts = await hass.config_entries.flow.async_configure(
+                _result_name["flow_id"],
+                user_input={
+                    CONF_EXCLUDE: data[CONF_EXCLUDE],
+                    CONF_INCLUDE: data[CONF_INCLUDE],
+                    CONF_DOWNLOAD_INTERVAL: data[CONF_DOWNLOAD_INTERVAL],
+                },
+            )
 
         # Act
         result = await hass.config_entries.flow.async_configure(
-            _result["flow_id"],
+            _result_cal_opts["flow_id"],
             user_input={
-                CONF_URL: "https://localhost/test.ics",
-                CONF_REQUIRES_AUTH: False,
-                CONF_ADV_CONNECT_OPTS: False,
+                CONF_URL: data[CONF_URL],
+                CONF_REQUIRES_AUTH: data[CONF_REQUIRES_AUTH],
+                CONF_ADV_CONNECT_OPTS: data[CONF_ADV_CONNECT_OPTS],
+            },
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_auth_opts(self, hass) -> None:
+        """Test that form is shown for async_step_auth_opts."""
+        # Arrange
+        expected = {
+            "data_schema": config_flow.AUTH_OPTS_SCHEMA,
+            "description_placeholders": None,
+            "errors": None,
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "last_step": None,
+            "preview": None,
+            "step_id": "auth_opts",
+            "type": FlowResultType.FORM,
+        }
+        # Act
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": "auth_opts"}
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_auth_opts_moves_to_adv_connect_opts_step(
+        self, hass
+    ) -> None:
+        """Test that async_step_auth_opts moves to adv_connect_opts step."""
+        # Arrange
+        data = {
+            CONF_NAME: "test calendar",
+            CONF_URL: "https://localhost/test.ics",
+            CONF_REQUIRES_AUTH: True,
+            CONF_ADV_CONNECT_OPTS: True,
+            CONF_DOWNLOAD_INTERVAL: 15,
+            CONF_INCLUDE: "",
+            CONF_EXCLUDE: "",
+            CONF_DAYS: 1,
+            CONF_INCLUDE_ALL_DAY: False,
+            CONF_OFFSET_HOURS: 0,
+            CONF_PARSER: "rie",
+            CONF_PREFIX: "",
+        }
+        expected = {
+            "data_schema": config_flow.ADVANCED_CONNECT_OPTS_SCHEMA,
+            "description_placeholders": None,
+            "errors": {},
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "last_step": None,
+            "preview": None,
+            "step_id": "adv_connect_opts",
+            "type": FlowResultType.FORM,
+        }
+        with patch(
+            "custom_components.ics_calendar.async_setup_entry",
+            return_value=True,
+        ):
+            _result = await hass.config_entries.flow.async_init(
+                DOMAIN, context={"source": "user"}
+            )
+            await hass.async_block_till_done()
+            _result_name = await hass.config_entries.flow.async_configure(
+                _result["flow_id"],
+                user_input={CONF_NAME: data[CONF_NAME]},
+            )
+            _result_cal_opts = await hass.config_entries.flow.async_configure(
+                _result_name["flow_id"],
+                user_input={
+                    CONF_EXCLUDE: data[CONF_EXCLUDE],
+                    CONF_INCLUDE: data[CONF_INCLUDE],
+                    CONF_DOWNLOAD_INTERVAL: data[CONF_DOWNLOAD_INTERVAL],
+                },
+            )
+            _result_url_opts = await hass.config_entries.flow.async_configure(
+                _result_cal_opts["flow_id"],
+                user_input={
+                    CONF_URL: data[CONF_URL],
+                    CONF_REQUIRES_AUTH: data[CONF_REQUIRES_AUTH],
+                    CONF_ADV_CONNECT_OPTS: data[CONF_ADV_CONNECT_OPTS],
+                },
+            )
+        # Act
+        result = await hass.config_entries.flow.async_configure(
+            _result_url_opts["flow_id"],
+            user_input={
+                CONF_USERNAME: "username",
+                CONF_PASSWORD: "password",
+            },
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_auth_opts_creates_entry(self, hass) -> None:
+        """Test that async_step_auth_opts creates an entry."""
+        # Arrange
+        data = {
+            CONF_NAME: "test calendar",
+            CONF_URL: "https://localhost/test.ics",
+            CONF_REQUIRES_AUTH: True,
+            CONF_ADV_CONNECT_OPTS: False,
+            CONF_DOWNLOAD_INTERVAL: 15,
+            CONF_INCLUDE: "",
+            CONF_EXCLUDE: "",
+            CONF_DAYS: 1,
+            CONF_INCLUDE_ALL_DAY: False,
+            CONF_OFFSET_HOURS: 0,
+            CONF_PARSER: "rie",
+            CONF_PREFIX: "",
+            CONF_USERNAME: "username",
+            CONF_PASSWORD: "password",
+        }
+        expected = {
+            "context": {"source": "user"},
+            "data": data,
+            "description": None,
+            "description_placeholders": None,
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
+            "options": {},
+            "result": ANY,
+            "title": data[CONF_NAME],
+            "type": FlowResultType.CREATE_ENTRY,
+            "version": config_flow.ICSCalendarConfigFlow.VERSION,
+        }
+        with patch(
+            "custom_components.ics_calendar.async_setup_entry",
+            return_value=True,
+        ):
+            _result = await hass.config_entries.flow.async_init(
+                DOMAIN, context={"source": "user"}
+            )
+            await hass.async_block_till_done()
+            _result_name = await hass.config_entries.flow.async_configure(
+                _result["flow_id"],
+                user_input={CONF_NAME: data[CONF_NAME]},
+            )
+            _result_cal_opts = await hass.config_entries.flow.async_configure(
+                _result_name["flow_id"],
+                user_input={
+                    CONF_EXCLUDE: data[CONF_EXCLUDE],
+                    CONF_INCLUDE: data[CONF_INCLUDE],
+                    CONF_DOWNLOAD_INTERVAL: data[CONF_DOWNLOAD_INTERVAL],
+                },
+            )
+            _result_url_opts = await hass.config_entries.flow.async_configure(
+                _result_cal_opts["flow_id"],
+                user_input={
+                    CONF_URL: data[CONF_URL],
+                    CONF_REQUIRES_AUTH: data[CONF_REQUIRES_AUTH],
+                    CONF_ADV_CONNECT_OPTS: data[CONF_ADV_CONNECT_OPTS],
+                },
+            )
+        # Act
+        result = await hass.config_entries.flow.async_configure(
+            _result_url_opts["flow_id"],
+            user_input={
+                CONF_USERNAME: data[CONF_USERNAME],
+                CONF_PASSWORD: data[CONF_PASSWORD],
+            },
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_adv_connect_opts(self, hass) -> None:
+        """Test that form is shown for async_step_adv_connect_opts."""
+        # Arrange
+        expected = {
+            "data_schema": config_flow.ADVANCED_CONNECT_OPTS_SCHEMA,
+            "description_placeholders": None,
+            "errors": {},
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "last_step": None,
+            "preview": None,
+            "step_id": "adv_connect_opts",
+            "type": FlowResultType.FORM,
+        }
+        # Act
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": "adv_connect_opts"}
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_adv_connect_opts_moves_to_timeout_step(
+        self, hass
+    ) -> None:
+        """Test that async_step_auth_opts moves to adv_connect_opts step."""
+        # Arrange
+        data = {
+            CONF_NAME: "test calendar",
+            CONF_URL: "https://localhost/test.ics",
+            CONF_SET_TIMEOUT: True,
+            CONF_REQUIRES_AUTH: False,
+            CONF_ADV_CONNECT_OPTS: True,
+            CONF_DOWNLOAD_INTERVAL: 15,
+            CONF_INCLUDE: "",
+            CONF_EXCLUDE: "",
+            CONF_DAYS: 1,
+            CONF_INCLUDE_ALL_DAY: False,
+            CONF_OFFSET_HOURS: 0,
+            CONF_PARSER: "rie",
+            CONF_PREFIX: "",
+            CONF_USER_AGENT: "user-agent",
+            CONF_ACCEPT_HEADER: "accept",
+            CONF_SET_TIMEOUT: True,
+        }
+        expected = {
+            "data_schema": config_flow.TIMEOUT_OPTS_SCHEMA,
+            "description_placeholders": None,
+            "errors": {},
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "last_step": True,
+            "preview": None,
+            "step_id": "timeout_opts",
+            "type": FlowResultType.FORM,
+        }
+        with patch(
+            "custom_components.ics_calendar.async_setup_entry",
+            return_value=True,
+        ):
+            _result = await hass.config_entries.flow.async_init(
+                DOMAIN, context={"source": "user"}
+            )
+            await hass.async_block_till_done()
+            _result_name = await hass.config_entries.flow.async_configure(
+                _result["flow_id"],
+                user_input={CONF_NAME: data[CONF_NAME]},
+            )
+            _result_cal_opts = await hass.config_entries.flow.async_configure(
+                _result_name["flow_id"],
+                user_input={
+                    CONF_EXCLUDE: data[CONF_EXCLUDE],
+                    CONF_INCLUDE: data[CONF_INCLUDE],
+                    CONF_DOWNLOAD_INTERVAL: data[CONF_DOWNLOAD_INTERVAL],
+                },
+            )
+            _result_url_opts = await hass.config_entries.flow.async_configure(
+                _result_cal_opts["flow_id"],
+                user_input={
+                    CONF_URL: data[CONF_URL],
+                    CONF_REQUIRES_AUTH: data[CONF_REQUIRES_AUTH],
+                    CONF_ADV_CONNECT_OPTS: data[CONF_ADV_CONNECT_OPTS],
+                },
+            )
+        # Act
+        result = await hass.config_entries.flow.async_configure(
+            _result_url_opts["flow_id"],
+            user_input={
+                CONF_ACCEPT_HEADER: data[CONF_ACCEPT_HEADER],
+                CONF_USER_AGENT: data[CONF_USER_AGENT],
+                CONF_SET_TIMEOUT: data[CONF_SET_TIMEOUT],
+            },
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_adv_connect_opts_creates_entry(
+        self, hass
+    ) -> None:
+        """Test that async_step_adv_connect_opts creates an entry."""
+        # Arrange
+        data = {
+            CONF_NAME: "test calendar",
+            CONF_URL: "https://localhost/test.ics",
+            CONF_REQUIRES_AUTH: False,
+            CONF_ADV_CONNECT_OPTS: True,
+            CONF_DOWNLOAD_INTERVAL: 15,
+            CONF_INCLUDE: "",
+            CONF_EXCLUDE: "",
+            CONF_DAYS: 1,
+            CONF_INCLUDE_ALL_DAY: False,
+            CONF_OFFSET_HOURS: 0,
+            CONF_PARSER: "rie",
+            CONF_PREFIX: "",
+            CONF_USER_AGENT: "user-agent",
+            CONF_ACCEPT_HEADER: "accept",
+            CONF_SET_TIMEOUT: False,
+        }
+        expected = {
+            "context": {"source": "user"},
+            "data": data,
+            "description": None,
+            "description_placeholders": None,
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
+            "options": {},
+            "result": ANY,
+            "title": data[CONF_NAME],
+            "type": FlowResultType.CREATE_ENTRY,
+            "version": config_flow.ICSCalendarConfigFlow.VERSION,
+        }
+        with patch(
+            "custom_components.ics_calendar.async_setup_entry",
+            return_value=True,
+        ):
+            _result = await hass.config_entries.flow.async_init(
+                DOMAIN, context={"source": "user"}
+            )
+            await hass.async_block_till_done()
+            _result_name = await hass.config_entries.flow.async_configure(
+                _result["flow_id"],
+                user_input={CONF_NAME: data[CONF_NAME]},
+            )
+            _result_cal_opts = await hass.config_entries.flow.async_configure(
+                _result_name["flow_id"],
+                user_input={
+                    CONF_EXCLUDE: data[CONF_EXCLUDE],
+                    CONF_INCLUDE: data[CONF_INCLUDE],
+                    CONF_DOWNLOAD_INTERVAL: data[CONF_DOWNLOAD_INTERVAL],
+                },
+            )
+            _result_url_opts = await hass.config_entries.flow.async_configure(
+                _result_cal_opts["flow_id"],
+                user_input={
+                    CONF_URL: data[CONF_URL],
+                    CONF_REQUIRES_AUTH: data[CONF_REQUIRES_AUTH],
+                    CONF_ADV_CONNECT_OPTS: data[CONF_ADV_CONNECT_OPTS],
+                },
+            )
+        # Act
+        result = await hass.config_entries.flow.async_configure(
+            _result_url_opts["flow_id"],
+            user_input={
+                CONF_ACCEPT_HEADER: data[CONF_ACCEPT_HEADER],
+                CONF_USER_AGENT: data[CONF_USER_AGENT],
+                CONF_SET_TIMEOUT: data[CONF_SET_TIMEOUT],
+            },
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_timeout_opts(self, hass) -> None:
+        """Test that form is shown for async_step_timeout_opts."""
+        # Arrange
+        expected = {
+            "data_schema": config_flow.TIMEOUT_OPTS_SCHEMA,
+            "description_placeholders": None,
+            "errors": {},
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "last_step": True,
+            "preview": None,
+            "step_id": "timeout_opts",
+            "type": FlowResultType.FORM,
+        }
+        # Act
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": "timeout_opts"}
+        )
+        # Assert
+        assert expected == result
+
+    @pytest.mark.asyncio
+    async def test_async_step_timeout_opts_creates_entry(self, hass) -> None:
+        """Test that async_step_timeout_opts creates an entry."""
+        # Arrange
+        data = {
+            CONF_NAME: "test calendar",
+            CONF_URL: "https://localhost/test.ics",
+            CONF_REQUIRES_AUTH: False,
+            CONF_ADV_CONNECT_OPTS: True,
+            CONF_DOWNLOAD_INTERVAL: 15,
+            CONF_INCLUDE: "",
+            CONF_EXCLUDE: "",
+            CONF_DAYS: 1,
+            CONF_INCLUDE_ALL_DAY: False,
+            CONF_OFFSET_HOURS: 0,
+            CONF_PARSER: "rie",
+            CONF_PREFIX: "",
+            CONF_USER_AGENT: "user-agent",
+            CONF_ACCEPT_HEADER: "accept",
+            CONF_SET_TIMEOUT: True,
+            CONF_CONNECTION_TIMEOUT: 50,
+        }
+        expected = {
+            "context": {"source": "user"},
+            "data": data,
+            "description": None,
+            "description_placeholders": None,
+            "flow_id": ANY,
+            "handler": DOMAIN,
+            "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
+            "options": {},
+            "result": ANY,
+            "title": data[CONF_NAME],
+            "type": FlowResultType.CREATE_ENTRY,
+            "version": config_flow.ICSCalendarConfigFlow.VERSION,
+        }
+        with patch(
+            "custom_components.ics_calendar.async_setup_entry",
+            return_value=True,
+        ):
+            _result = await hass.config_entries.flow.async_init(
+                DOMAIN, context={"source": "user"}
+            )
+            await hass.async_block_till_done()
+            _result_name = await hass.config_entries.flow.async_configure(
+                _result["flow_id"],
+                user_input={CONF_NAME: data[CONF_NAME]},
+            )
+            _result_cal_opts = await hass.config_entries.flow.async_configure(
+                _result_name["flow_id"],
+                user_input={
+                    CONF_EXCLUDE: data[CONF_EXCLUDE],
+                    CONF_INCLUDE: data[CONF_INCLUDE],
+                    CONF_DOWNLOAD_INTERVAL: data[CONF_DOWNLOAD_INTERVAL],
+                },
+            )
+            _result_url_opts = await hass.config_entries.flow.async_configure(
+                _result_cal_opts["flow_id"],
+                user_input={
+                    CONF_URL: data[CONF_URL],
+                    CONF_REQUIRES_AUTH: data[CONF_REQUIRES_AUTH],
+                    CONF_ADV_CONNECT_OPTS: data[CONF_ADV_CONNECT_OPTS],
+                },
+            )
+            _result_adv_opts = await hass.config_entries.flow.async_configure(
+                _result_url_opts["flow_id"],
+                user_input={
+                    CONF_ACCEPT_HEADER: data[CONF_ACCEPT_HEADER],
+                    CONF_USER_AGENT: data[CONF_USER_AGENT],
+                    CONF_SET_TIMEOUT: data[CONF_SET_TIMEOUT],
+                },
+            )
+        # Act
+        result = await hass.config_entries.flow.async_configure(
+            _result_adv_opts["flow_id"],
+            user_input={
+                CONF_CONNECTION_TIMEOUT: data[CONF_CONNECTION_TIMEOUT],
             },
         )
         # Assert
