@@ -20,9 +20,12 @@ pytest_plugins = "pytest_homeassistant_custom_component"
 @pytest.fixture(autouse=True, name="skip_notifications")
 def skip_notifications_fixture():
     """Skip notification calls."""
-    with patch(
-        "homeassistant.components.persistent_notification.async_create"
-    ), patch("homeassistant.components.persistent_notification.async_dismiss"):
+    with (
+        patch("homeassistant.components.persistent_notification.async_create"),
+        patch(
+            "homeassistant.components.persistent_notification.async_dismiss"
+        ),
+    ):
         yield
 
 
@@ -48,9 +51,12 @@ def mock_http(hass):
 @pytest.fixture(autouse=True)
 def mock_http_start_stop():
     """Fixture to avoid stop/start of http server."""
-    with patch(
-        "homeassistant.components.http.start_http_server_and_save_config"
-    ), patch("homeassistant.components.http.HomeAssistantHTTP.stop"):
+    with (
+        patch(
+            "homeassistant.components.http.start_http_server_and_save_config"
+        ),
+        patch("homeassistant.components.http.HomeAssistantHTTP.stop"),
+    ):
         yield
 
 

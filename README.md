@@ -156,17 +156,12 @@ This example will exclude any event whose summary or description includes "test"
 
 ## Development environment setup
 
+You should have uv installed.  Then run the following commands:
+
 ```shell
-$ python3 -m venv ./env
-$ ./env/bin/pip install --upgrade setuptools
-$ ./env/bin/pip install --upgrade wheel
-
-$ ./env/bin/pip install -r ./requirements.txt
-$ ./env/bin/pip install -r ./requirements.dev.txt
-$ ./env/bin/pip install -r ./requirements.test.txt
-
-$ source ./env/bin/activate
-
+$ uv sync --dev --extra tests
+$ source ./env/bin/activate # for CSH shells
+$ . ./env/bin/activate # for most other shells
 ```
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
