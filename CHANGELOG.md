@@ -1,6 +1,9 @@
-## 5.0.4 2024/10/??
+## 5.0.4 2024/10/10
 - Fixed #170
 - Fixed #172
+- Added more unit tests
+- Updated dependencies in manifest.json
+- Updated dependencies to include some this project does not directly use, to see if it fixes #174.
 
 ## 5.0.3 2025/09/15
 - Fixed #165
