@@ -160,8 +160,8 @@ You should have uv installed.  Then run the following commands:
 
 ```shell
 $ uv sync --dev --extra tests
-$ source ./env/bin/activate # for CSH shells
-$ . ./env/bin/activate # for most other shells
+$ source ./.venv/bin/activate # for CSH shells
+$ . ./.venv/bin/activate # for most other shells
 ```
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)
