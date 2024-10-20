@@ -10,6 +10,9 @@
 ## UI Config
 - [ ] Revamp UI config, especially for URLs (see #133, #116, #169)
 
+## HTTP Changes
+- [ ] Fix #166; use homeassistant.helpers.httpx_client.create_async_httpx_client (or get_async_client?) along with httpx_auth to handle HTTP(S) connections.  Need to create a multi-auth capable DigetAuth, too. See https://github.com/Colin-b/httpx_auth/blob/develop/httpx_auth/_authentication.py (class Basic) for an example of doing that.  This means more advanced authentication mechanisms will also be supported!
+
 # Updates for v6.0.0
 
 ## Remove YAML config support
