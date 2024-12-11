@@ -1,10 +1,10 @@
 [project]
 name = "ics_calendar"
-version = "5.0.4"
+version = "5.0.5"
 readme = "README.md"
 requires-python = "==3.12"
 dependencies = [
-    'icalendar >= 6.0.0',
+    'icalendar >= 6.1',
     'python-dateutil >= 2.9.0.post0',
     'pytz >= 2024.1',
     'recurring_ical_events >= 3.3.2',

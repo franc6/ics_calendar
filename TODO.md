@@ -1,7 +1,7 @@
 # Updates for v5.X
 
 ## Unit tests
-- [X] Add unit tests for UI configuration methods
+- [X] Add unit tests for UI configuration methods (5.0.5)
 - [ ] Add unit tests for setup entry points in ics_calendar/__init__.py
 
 ## General
@@ -11,7 +11,7 @@
 - [ ] Revamp UI config, especially for URLs (see #133, #116, #169)
 
 ## HTTP Changes
-- [X] Fix #166; use homeassistant.helpers.httpx_client.get_async_client along with httpx_auth to handle authentication
+- [X] Fix #166; use homeassistant.helpers.httpx_client.get_async_client along with httpx_auth to handle authentication (5.0.5)
 
 # Updates for v6.0.0
 

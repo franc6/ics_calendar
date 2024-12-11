@@ -1,3 +1,12 @@
+## 5.0.5-beta1 2024/12/11
+- Fixed #166
+- Updated dependencies based on comments for #194
+- More unit tests
+
+## !!! WARNING !!!
+Please do not use this beta release at this time, unless franc6 has asked you to,
+things might break badly.
+
 ## 5.0.4 2024/10/10
 - Fixed #170
 - Fixed #172
