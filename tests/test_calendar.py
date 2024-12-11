@@ -1,7 +1,7 @@
 """Test the calendar class."""
 
 import copy
-from unittest.mock import ANY, Mock, patch
+from unittest.mock import ANY, AsyncMock, Mock, patch
 
 import pytest
 from dateutil import parser as dtparser
@@ -119,9 +119,11 @@ def _mocked_calendar_data(file_name):
 class TestCalendar:
     """Test Calendar class."""
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -146,6 +148,7 @@ class TestCalendar:
             include_all_day=False, now=ANY, days=ANY, offset_hours=0
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_headers",
@@ -154,6 +157,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -184,6 +188,7 @@ class TestCalendar:
             include_all_day=True, now=ANY, days=ANY, offset_hours=0
         )
 
+    @pytest.mark.asyncio
     @pytest.mark.parametrize("set_tz", ["utc"], indirect=True)
     @patch(
         "custom_components.ics_calendar.calendar.hanow",
@@ -196,6 +201,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -239,9 +245,11 @@ class TestCalendar:
                 prefix_config[DOMAIN]["calendars"][0]["prefix"]
             )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -273,9 +281,11 @@ class TestCalendar:
             include_all_day=False, now=ANY, days=ANY, offset_hours=-5
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -307,6 +317,7 @@ class TestCalendar:
             include_all_day=False, now=ANY, days=ANY, offset_hours=5
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_headers",
@@ -315,6 +326,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -347,6 +359,7 @@ class TestCalendar:
             acceptheader_config[DOMAIN]["calendars"][0]["accept_header"],
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_headers",
@@ -355,6 +368,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -387,6 +401,7 @@ class TestCalendar:
             "",
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_headers",
@@ -395,6 +410,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -427,6 +443,7 @@ class TestCalendar:
             "",
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData"
         ".set_timeout",
@@ -435,6 +452,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -466,6 +484,7 @@ class TestCalendar:
             ),
         )
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendar.hanow",
         return_value=dtparser.parse("2021-01-03T00:00:01Z"),
@@ -477,6 +496,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=True,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -520,6 +540,7 @@ class TestCalendar:
             _mocked_calendar_data("tests/allday.ics")
         )
 
+    @pytest.mark.asyncio
     @pytest.mark.parametrize(
         "set_tz", ["utc", "chicago", "baghdad"], indirect=True
     )
@@ -534,6 +555,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -587,6 +609,7 @@ class TestCalendar:
         }
         assert state.state == STATE_OFF
 
+    @pytest.mark.asyncio
     @pytest.mark.parametrize(
         "set_tz", ["utc", "chicago", "baghdad"], indirect=True
     )
@@ -601,6 +624,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -654,6 +678,7 @@ class TestCalendar:
         }
         assert state.state == STATE_ON
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendar.hanow",
         return_value=dtparser.parse("2022-01-03T00:00:01"),
@@ -665,6 +690,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -698,6 +724,7 @@ class TestCalendar:
             "offset_reached": False,
         }
 
+    @pytest.mark.asyncio
     @pytest.mark.parametrize(
         "set_tz", ["utc", "chicago", "baghdad"], indirect=True
     )
@@ -712,6 +739,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -765,6 +793,7 @@ class TestCalendar:
         }
         assert state.state == STATE_ON
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendar.hanow",
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
@@ -776,6 +805,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -804,6 +834,7 @@ class TestCalendar:
         events = await get_api_events("calendar.noallday")
         assert len(events) == len(mock_event_list())
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendar.hanow",
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
@@ -815,6 +846,7 @@ class TestCalendar:
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
@@ -844,9 +876,11 @@ class TestCalendar:
         events = await get_api_events("calendar.noallday")
         assert len(events) == 0
 
+    @pytest.mark.asyncio
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
         return_value=False,
+        new_callable=AsyncMock,
     )
     @patch(
         "custom_components.ics_calendar.calendardata.CalendarData.get",
