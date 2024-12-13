@@ -1,7 +1,6 @@
 """Support for ICS Calendar."""
 
 import logging
-from asyncio import run_coroutine_threadsafe
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
@@ -29,7 +28,6 @@ from homeassistant.helpers.entity import generate_entity_id
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.httpx_client import get_async_client
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
-from homeassistant.util import Throttle
 from homeassistant.util.dt import now as hanow
 
 from .calendardata import CalendarData
@@ -216,9 +214,9 @@ class ICSCalendarEntity(CalendarEntity):
         )
         return await self.data.async_get_events(start_date, end_date)
 
-    def update(self):
+    async def async_update(self):
         """Get the current or next event."""
-        self.data.update()
+        await self.data.async_update()
         self._event = self.data.event
         self._attr_extra_state_attributes = {
             "offset_reached": (
@@ -333,13 +331,10 @@ class ICSCalendarData:  # pylint: disable=R0902
 
         return event_list
 
-    @Throttle(MIN_TIME_BETWEEN_UPDATES)
-    def update(self):
+    async def async_update(self):
         """Get the current or next event."""
         _LOGGER.debug("%s: Update was called", self.name)
-        if run_coroutine_threadsafe(
-            self._calendar_data.download_calendar(), self._hass.loop
-        ).result():
+        if await self._calendar_data.download_calendar():
             _LOGGER.debug("%s: Setting calendar content", self.name)
             self.parser.set_content(self._calendar_data.get())
         try:
