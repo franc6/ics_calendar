@@ -1,6 +1,6 @@
 [project]
 name = "ics_calendar"
-version = "5.0.5"
+version = "5.0.6"
 readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [
