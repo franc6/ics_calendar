@@ -156,10 +156,8 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         # update entry with any changes
         if config[DOMAIN].get("calendars"):
             for calendar in config[DOMAIN].get("calendars"):
-                hass.async_create_task(
-                    hass.config_entries.async_update_entry(
-                        config_entry, data=dict(calendar)
-                    )
+                hass.config_entries.async_update_entry(
+                    config_entry, data=dict(calendar)
                 )
 
     return True
