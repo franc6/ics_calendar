@@ -5,7 +5,6 @@ from logging import Logger
 from socket import (  # type: ignore[attr-defined]  # private, not in typeshed
     _GLOBAL_DEFAULT_TIMEOUT,
 )
-from threading import Lock
 
 import httpx
 import httpx_auth
@@ -29,9 +28,6 @@ class CalendarData:  # pylint: disable=R0902
     given URL.  Use the get method to retrieve the data after constructing your
     instance.
     """
-
-    # Allow only one download at a time globally
-    download_singleton_lock = Lock()
 
     def __init__(  # pylint: disable=R0913,R0917
         self,
@@ -76,24 +72,22 @@ class CalendarData:  # pylint: disable=R0902
         rtype: bool
         """
         self.logger.debug("%s: download_calendar start", self.name)
-        with CalendarData.download_singleton_lock:
-            self.logger.debug("%s: download_calendar lock acquired", self.name)
-            if (
-                self._calendar_data is None
-                or self._last_download is None
-                or (hanow() - self._last_download) > self._min_update_time
-            ):
-                self._calendar_data = None
-                next_url: str = self._make_url()
-                self.logger.debug(
-                    "%s: Downloading calendar data from: %s",
-                    self.name,
-                    next_url,
-                )
-                await self._download_data(next_url)
-                self._last_download = hanow()
-                self.logger.debug("%s: download_calendar done", self.name)
-                return self._calendar_data is not None
+        if (
+            self._calendar_data is None
+            or self._last_download is None
+            or (hanow() - self._last_download) > self._min_update_time
+        ):
+            self._calendar_data = None
+            next_url: str = self._make_url()
+            self.logger.debug(
+                "%s: Downloading calendar data from: %s",
+                self.name,
+                next_url,
+            )
+            await self._download_data(next_url)
+            self._last_download = hanow()
+            self.logger.debug("%s: download_calendar done", self.name)
+            return self._calendar_data is not None
 
         self.logger.debug("%s: download_calendar skipped download", self.name)
         return False
