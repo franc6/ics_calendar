@@ -19,7 +19,7 @@ tests = [
     'pytest-cov',
     'pytest-homeassistant-custom-component>=0.13.192',
     'pytest-helpers-namespace>=2021.12.29',
-    'pytest-httpx==0.34.0',
+    'pytest-httpx==0.35.0',
     'pytest-mock',
     'pytest-asyncio',
     'pytest-aiohttp',
