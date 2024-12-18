@@ -1,3 +1,6 @@
+## 5.1.X
+- Added Brazilian Portuguese translation, thanks @opastorello!
+
 ## 5.1.0 2024/12/18
 - Fixed #125 You can now configure a default summary for events that don't have a summary in the calendar.
 - Fixed #200
