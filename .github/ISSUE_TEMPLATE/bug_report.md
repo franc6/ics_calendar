@@ -14,7 +14,6 @@ Version:
 
 Installation Type (put an X between the square brackets for your HA):
 [] Home Assistant OS
-[] Home Assistant OS
 [] Home Assistant Supervised
 [] Home Assistant Container
 [] Home Assistant Core
@@ -22,6 +21,15 @@ Installation Type (put an X between the square brackets for your HA):
 Hardware platform:
 [] ARM
 [] x86-64
+
+Are you running in a container environment like Docker or Kubernetes?
+[] Yes
+[] No
+
+If running in a container, how is your image built?
+[] Official HA container image
+[] Official HA container image with customizations
+[] Custom built container image
 
 **Describe the bug**
 A clear and concise description of the bug
