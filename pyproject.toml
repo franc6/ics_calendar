@@ -10,7 +10,7 @@ dependencies = [
     'recurring_ical_events ~= 3.3, >= 3.3.4',
     'ics >= 0.7.2',
     'arrow',
-    'httpx_auth == 0.22.0'
+    'httpx_auth == 0.23.1'
 ]
 
 [project.optional-dependencies]
