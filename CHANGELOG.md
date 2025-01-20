@@ -1,5 +1,7 @@
-## 5.1.X
+## 5.1.1 2025/01/20
 - Added Brazilian Portuguese translation, thanks @opastorello!
+- Fixed #116. webcal:// prefix will be silently replaced with https://
+- Fixed #133 (and #169 and #211). Configuration should now detect if the URL was already encoded, and if so, avoid encoding it again.
 
 ## 5.1.0 2024/12/18
 - Fixed #125 You can now configure a default summary for events that don't have a summary in the calendar.
