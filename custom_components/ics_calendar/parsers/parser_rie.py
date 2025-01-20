@@ -65,7 +65,7 @@ class ParserRIE(ICalendarParser):
         event_list: list[CalendarEvent] = []
 
         if self._calendar is not None:
-            for event in rie.of(self._calendar).between(
+            for event in rie.of(self._calendar, skip_bad_series=True).between(
                 start - timedelta(hours=offset_hours),
                 end - timedelta(hours=offset_hours),
             ):
@@ -110,12 +110,12 @@ class ParserRIE(ICalendarParser):
         if self._calendar is None:
             return None
 
-        temp_event: CalendarEvent = None
+        temp_event = None
         temp_start: date | datetime = None
         temp_end: date | datetime = None
         temp_all_day: bool = None
         end: datetime = now + timedelta(days=days)
-        for event in rie.of(self._calendar).between(
+        for event in rie.of(self._calendar, skip_bad_series=True).between(
             now - timedelta(hours=offset_hours),
             end - timedelta(hours=offset_hours),
         ):
