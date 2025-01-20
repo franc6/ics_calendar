@@ -6,10 +6,11 @@
 
 ## General
 - [X] Figure out how to get entries named something other than "ICS Calendar" when looking at separate entries in Setup (5.0.4)
-- [] Determine if #193 is a problem ics_calendar can resolve or not
+- [ ] Determine if #193 is a problem ics_calendar can resolve or not (CAP-Team, probably not, JayWll, open question)
+- [ ] Fix #216
 
 ## UI Config
-- [ ] Revamp UI config, especially for URLs (see #133, #116, #169)
+- [X] Revamp UI config, especially for URLs (see #133, #116, #169, #211,)
 
 ## HTTP Changes
 - [X] Fix #166; use homeassistant.helpers.httpx_client.get_async_client along with httpx_auth to handle authentication (5.0.5)
@@ -24,6 +25,7 @@
 - [ ] Allow reconfigure of options
     - Name & unique ID should be kept, everything else can be reconfigured
     - Users that want to change the name can use HA's entity configuration to do that
+    - #222, and others
 
 ## HTTP Changes
 - [ ] Add support for more advanced authentication mechanisms

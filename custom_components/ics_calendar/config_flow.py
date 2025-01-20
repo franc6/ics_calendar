@@ -96,11 +96,15 @@ def is_array_string(arr_str: str) -> bool:
 
 def format_url(url: str) -> str:
     """Format a URL using quote() and ensure any templates are not quoted."""
-    has_template = "{year}" in url or "{month}" in url
-    url = quote(url, safe=":/?&=")
-    if has_template:
-        url = re.sub("%7[Bb]year%7[Dd]", "{year}", url)
-        url = re.sub("%7[Bb]month%7[Dd]", "{month}", url)
+    is_quoted = bool(re.search("%[0-9A-Fa-f][0-9A-Fa-f]", url))
+    if not is_quoted:
+        has_template = "{year}" in url or "{month}" in url
+        url = quote(url, safe=":/?&=")
+        if has_template:
+            url = re.sub("%7[Bb]year%7[Dd]", "{year}", url)
+            url = re.sub("%7[Bb]month%7[Dd]", "{month}", url)
+    if url.startswith("webcal://"):
+        url = re.sub("^webcal://", "https://", url)
 
     return url
 
