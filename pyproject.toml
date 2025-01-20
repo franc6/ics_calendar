@@ -8,7 +8,7 @@ dependencies = [
     'python-dateutil >= 2.9.0.post0',
     'pytz >= 2024.1',
     'recurring_ical_events ~= 3.3, >= 3.3.4',
-    'ics >= 0.7.2',
+    'ics == 0.7.2',
     'arrow',
     'httpx_auth == 0.22.0'
 ]
@@ -17,7 +17,7 @@ dependencies = [
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.192',
+    'pytest-homeassistant-custom-component>=0.13.196',
     'pytest-helpers-namespace>=2021.12.29',
     'pytest-httpx==0.34.0',
     'pytest-mock',
