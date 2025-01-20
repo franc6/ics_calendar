@@ -79,6 +79,35 @@ class TestICSCalendarConfigFlow:
         # Assert
         assert expected == config_flow.format_url(url)
 
+    def test_format_url_works_if_encoded(self):
+        """Test that format_url works with a URL that is already encoded."""
+        # Arrange
+        expected = "https://localhost/test%20calendar.ics"
+        url = "https://localhost/test%20calendar.ics"
+
+        # Act
+        # Assert
+        assert expected == config_flow.format_url(url)
+
+    def test_format_url_works_for_template_if_encoded(self):
+        """Test that format_url works with an encoded URL that has a template."""
+        # Arrange
+        expected = "https://localhost/{year}/{month}test%20calendar.ics"
+
+        # Act
+        # Assert
+        assert expected == config_flow.format_url(expected)
+
+    def test_format_changes_webcal_to_https(self):
+        """Test that format_url works with a URL that has a template."""
+        # Arrange
+        expected = "https://localhost/{year}/{month}test%20calendar.ics"
+        url = "webcal://localhost/{year}/{month}test%20calendar.ics"
+
+        # Act
+        # Assert
+        assert expected == config_flow.format_url(url)
+
     @pytest.mark.asyncio
     async def test_async_step_user_shows_form(self, hass) -> None:
         """Test that form is shown for async_step_user."""
