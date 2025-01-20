@@ -12,16 +12,34 @@ Provides a component for ICS (icalendar) calendars for Home Assistant
 ## Installation
 You can install this through [HACS](https://github.com/custom-components/hacs).
 
-Otherwise, you can install it manually.
+### Warning when installing in HA in a container
+A number of users have reported problems when running HA in a container.  If you see any of these messages in your log,
+```
+- Setup failed for custom integration 'ics_calendar': Requirements for ics_calendar not found
+- ModuleNotFoundError: No module named 'ics'
+- ModuleNotFoundError: No module named 'recurring-icalendar-events'
+- ImportError: Exception importing custom_components.ics_calendar.calendar
+- AttributeError: module 'icalendar' has no attribute 'InvalidCalendar'
+```
+
+Then your problem stems from a dependency installation issue.  This problem is supposed to be resolved in HA 2025.1, but it's possible that you still have trouble, because of one or more of the following:
+
+1. you are running in an unsupported container environment
+2. you have made custom modifications to the container
+3. you have made custom modifications to the container in order to resolve an earlier dependency problem, for this integration or another
+
+If you encounter a dependency installation problem, please see https://github.com/home-assistant/core/issues/127966 and https://github.com/home-assistant/core/pull/125808 which explain the problem in more detail, and the fix that was applied.  If those do not help you resolve the dependency problem, please note that the author will be unable to help.  Please do not open an issue on GitHub for this problem.  It's not a bug in ics_calendar, and it cannot be resolved by changing ics_calendar.  You can find the full list of runtime dependencies and versions in the [manifest.json](custom_components/ics_calendar/manifest.json) in the "requirements" value.
+
+### Manual installation
+
+The following procedure should work, but is **strongly** discouraged.
 
 1. Using the tool of choice open the directory (folder) for your HA configuration (where you find configuration.yaml).
 2. If you do not have a custom_components directory (folder) there, you need to create it.
 3. In the custom_components directory (folder) create a new folder called ics_calendar.
 4. Download all the files from the custom_components/ics_calendar/ directory (folder) in this repository.
 5. Place the files you downloaded in the new directory (folder) you created.
-6. Inside the new directory, run 'pip install -r requirements.txt'
-7. Restart Home Assistant
-8. Add ics_calendar: to your HA's configuration.
+6. Restart Home Assistant
 
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 ```
@@ -48,7 +66,7 @@ This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not suppo
 ## Configuration
 Configuration is done via UI now.  Go to https://my.home-assistant.io/redirect/integrations/ and click "Add Integration" to add ICS Calendar.  You'll want to do this for each calendar for this integration.
 
-Please note that if you previously used configuration.yaml, you can remove those entries after updating to a version that supports UI configuration.
+Please note that if you previously used configuration.yaml, you must remove those entries after updating to a version that supports UI configuration.
 
 ## Example configuration.yaml
 ```yaml
