@@ -23,24 +23,24 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv sync --dev --extra tests
+          uv sync --prerelease=allow --dev --extra tests
 
       - name: Run isort --check
         run: |
-          uv run isort --check custom_components/ics_calendar tests
+          uv run --prerelease=allow isort --check custom_components/ics_calendar tests
 
       - name: Run black --check
         run: |
-          uv run black --check custom_components/ics_calendar tests
+          uv run --prerelease=allow black --check custom_components/ics_calendar tests
 
       - name: Run flake8
         run: |
-          uv run flake8
+          uv run --prerelease=allow flake8
 
       - name: Run pydocstyle
         run: |
-          uv run pydocstyle -v custom_components/ics_calendar tests
+          uv run --prerelease=allow pydocstyle -v custom_components/ics_calendar tests
 
       - name: Run pylint
         run: |
-          uv run pylint custom_components/ics_calendar
+          uv run --prerelease=allow pylint custom_components/ics_calendar

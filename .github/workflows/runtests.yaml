@@ -30,11 +30,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv sync --extra tests
+          uv sync --prerelease=allow --extra tests
 
       - name: Run pytest
         run: |
-          PYTHONDONTWRITEBYTECODE=1 uv run pytest tests/
+          PYTHONDONTWRITEBYTECODE=1 uv run --prerelease=allow pytest tests/
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
