@@ -1,6 +1,6 @@
 [project]
 name = "ics_calendar"
-version = "5.1.1"
+version = "5.1.2"
 readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [
@@ -10,16 +10,16 @@ dependencies = [
     'recurring_ical_events ~= 3.4, >= 3.4.1',
     'ics == 0.7.2',
     'arrow',
-    'httpx_auth == 0.22.0'
+    'httpx_auth >= 0.22.0, <= 0.23.1'
 ]
 
 [project.optional-dependencies]
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.203',
+    'pytest-homeassistant-custom-component>=0.13.205',
     'pytest-helpers-namespace>=2021.12.29',
-    'pytest-httpx==0.34.0',
+    'pytest-httpx>=0.34.0,<=0.35.0',
     'pytest-mock',
     'pytest-asyncio',
     'pytest-aiohttp',

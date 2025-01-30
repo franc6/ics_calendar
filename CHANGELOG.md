@@ -1,3 +1,6 @@
+## 5.1.2 2025/01/30
+- Updated httpx_auth version for HA 2025.2.0b0 and later, thanks, @TheZoker and @gieljnssns!
+
 ## 5.1.1 2025/01/20
 - Added Brazilian Portuguese translation, thanks @opastorello!
 - Fixed #116. webcal:// prefix will be silently replaced with https://
