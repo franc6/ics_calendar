@@ -25,6 +25,7 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import (
     CONF_ACCEPT_HEADER,
+    CONF_ADDITIONAL_HEADERS,
     CONF_ADV_CONNECT_OPTS,
     CONF_CALENDARS,
     CONF_CONNECTION_TIMEOUT,
@@ -92,6 +93,9 @@ CONFIG_SCHEMA = vol.Schema(
                                     ): int,
                                     vol.Optional(
                                         CONF_ACCEPT_HEADER, default=""
+                                    ): cv.string,
+                                    vol.Optional(
+                                        CONF_ADDITIONAL_HEADERS, default="[]"
                                     ): cv.string,
                                     vol.Optional(
                                         CONF_CONNECTION_TIMEOUT, default=300
@@ -230,6 +234,7 @@ def add_missing_defaults(
         CONF_INCLUDE: "",
         CONF_OFFSET_HOURS: 0,
         CONF_ACCEPT_HEADER: "",
+        CONF_ADDITIONAL_HEADERS: "[]",
         CONF_CONNECTION_TIMEOUT: 300.0,
         CONF_SUMMARY_DEFAULT: CONF_SUMMARY_DEFAULT_DEFAULT,
     }
@@ -241,6 +246,7 @@ def add_missing_defaults(
         CONF_USER_AGENT in entry.data
         or CONF_ACCEPT_HEADER in entry.data
         or CONF_CONNECTION_TIMEOUT in entry.data
+        or CONF_ADDITIONAL_HEADERS in entry.data
     ):
         data[CONF_ADV_CONNECT_OPTS] = True
     if CONF_CONNECTION_TIMEOUT in entry.data:

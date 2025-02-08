@@ -21,6 +21,7 @@ from homeassistant.helpers.selector import selector
 
 from . import (
     CONF_ACCEPT_HEADER,
+    CONF_ADDITIONAL_HEADERS,
     CONF_ADV_CONNECT_OPTS,
     CONF_CONNECTION_TIMEOUT,
     CONF_DAYS,
@@ -80,6 +81,7 @@ ADVANCED_CONNECT_OPTS_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_ACCEPT_HEADER, default=""): cv.string,
         vol.Optional(CONF_USER_AGENT, default=""): cv.string,
+        vol.Optional(CONF_ADDITIONAL_HEADERS, default="[]"): cv.string,
         vol.Optional(CONF_SET_TIMEOUT, default=False): cv.boolean,
     }
 )
