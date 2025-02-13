@@ -1,3 +1,7 @@
+## 5.1.3 2025/01/30
+- Updated recurring_ical_events to latest for bug fixes and to prevent 2.5.0 from being used. Big thanks to @ccMatrix, @cookie050, and the many others who reported the problem and determined the correct fix!
+- Updated dependencies for tests.
+
 ## 5.1.2 2025/01/30
 - Updated httpx_auth version for HA 2025.2.0b0 and later, thanks, @TheZoker and @gieljnssns!
 
