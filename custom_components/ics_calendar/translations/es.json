@@ -1,0 +1,77 @@
+{
+    "issues": {
+        "YAML_Warning": {
+            "title": "La configuración YAML está obsoleta para ICS Calendar",
+            "description": "La configuración YAML de ics_calendar está obsoleta y se eliminará en ics_calendar v5.0.0. Sus elementos de configuración se han importado. Elimínelos de su archivo configuration.yaml."
+        }
+    },
+    "title": "ICS Calendar",
+    "config": {
+        "step": {
+            "user": {
+                "data": {
+                    "name": "Nombre",
+                    "days": "Días",
+                    "include_all_day": "¿Incluir eventos de todo el día?"
+                },
+                "title": "Agregar calendario"
+            },
+            "calendar_opts": {
+                "data": {
+                    "exclude": "Excluir filtro",
+                    "include": "Incluir filtro",
+                    "prefix": "Cadena que precederá a todos los resúmenes de eventos",
+                    "download_interval": "Intervalo de descarga (minutos)",
+                    "offset_hours": "Número de horas para compensar los tiempos del evento",
+                    "parser": "Parser (rie or ics)",
+                    "summary_default": "Resumen si el evento no tiene uno"
+                },
+                "title": "Opciones de calendario"
+            },
+            "connect_opts": {
+                "data": {
+                    "url": "URL del archivo ICS",
+                    "requires_auth": "¿Requiere autentificación?",
+                    "advanced_connection_options": "¿Establecer opciones de conexión avanzadas?"
+                },
+                "title": "Opciones de conexión"
+            },
+            "auth_opts": {
+                "data": {
+                    "username": "Nombre de usuario",
+                    "password": "Contraseña"
+                },
+                "description": "Tenga en cuenta que este componente solo admite la autenticación básica HTTP y la autenticación HTTP Digest. Actualmente, no se admiten autenticaciones más avanzadas, como OAuth.",
+                "title": "Autentificación"
+            },
+            "adv_connect_opts": {
+                "data": {
+                    "accept_header": "Encabezado Accept personalizado para servidores rotos",
+                    "user_agent": "Encabezado de agente de usuario personalizado",
+                    "set_connection_timeout": "¿Cambiar el tiempo de espera de la conexión?"
+                },
+                "title": "Opciones avanzadas de conexión"
+            },
+            "timeout_opts": {
+                "data": {
+                    "connection_timeout": "Tiempo de espera de la conexión en segundos"
+                },
+                "title": "Opciones de tiempo de espera de la conexión"
+            },
+            "reauth_confirm": {
+                "description": "Error de autorización para el calendario. Vuelva a configurar la URL del calendario y/o los ajustes de autenticación.",
+                "title": "Fallo de autorización para ICS Calendar"
+            }
+        },
+        "error": {
+            "empty_name": "El nombre del calendario no debe estar vacío.",
+            "empty_url": "La url no debe estar vacía.",
+            "download_interval_too_small": "El intervalo de descarga debe ser de al menos 15.",
+            "exclude_include_cannot_be_the_same": "Las cadenas de exclusión e inclusión no deben ser las mismas",
+            "exclude_must_be_array": "La opción de exclusión debe ser una matriz de cadenas o expresiones regulares. Consulte https://github.com/franc6/ics_calendar/blob/releases/README.md#filters para obtener más información.",
+            "include_must_be_array": "La opción de inclusión debe ser un array de cadenas o expresiones regulares. Consulte https://github.com/franc6/ics_calendar/blob/releases/README.md#filters para obtener más información."
+        },
+        "abort": {
+        }
+    }
+}
