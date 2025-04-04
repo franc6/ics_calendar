@@ -9,6 +9,8 @@ Provides a component for ICS (icalendar) calendars for Home Assistant
 
 > **NOTE**: This component is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav calendar platform instead.  This one might work, but probably not well.
 
+> **NOTE**: Because https://www.home-assistant.io/integrations/remote_calendar now exists, this project will eventually close.  I may or may not add some of the features that project is missing, but maybe not.  This will stick around for at least a couple more releases, since I know some people will be unable to use the Remote Calendar integration due to its current limitations.  If anyone thinks it's worth keeping this project going even after Remote Calendar gets close to feature parity, I'm willing to transfer ownership.  I just have no desire to work on a project that's duplicating something else that exists.
+
 ## Installation
 You can install this through [HACS](https://github.com/custom-components/hacs).
 
