@@ -4,7 +4,7 @@ import re
 from ast import literal_eval
 from typing import List, Optional, Pattern
 
-from homeassistant.components.calendar import CalendarEvent
+from .parserevent import ParserEvent
 
 
 class Filter:
@@ -114,11 +114,11 @@ class Filter:
             add_event = self._is_included(summary, description)
         return add_event
 
-    def filter_event(self, event: CalendarEvent) -> bool:
+    def filter_event(self, event: ParserEvent) -> bool:
         """Check if the event should be included or not.
 
         :param event: The event to examine
-        :type event: CalendarEvent
+        :type event: ParserEvent
         :return: true if the event should be included, otherwise false
         :rtype: bool
         """
