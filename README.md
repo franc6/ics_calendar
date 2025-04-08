@@ -156,14 +156,6 @@ You can also include multiple entries for exclude or include.
 
 > **NOTE**: If you want to include only events that include a specific string, you **must** use an exclude filter that excludes everything in addition to your include filter.  E.g. "['/.*/']"
 
-## URL Templates
-If your ICS url requires specifying the current year and/or month, you can now use templates to specify the current year and month.  E.g. if you set your url to:
-```yaml
-url: "https://www.a-url?year={year}&month={month}"
-```
-
-The "{year}" part will be replaced with the current 4 digit year, and the "{month}" will be replaced with the current 2 digit month.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=02", in November 2024, the URL will be "https://www.a-url?year=2024&month=11".
-
 ### Examples
 ```yaml
 ics_calendar:
@@ -175,6 +167,21 @@ ics_calendar:
 ```
 
 This example will exclude any event whose summary or description includes "test" in a case insensitive manner, or if the summary or description is "regex".  However, if the summary or description includes "keepme" (case insensitive), the event will be included anyway.
+
+## URL Templates
+If your ICS url requires specifying the current year and/or month, you can now use templates to specify the current year and month.  E.g. if you set your url to:
+```yaml
+url: "https://www.a-url?year={year}&month={month}"
+```
+
+The "{year}" part will be replaced with the current 4 digit year, and the "{month}" part will be replaced with the current 2 digit month.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=02", in November 2024, the URL will be "https://www.a-url?year=2024&month=11".
+
+You can also specify positive and negative offsets for the year and month templates. E.g. if you set your url to:
+```yaml
+url: "https://www.a-url?year={year+1}&month={month-3}"
+```
+
+The "{year+1}" part will be replaced with the next 4 digit year, and the "{month-3}" part will be replaced with the 2 digit month of three months ago.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=11", in November 2024, the URL will be "https://www.a-url?year=2025&month=8".
 
 ## Development environment setup
 

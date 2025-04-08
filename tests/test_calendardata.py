@@ -22,8 +22,6 @@ CALENDAR_DATA_2 = "2 calendar data"
 CALENDAR_NAME = "TESTcalendar"
 
 TEST_URL = "http://127.0.0.1/test/allday.ics"
-TEST_TEMPLATE_URL = "http://127.0.0.1/test/{year}/{month}/allday.ics"
-TEST_TEMPLATE_URL_REPLACED = "http://127.0.0.1/test/2022/01/allday.ics"
 
 
 def set_calendar_data(calendar_data: CalendarData, data: str):
@@ -219,38 +217,76 @@ class TestCalendarData:
         assert calendar_data.get() == CALENDAR_DATA
 
     @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "expected_url,url",
+        [
+            (
+                "http://127.0.0.1/test/2022/01/allday.ics",
+                "http://127.0.0.1/test/{year}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/10/allday.ics",
+                "http://127.0.0.1/test/{year+3}/{month-15}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2022/04/allday.ics",
+                "http://127.0.0.1/test/{year-1}/{month+15}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2025/02/allday.ics",
+                "http://127.0.0.1/test/{year+1}/{month+25}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2022/02/allday.ics",
+                "http://127.0.0.1/test/{year}/{month+1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/12/allday.ics",
+                "http://127.0.0.1/test/{year}/{month-1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/10/allday.ics",
+                "http://127.0.0.1/test/{year}/{month-3}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/12/allday.ics",
+                "http://127.0.0.1/test/{year}/{month+23}/allday.ics",
+            ),
+        ],
+    )
     @patch(
         "custom_components.ics_calendar.calendardata.hanow",
         return_value=dtparser.parse("2022-01-01T00:00:00"),
     )
     async def test_download_calendar_interprets_templates(
-        self, mock_hanow, logger, httpx_mock, hass
+        self, mock_hanow, expected_url, url, logger, httpx_mock, hass
     ):
         """Test download_calendar sets cache from the mocked HTTPHandler.
 
         This test relies on the success of test_get!
         """
+        print(expected_url)
         httpx_mock.add_response(
             is_optional=True,
-            url=TEST_TEMPLATE_URL_REPLACED,
+            url=expected_url,
             content=BINARY_CALENDAR_DATA,
         )
         httpx_mock.add_exception(
             BaseException("URL contains {year} template!"),
             is_optional=True,
-            url=re.compile(".*[{]year[}]"),
+            url=re.compile(".*[{]year([-+][0-9]+)?[}]"),
         )
         httpx_mock.add_exception(
             BaseException("URL contains {month} template!"),
             is_optional=True,
-            url=re.compile(".*[{]month[}]"),
+            url=re.compile(".*[{]month([-+][0-9]+)?[}]"),
         )
         calendar_data = CalendarData(
             httpx.AsyncClient(),
             logger,
             {
                 "name": CALENDAR_NAME,
-                "url": TEST_TEMPLATE_URL,
+                "url": url,
                 "min_update_time": timedelta(minutes=5),
             },
         )

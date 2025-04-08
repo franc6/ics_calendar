@@ -79,6 +79,16 @@ class TestICSCalendarConfigFlow:
         # Assert
         assert expected == config_flow.format_url(url)
 
+    def test_format_url_works_for_template_offset(self):
+        """Test that format_url works with a URL that has a template."""
+        # Arrange
+        expected = "https://localhost/{year-1}/{month+1}test%20calendar.ics"
+        url = "https://localhost/{year-1}/{month+1}test calendar.ics"
+
+        # Act
+        # Assert
+        assert expected == config_flow.format_url(url)
+
     def test_format_url_works_if_encoded(self):
         """Test that format_url works with a URL that is already encoded."""
         # Arrange

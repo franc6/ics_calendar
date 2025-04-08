@@ -1,3 +1,7 @@
+## 5.1.4 2025/04/08
+- Added Spanish translation, thanks @cvc90!
+- Added ability to use offsets in URL templates.
+
 ## 5.1.3 2025/02/13
 - Updated recurring_ical_events to latest for bug fixes and to prevent 2.5.0 from being used. Big thanks to @ccMatrix, @cookie050, and the many others who reported the problem and determined the correct fix!
 - Updated dependencies for tests.

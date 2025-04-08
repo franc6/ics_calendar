@@ -1,6 +1,8 @@
 """Provide CalendarData class."""
 
+import re
 from logging import Logger
+from math import floor
 
 import httpx
 import httpx_auth
@@ -180,6 +182,43 @@ class CalendarData:  # pylint: disable=R0902
     def _make_url(self):
         """Replace templates in url and encode."""
         now = hanow()
-        return self.url.replace("{year}", f"{now.year:04}").replace(
-            "{month}", f"{now.month:02}"
+        year: int = now.year
+        month: int = now.month
+        url = self.url
+        (month, year, url) = self._get_month_year(url, month, year)
+        return url.replace("{year}", f"{year:04}").replace(
+            "{month}", f"{month:02}"
         )
+
+    def _get_year_as_months(self, url: str, month: int) -> int:
+        year_match = re.search("\\{year([-+])([0-9]+)\\}", url)
+        if year_match:
+            if year_match.group(1) == "-":
+                month = month - (int(year_match.group(2)) * 12)
+            else:
+                month = month + (int(year_match.group(2)) * 12)
+            url = url.replace(year_match.group(0), "{year}")
+        return (month, url)
+
+    def _get_month_year(self, url: str, month: int, year: int) -> int:
+        (month, url) = self._get_year_as_months(url, month)
+        print(f"month: {month}\n")
+        month_match = re.search("\\{month([-+])([0-9]+)\\}", url)
+        if month_match:
+            if month_match.group(1) == "-":
+                month = month - int(month_match.group(2))
+            else:
+                month = month + int(month_match.group(2))
+            if month < 1:
+                year -= floor(abs(month) / 12) + 1
+                month = month % 12
+                if month == 0:
+                    month = 12
+            elif month > 12:
+                year += abs(floor(month / 12))
+                month = month % 12
+                if month == 0:
+                    month = 12
+                    year -= 1
+            url = url.replace(month_match.group(0), "{month}")
+        return (month, year, url)

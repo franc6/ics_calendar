@@ -98,11 +98,25 @@ def format_url(url: str) -> str:
     """Format a URL using quote() and ensure any templates are not quoted."""
     is_quoted = bool(re.search("%[0-9A-Fa-f][0-9A-Fa-f]", url))
     if not is_quoted:
-        has_template = "{year}" in url or "{month}" in url
+        year_match = re.search("\\{(year([-+][0-9]+)?)\\}", url)
+        month_match = re.search("\\{(month([-+][0-9]+)?)\\}", url)
+        has_template: bool = year_match or month_match
         url = quote(url, safe=":/?&=")
         if has_template:
-            url = re.sub("%7[Bb]year%7[Dd]", "{year}", url)
-            url = re.sub("%7[Bb]month%7[Dd]", "{month}", url)
+            year_template = year_match.group(1)
+            month_template = month_match.group(1)
+            year_template1 = year_template.replace("+", "%2[Bb]")
+            month_template1 = month_template.replace("+", "%2[Bb]")
+            url = re.sub(
+                f"%7[Bb]{year_template1}%7[Dd]",
+                f"{{{year_template}}}",
+                url,
+            )
+            url = re.sub(
+                f"%7[Bb]{month_template1}%7[Dd]",
+                f"{{{month_template}}}",
+                url,
+            )
     if url.startswith("webcal://"):
         url = re.sub("^webcal://", "https://", url)
 
