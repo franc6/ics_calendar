@@ -3,9 +3,8 @@
 from datetime import datetime
 from typing import Optional
 
-from homeassistant.components.calendar import CalendarEvent
-
 from .filter import Filter
+from .parserevent import ParserEvent
 
 
 class ICalendarParser:
@@ -33,7 +32,7 @@ class ICalendarParser:
         end: datetime,
         include_all_day: bool,
         offset_hours: int = 0,
-    ) -> list[CalendarEvent]:
+    ) -> list[ParserEvent]:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
@@ -47,7 +46,7 @@ class ICalendarParser:
         :param offset_hours the number of hours to offset the event
         :type offset_hours int
         :returns a list of events, or an empty list
-        :rtype list[CalendarEvent]
+        :rtype list[ParserEvent]
         """
 
     def get_current_event(
@@ -56,7 +55,7 @@ class ICalendarParser:
         now: datetime,
         days: int,
         offset_hours: int = 0,
-    ) -> Optional[CalendarEvent]:
+    ) -> Optional[ParserEvent]:
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
@@ -69,5 +68,5 @@ class ICalendarParser:
         :type days int
         :param offset_hours the number of hours to offset the event
         :type offset_hours int
-        :returns a CalendarEvent or None
+        :returns a ParserEvent or None
         """

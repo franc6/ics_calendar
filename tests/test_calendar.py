@@ -5,7 +5,6 @@ from unittest.mock import ANY, AsyncMock, Mock, patch
 
 import pytest
 from dateutil import parser as dtparser
-from homeassistant.components.calendar import CalendarEvent
 from homeassistant.const import STATE_OFF, STATE_ON
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.template import DATE_STR_FORMAT
@@ -13,6 +12,7 @@ from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as hadt
 
 from custom_components.ics_calendar.const import DOMAIN
+from custom_components.ics_calendar.parserevent import ParserEvent
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -62,7 +62,7 @@ def mock_http_start_stop():
 
 def _mocked_event():
     """Provide fixture to mock a single event."""
-    return CalendarEvent(
+    return ParserEvent(
         summary="Test event",
         start=hadt.as_local(dtparser.parse("2022-01-03T00:00:00")),
         end=hadt.as_local(dtparser.parse("2022-01-03T05:00:00")),
@@ -73,7 +73,7 @@ def _mocked_event():
 
 def _mocked_event_no_summary():
     """Provide fixture to mock a single event."""
-    return CalendarEvent(
+    return ParserEvent(
         summary="",
         start=hadt.as_local(dtparser.parse("2022-01-03T00:00:00")),
         end=hadt.as_local(dtparser.parse("2022-01-03T05:00:00")),
@@ -85,21 +85,21 @@ def _mocked_event_no_summary():
 def _mocked_event_list():
     """Provide fixture to mock a list of events."""
     return [
-        CalendarEvent(
+        ParserEvent(
             summary="Test event 2",
             start=dtparser.parse("2022-01-04T00:00:00Z"),
             end=dtparser.parse("2022-01-04T05:00:00Z"),
             location="Test location",
             description="Test description",
         ),
-        CalendarEvent(
+        ParserEvent(
             summary="Test event",
             start=dtparser.parse("2022-01-03T00:00:00Z"),
             end=dtparser.parse("2022-01-03T05:00:00Z"),
             location="Test location",
             description="Test description",
         ),
-        CalendarEvent(
+        ParserEvent(
             summary="Test event 3",
             start=dtparser.parse("2022-01-05T00:00:00Z"),
             end=dtparser.parse("2022-01-05T05:00:00Z"),
@@ -112,21 +112,21 @@ def _mocked_event_list():
 def _mocked_event_list_no_summary():
     """Provide fixture to mock a list of events without summaries."""
     return [
-        CalendarEvent(
+        ParserEvent(
             summary="",
             start=dtparser.parse("2022-01-04T00:00:00Z"),
             end=dtparser.parse("2022-01-04T05:00:00Z"),
             location="Test location",
             description="Test description 2",
         ),
-        CalendarEvent(
+        ParserEvent(
             summary="",
             start=dtparser.parse("2022-01-03T00:00:00Z"),
             end=dtparser.parse("2022-01-03T05:00:00Z"),
             location="Test location",
             description="Test description",
         ),
-        CalendarEvent(
+        ParserEvent(
             summary="",
             start=dtparser.parse("2022-01-05T00:00:00Z"),
             end=dtparser.parse("2022-01-05T05:00:00Z"),
@@ -138,7 +138,7 @@ def _mocked_event_list_no_summary():
 
 def _mocked_event_allday():
     """Provide fixture to mock a single all day event."""
-    return CalendarEvent(
+    return ParserEvent(
         summary="Test event",
         start=dtparser.parse("2022-01-03").date(),
         end=dtparser.parse("2022-01-04").date(),

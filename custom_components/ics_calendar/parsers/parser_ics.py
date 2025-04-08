@@ -5,11 +5,11 @@ from datetime import date, datetime, timedelta
 from typing import Optional, Union
 
 from arrow import Arrow, get as arrowget
-from homeassistant.components.calendar import CalendarEvent
 from ics import Calendar
 
 from ..filter import Filter
 from ..icalendarparser import ICalendarParser
+from ..parserevent import ParserEvent
 from ..utility import compare_event_dates
 
 
@@ -42,7 +42,7 @@ class ParserICS(ICalendarParser):
 
     def get_event_list(
         self, start, end, include_all_day: bool, offset_hours: int = 0
-    ) -> list[CalendarEvent]:
+    ) -> list[ParserEvent]:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
@@ -56,9 +56,9 @@ class ParserICS(ICalendarParser):
         :param offset_hours the number of hours to offset the event
         :type offset_hours int
         :returns a list of events, or an empty list
-        :rtype list[CalendarEvent]
+        :rtype list[ParserEvent]
         """
-        event_list: list[CalendarEvent] = []
+        event_list: list[ParserEvent] = []
 
         if self._calendar is not None:
             # ics 0.8 takes datetime not Arrow objects
@@ -76,7 +76,7 @@ class ParserICS(ICalendarParser):
                 #    summary = event.summary
                 # elif hasattr(event, "name"):
                 summary = event.name
-                calendar_event: CalendarEvent = CalendarEvent(
+                calendar_event: ParserEvent = ParserEvent(
                     summary=summary,
                     start=ParserICS.get_date(
                         event.begin, event.all_day, offset_hours
@@ -98,7 +98,7 @@ class ParserICS(ICalendarParser):
         now: datetime,
         days: int,
         offset_hours: int = 0,
-    ) -> Optional[CalendarEvent]:
+    ) -> Optional[ParserEvent]:
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
@@ -111,7 +111,7 @@ class ParserICS(ICalendarParser):
         :type int
         :param offset_hours the number of hours to offset the event
         :type int
-        :returns a CalendarEvent or None
+        :returns a ParserEvent or None
         """
         if self._calendar is None:
             return None
@@ -145,7 +145,7 @@ class ParserICS(ICalendarParser):
         # summary = temp_event.summary
         # elif hasattr(event, "name"):
         summary = temp_event.name
-        return CalendarEvent(
+        return ParserEvent(
             summary=summary,
             start=ParserICS.get_date(
                 temp_event.begin, temp_event.all_day, offset_hours
