@@ -313,7 +313,9 @@ class ICSCalendarData:  # pylint: disable=R0902
         event_list: list[ParserEvent] = []
         if await self._calendar_data.download_calendar():
             _LOGGER.debug("%s: Setting calendar content", self.name)
-            await self._hass.async_add_executor_job(lambda: self.parser.set_content(self._calendar_data.get()))
+            await self._hass.async_add_executor_job(
+                lambda: self.parser.set_content(self._calendar_data.get())
+            )
         try:
             event_list = self.parser.get_event_list(
                 start=start_date,
@@ -345,7 +347,9 @@ class ICSCalendarData:  # pylint: disable=R0902
         parser_event: ParserEvent | None = None
         if await self._calendar_data.download_calendar():
             _LOGGER.debug("%s: Setting calendar content", self.name)
-            await self._hass.async_add_executor_job(lambda: self.parser.set_content(self._calendar_data.get()))
+            await self._hass.async_add_executor_job(
+                lambda: self.parser.set_content(self._calendar_data.get())
+            )
         try:
             parser_event: ParserEvent | None = self.parser.get_current_event(
                 include_all_day=self.include_all_day,
