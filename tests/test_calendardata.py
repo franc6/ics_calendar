@@ -60,9 +60,9 @@ class MockHTTPHandlerTimeoutValue:
 class TestCalendarData:
     """Test the CalendarData class."""
 
-    def test_set_headers_none(self, logger, hass):
-        """Test set_headers without user name, password, or user agent."""
-        calendar_data = CalendarData(
+    def test_headers_none(self, logger, hass):
+        """Test headers without user name, password, or user agent."""
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -70,17 +70,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("", "", "", "")
+        ).headers("", "", "", "")
 
     def test_set_accept_header(self, logger, hass):
         """Test setting accept header by itself.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -88,17 +87,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("", "", "", "text/calendar")
+        ).headers("", "", "", "text/calendar")
 
     def test_set_user_agent(self, logger, hass):
         """Test setting user agent by itself.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -106,17 +104,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("", "", "Mozilla/5.0", "")
+        ).headers("", "", "Mozilla/5.0", "")
 
     def test_set_username_and_password(self, logger, hass):
         """Test setting user name and password by themselves.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -124,17 +121,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("username", "password", "", "")
+        ).headers("username", "password", "", "")
 
     def test_set_username_password_and_user_agent(self, logger, hass):
         """Test setting user name and password with user agent.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -142,17 +138,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("username", "password", "Mozilla/5.0", "")
+        ).headers("username", "password", "Mozilla/5.0", "")
 
     def test_set_username_password_and_accept_header(self, logger, hass):
         """Test setting user name and password with accept header.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -160,17 +155,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("username", "password", "", "text/calendar")
+        ).headers("username", "password", "", "text/calendar")
 
     def test_set_all_headers(self, logger, hass):
         """Test setting all headers.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -178,10 +172,7 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers(
-            "username", "password", "Mozilla/5.0", "text/calendar"
-        )
+        ).headers("username", "password", "Mozilla/5.0", "text/calendar")
 
     def test_get(self, logger, hass):
         """Test get method retrieves cached data."""
@@ -361,6 +352,7 @@ class TestCalendarData:
 
         This test relies on the success of test_get!
         """
+        timeout = 1.5
         calendar_data = CalendarData(
             httpx.AsyncClient(),
             logger,
@@ -369,9 +361,7 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        timeout = 1.5
-        calendar_data.set_timeout(timeout)
+        ).timeout(timeout)
         httpx_mock.add_exception(
             httpx.TimeoutException("timeout"),
             match_extensions={

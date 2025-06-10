@@ -11,10 +11,15 @@ from homeassistant.helpers.template import DATE_STR_FORMAT
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as hadt
 
+from custom_components.ics_calendar.calendardata import CalendarData
 from custom_components.ics_calendar.const import DOMAIN
 from custom_components.ics_calendar.parserevent import ParserEvent
 
 pytest_plugins = "pytest_homeassistant_custom_component"
+
+CALENDARDATA_IMPORT_PATH = (
+    "custom_components.ics_calendar.calendar.CalendarData"
+)
 
 
 @pytest.fixture(autouse=True, name="skip_notifications")
@@ -58,6 +63,27 @@ def mock_http_start_stop():
         patch("homeassistant.components.http.HomeAssistantHTTP.stop"),
     ):
         yield
+
+
+@pytest.fixture
+def mock_calendardata(monkeypatch):
+    """Fixture to mock CalendarData."""
+
+    def _make_mock(mocked_data, download_calendar_result=False):
+        """Create mock instance and patch instantiation of it."""
+        mock_instance = Mock(spec=CalendarData)
+        mock_instance.headers.return_value = mock_instance
+        mock_instance.timeout.return_value = mock_instance
+        mock_instance.download_calendar = AsyncMock(
+            return_value=download_calendar_result
+        )
+        mock_instance.get.return_value = mocked_data
+        monkeypatch.setattr(
+            CALENDARDATA_IMPORT_PATH, lambda *a, **kw: mock_instance
+        )
+        return mock_instance
+
+    return _make_mock
 
 
 def _mocked_event():
@@ -159,48 +185,35 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
     )
     async def test_calendar_setup(
-        self, mock_event, mock_get, mock_download, hass, noallday_config
+        self,
+        mock_event,
+        mock_calendardata,
+        hass,
+        noallday_config,
     ):
         """Test basic setup of platform not including all day events."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.noallday")
-        assert state.name == "noallday"
 
+        # Assert
+        assert state.name == "noallday"
         mock_event.assert_called_with(
             include_all_day=False, now=ANY, days=ANY, offset_hours=0
         )
 
     @pytest.mark.asyncio
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_headers",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
     @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
@@ -209,19 +222,22 @@ class TestCalendar:
     async def test_calendar_setup_all_day(
         self,
         mock_event,
-        mock_get,
-        mock_download,
-        mock_sh,
+        mock_calendardata,
         hass,
         allday_config,
     ):
         """Test basic setup of platform with user name and password."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, allday_config)
         await hass.async_block_till_done()
-
         state = hass.states.get("calendar.allday")
-        assert state.name == "allday"
 
+        # Assert
+        assert state.name == "allday"
         mock_event.assert_called_with(
             include_all_day=True, now=ANY, days=ANY, offset_hours=0
         )
@@ -237,15 +253,6 @@ class TestCalendar:
         return_value=dtparser.parse("2021-01-03T00:00:01Z"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -259,24 +266,29 @@ class TestCalendar:
         self,
         mock_event_list,
         mock_event,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
         set_tz,
+        mock_calendardata,
         hass,
         prefix_config,
         get_api_events,
     ):
         """Test basic setup of platform not including all day events."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, prefix_config)
         await hass.async_block_till_done()
 
         print(prefix_config[DOMAIN]["calendars"][0]["prefix"])
         state = hass.states.get("calendar.prefix")
-        assert state.name == "prefix"
-
         events = await get_api_events("calendar.prefix")
+
+        # Assert
+        assert state.name == "prefix"
         assert len(events) == len(mock_event_list())
         for event in events:
             assert event["summary"].startswith(
@@ -285,15 +297,6 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -301,12 +304,16 @@ class TestCalendar:
     async def test_calendar_setup_negative_offset_hours(
         self,
         mock_event,
-        mock_get,
-        mock_download,
+        mock_calendardata,
         hass,
         negative_offset_hours_config,
     ):
         """Test basic setup of platform not including all day events."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(
             hass, DOMAIN, negative_offset_hours_config
         )
@@ -321,15 +328,6 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -337,12 +335,16 @@ class TestCalendar:
     async def test_calendar_setup_positive_offset_hours(
         self,
         mock_event,
-        mock_get,
-        mock_download,
+        mock_calendardata,
         hass,
         positive_offset_hours_config,
     ):
         """Test basic setup of platform not including all day events."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(
             hass, DOMAIN, positive_offset_hours_config
         )
@@ -357,20 +359,6 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_headers",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -378,19 +366,22 @@ class TestCalendar:
     async def test_calendar_setup_acceptheader(
         self,
         mock_event,
-        mock_get,
-        mock_download,
-        mock_sh,
+        mock_calendardata,
         hass,
         acceptheader_config,
     ):
         """Test basic setup of platform with user name and password."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mocked_calendardata = mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, acceptheader_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.acceptheader")
         assert state.name == "acceptheader"
-        mock_sh.assert_called_with(
+        mocked_calendardata.headers.assert_called_with(
             "",
             "",
             "",
@@ -399,20 +390,6 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_headers",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -420,19 +397,22 @@ class TestCalendar:
     async def test_calendar_setup_useragent(
         self,
         mock_event,
-        mock_get,
-        mock_download,
-        mock_sh,
+        mock_calendardata,
         hass,
         useragent_config,
     ):
         """Test basic setup of platform with user name and password."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mocked_calendardata = mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, useragent_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.useragent")
         assert state.name == "useragent"
-        mock_sh.assert_called_with(
+        mocked_calendardata.headers.assert_called_with(
             "",
             "",
             useragent_config[DOMAIN]["calendars"][0]["user_agent"],
@@ -441,20 +421,6 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_headers",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -462,19 +428,22 @@ class TestCalendar:
     async def test_calendar_setup_userpass(
         self,
         mock_event,
-        mock_get,
-        mock_download,
-        mock_sh,
+        mock_calendardata,
         hass,
         userpass_config,
     ):
         """Test basic setup of platform with user name and password."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mocked_calendardata = mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, userpass_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.userpass")
         assert state.name == "userpass"
-        mock_sh.assert_called_with(
+        mocked_calendardata.headers.assert_called_with(
             userpass_config[DOMAIN]["calendars"][0]["username"],
             userpass_config[DOMAIN]["calendars"][0]["password"],
             "",
@@ -483,20 +452,6 @@ class TestCalendar:
 
     @pytest.mark.asyncio
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData"
-        ".set_timeout",
-        return_value=None,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -504,19 +459,22 @@ class TestCalendar:
     async def test_calendar_setup_timeout(
         self,
         mock_event,
-        mock_get,
-        mock_download,
-        mock_st,
+        mock_calendardata,
         hass,
         timeout_config,
     ):
         """Test basic setup of platform with connection_timeout."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mocked_calendardata = mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, timeout_config)
         await hass.async_block_till_done()
 
         state = hass.states.get("calendar.timeout")
         assert state.name == "timeout"
-        mock_st.assert_called_with(
+        mocked_calendardata.timeout.assert_called_with(
             float(
                 timeout_config[DOMAIN]["calendars"][0]["connection_timeout"]
             ),
@@ -532,15 +490,6 @@ class TestCalendar:
         return_value=dtparser.parse("2021-01-03T00:00:01Z"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=True,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".set_content",
     )
@@ -553,15 +502,19 @@ class TestCalendar:
         self,
         mock_event_list,
         mock_set_content,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         get_api_events,
         noallday_config,
     ):
         """Test get_api_events."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data, True)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -591,15 +544,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-01T00:00:01"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -607,15 +551,15 @@ class TestCalendar:
     async def test_future_event(
         self,
         mock_event,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         set_tz,
         noallday_config,
     ):
         """Test state for a future event."""
+        # Arrange
         # Must reset return_value here or only the first parametrized run will
         # succeed.
         mock_event.return_value = copy.deepcopy(_mocked_event())
@@ -630,6 +574,10 @@ class TestCalendar:
             dtparser.parse("2022-01-01T00:00:01")
         )
 
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -660,15 +608,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -676,15 +615,15 @@ class TestCalendar:
     async def test_ongoing_event(
         self,
         mock_event,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         set_tz,
         noallday_config,
     ):
         """Test state for an on-going event."""
+        # Arrange
         # Must reset return_value here or only the first parametrized run will
         # succeed.
         mock_event.return_value = copy.deepcopy(_mocked_event())
@@ -699,6 +638,10 @@ class TestCalendar:
             dtparser.parse("2022-01-03T00:00:01")
         )
 
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -726,15 +669,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event(),
@@ -742,15 +676,20 @@ class TestCalendar:
     async def test_ongoing_event_exception(
         self,
         mock_event,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         noallday_config,
     ):
         """Test state if exception is thrown."""
+        # Arrange
         mock_event.side_effect = Exception("Parse Error")
+
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -775,15 +714,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event_allday(),
@@ -791,15 +721,15 @@ class TestCalendar:
     async def test_ongoing_event_allday(
         self,
         mock_event,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         set_tz,
         allday_config,
     ):
         """Test state if on-going event is all day."""
+        # Arrange
         # Must reset return_value here or only the first parametrized run will
         # succeed.
         mock_event.return_value = copy.deepcopy(_mocked_event_allday())
@@ -814,6 +744,10 @@ class TestCalendar:
             dtparser.parse("2022-01-03T00:00:01")
         )
 
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, allday_config)
         await hass.async_block_till_done()
 
@@ -841,15 +775,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_event_list",
         return_value=_mocked_event_list(),
@@ -857,15 +782,19 @@ class TestCalendar:
     async def test_get_events(
         self,
         mock_event_list,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         get_api_events,
         noallday_config,
     ):
         """Test get_api_events."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -882,15 +811,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_event_list",
         return_value=_mocked_event_list(),
@@ -898,16 +818,20 @@ class TestCalendar:
     async def test_get_events_exception(
         self,
         mock_event_list,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         get_api_events,
         noallday_config,
     ):
         """Test get_api_events when exception is thrown."""
+        # Arrange
         mock_event_list.side_effect = BaseException("Failed to get events")
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -915,29 +839,18 @@ class TestCalendar:
         assert len(events) == 0
 
     @pytest.mark.asyncio
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
-        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
-        ".get_event_list",
-        return_value=_mocked_event_list(),
-    )
     async def test_create_event_raises_error(
         self,
-        mock_event_list,
-        mock_get,
-        mock_download,
+        mock_calendardata,
         hass,
         noallday_config,
     ):
         """Test that create_event raises an error."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -955,29 +868,18 @@ class TestCalendar:
             )
 
     @pytest.mark.asyncio
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
-        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
-        ".get_event_list",
-        return_value=_mocked_event_list(),
-    )
     async def test_delete_event_raises_error(
         self,
-        mock_event_list,
-        mock_get,
-        mock_download,
+        mock_calendardata,
         hass,
         noallday_config,
     ):
         """Test that delete_event raises an error."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -993,29 +895,18 @@ class TestCalendar:
             )
 
     @pytest.mark.asyncio
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/allday.ics"),
-    )
-    @patch(
-        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
-        ".get_event_list",
-        return_value=_mocked_event_list(),
-    )
     async def test_update_event_raises_error(
         self,
-        mock_event_list,
-        mock_get,
-        mock_download,
+        mock_calendardata,
         hass,
         noallday_config,
     ):
         """Test that update_event raises an error."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
@@ -1045,15 +936,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-01T00:00:01"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/issue125.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_current_event",
         return_value=_mocked_event_no_summary(),
@@ -1061,14 +943,14 @@ class TestCalendar:
     async def test_configured_default_summary(
         self,
         mock_event,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         summary_default_config,
     ):
         """Test configured summary applies to empty summary."""
+        # Arrange
         # Must reset return_value here or only the first parametrized run will
         # succeed.
         mock_event.return_value = copy.deepcopy(_mocked_event_no_summary())
@@ -1083,6 +965,10 @@ class TestCalendar:
             dtparser.parse("2022-01-01T00:00:01")
         )
 
+        mocked_data = _mocked_calendar_data("tests/issue125.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(
             hass, DOMAIN, summary_default_config
         )
@@ -1112,15 +998,6 @@ class TestCalendar:
         return_value=dtparser.parse("2022-01-03T00:00:01Z"),
     )
     @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.download_calendar",
-        return_value=False,
-        new_callable=AsyncMock,
-    )
-    @patch(
-        "custom_components.ics_calendar.calendardata.CalendarData.get",
-        return_value=_mocked_calendar_data("tests/issue125.ics"),
-    )
-    @patch(
         "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
         ".get_event_list",
         return_value=_mocked_event_list_no_summary(),
@@ -1128,15 +1005,19 @@ class TestCalendar:
     async def test_get_events_no_summary(
         self,
         mock_event_list_no_summary,
-        mock_get,
-        mock_download,
         mock_dt_now,
         mock_now,
+        mock_calendardata,
         hass,
         get_api_events,
         summary_default_config,
     ):
-        """Test get_api_events."""
+        """Test get_api_events with no summary."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/issue125.ics")
+        mock_calendardata(mocked_data)
+
+        # Act
         assert await async_setup_component(
             hass, DOMAIN, summary_default_config
         )
