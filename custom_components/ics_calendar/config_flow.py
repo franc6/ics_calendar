@@ -286,14 +286,14 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
 
-            if not errors:
-                self.data.update(user_input)
-                if user_input.get(CONF_SET_TIMEOUT, False):
-                    return await self.async_step_timeout_opts()
-                return self.async_create_entry(
-                    title=self.data[CONF_NAME],
-                    data=self.data,
-                )
+            # if not errors:
+            self.data.update(user_input)
+            if user_input.get(CONF_SET_TIMEOUT, False):
+                return await self.async_step_timeout_opts()
+            return self.async_create_entry(
+                title=self.data[CONF_NAME],
+                data=self.data,
+            )
 
         return self.async_show_form(
             step_id="adv_connect_opts",
@@ -308,12 +308,12 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
 
-            if not errors:
-                self.data.update(user_input)
-                return self.async_create_entry(
-                    title=self.data[CONF_NAME],
-                    data=self.data,
-                )
+            # if not errors:
+            self.data.update(user_input)
+            return self.async_create_entry(
+                title=self.data[CONF_NAME],
+                data=self.data,
+            )
 
         return self.async_show_form(
             step_id="timeout_opts",
