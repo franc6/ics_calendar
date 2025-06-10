@@ -854,7 +854,7 @@ class TestCalendar:
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
-        with pytest.raises(HomeAssistantError):
+        with pytest.raises(HomeAssistantError) as exc_info:
             await hass.services.async_call(
                 "calendar",
                 "create_event",
@@ -866,6 +866,7 @@ class TestCalendar:
                 target={"entity_id": "calendar.noallday"},
                 blocking=True,
             )
+        assert str(exc_info.value) == "service_not_supported"
 
     @pytest.mark.asyncio
     async def test_delete_event_raises_error(
@@ -883,7 +884,7 @@ class TestCalendar:
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
-        with pytest.raises(HomeAssistantError):
+        with pytest.raises(HomeAssistantError) as exc_info:
             await hass.services.async_call(
                 "calendar",
                 "delete_event",
@@ -893,6 +894,7 @@ class TestCalendar:
                 target={"entity_id": "calendar.noallday"},
                 blocking=True,
             )
+        assert str(exc_info.value) == "service_not_found"
 
     @pytest.mark.asyncio
     async def test_update_event_raises_error(
@@ -910,7 +912,7 @@ class TestCalendar:
         assert await async_setup_component(hass, DOMAIN, noallday_config)
         await hass.async_block_till_done()
 
-        with pytest.raises(HomeAssistantError):
+        with pytest.raises(HomeAssistantError) as exc_info:
             await hass.services.async_call(
                 "calendar",
                 "update_event",
@@ -925,6 +927,7 @@ class TestCalendar:
                 target={"entity_id": "calendar.noallday"},
                 blocking=True,
             )
+        assert str(exc_info.value) == "service_not_found"
 
     @pytest.mark.asyncio
     @patch(
