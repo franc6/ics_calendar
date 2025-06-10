@@ -91,7 +91,7 @@ class CalendarData:  # pylint: disable=R0902
         """
         return self._calendar_data
 
-    def set_headers(
+    def headers(
         self,
         user_name: str,
         password: str,
@@ -124,14 +124,17 @@ class CalendarData:  # pylint: disable=R0902
             self._headers.append(("User-agent", user_agent))
         if accept_header != "":
             self._headers.append(("Accept", accept_header))
+        return self
 
-    def set_timeout(self, connection_timeout: float):
+    def timeout(self, connection_timeout: float | None):
         """Set the connection timeout.
 
         :param connection_timeout: The timeout value in seconds.
         :type connection_timeout: float
         """
-        self.connection_timeout = connection_timeout
+        if connection_timeout:
+            self.connection_timeout = connection_timeout
+        return self
 
     def _decode_data(self, data):
         return data.replace("\0", "")
