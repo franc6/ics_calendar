@@ -1,7 +1,12 @@
-## 5.1.4 2025/04/XX
+## 5.1.4 2025/06/10
 - Added Spanish translation, thanks @cvc90!
 - Added ability to use offsets in URL templates (fixed #239)
 - Fixed  #237
+- Fixed #247 Thanks for the fix, @gieljnssns!
+- Internal updates and improvements that don't affect the functionality
+
+## !!! IMPORTANT NOTE !!!
+Because https://www.home-assistant.io/integrations/remote_calendar now exists, this project will eventually close.  I may or may not add some of the features that project is missing.  This project will stick around for at least a couple more releases, since I know some people will be unable to use the Remote Calendar integration due to its current limitations.  If anyone thinks it's worth keeping this project going even after Remote Calendar gets close to feature parity, I'm willing to transfer ownership.  I just have no desire to work on a project that's duplicating something else that exists.
 
 ## 5.1.3 2025/02/13
 - Updated recurring_ical_events to latest for bug fixes and to prevent 2.5.0 from being used. Big thanks to @ccMatrix, @cookie050, and the many others who reported the problem and determined the correct fix!
