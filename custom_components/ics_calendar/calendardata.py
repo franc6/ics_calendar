@@ -205,7 +205,6 @@ class CalendarData:  # pylint: disable=R0902
 
     def _get_month_year(self, url: str, month: int, year: int) -> int:
         (month, url) = self._get_year_as_months(url, month)
-        print(f"month: {month}\n")
         month_match = re.search("\\{month([-+])([0-9]+)\\}", url)
         if month_match:
             if month_match.group(1) == "-":
