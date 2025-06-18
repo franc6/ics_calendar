@@ -1,5 +1,5 @@
 ## 5.1.5 2025/06/18
-- Fix #251
+- Fix #252
 
 ## 5.1.4 2025/06/10
 - Added Spanish translation, thanks @cvc90!
