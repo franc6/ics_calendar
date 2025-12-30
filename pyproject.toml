@@ -25,7 +25,7 @@ tests = [
     'pytest-aiohttp',
     'aiohttp_cors',
     'aiotask_context',
-    'pyobjc-core>=12.1',
+    #'pyobjc-core>=12.1',
     'mashumaro>=3.17',
 ]
 
