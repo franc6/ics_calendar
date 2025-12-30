@@ -4,10 +4,10 @@ version = "5.1.5"
 readme = "README.md"
 requires-python = ">=3.13.2"
 dependencies = [
-    'icalendar ~= 6.1',
+    'icalendar ~= 6.3',
     'python-dateutil >= 2.9.0.post0',
-    'pytz >= 2024.1',
-    'recurring_ical_events ~= 3.5, >= 3.5.2',
+    'pytz >= 2025.2',
+    'recurring_ical_events ~= 3.8',
     'ics == 0.7.2',
     'arrow',
     'httpx_auth >= 0.22.0, <= 0.23.1'
@@ -17,18 +17,20 @@ dependencies = [
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.252',
+    'pytest-homeassistant-custom-component>=0.13.301',
     'pytest-helpers-namespace>=2021.12.29',
-    'pytest-httpx>=0.34.0,<=0.35.0',
+    'pytest-httpx>=0.36.0',
     'pytest-mock',
     'pytest-asyncio',
     'pytest-aiohttp',
     'aiohttp_cors',
-    'aiotask_context'
+    'aiotask_context',
+    'pyobjc-core>=12.1',
+    'mashumaro>=3.17',
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     'black',
     'isort',
     'flake8',
