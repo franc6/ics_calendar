@@ -75,11 +75,16 @@ class ParserRIE(ICalendarParser):
                     continue
 
                 calendar_event: ParserEvent = ParserEvent(
+                    uid=event.get("UID"),
                     summary=event.get("SUMMARY"),
                     start=start,
                     end=end,
                     location=event.get("LOCATION"),
                     description=event.get("DESCRIPTION"),
+                    # rrule=event.get("RRULE"),
+                    recurrence_id=ParserRIE.get_date(
+                        event.get("RECURRENCE-ID").dt
+                    ),
                 )
                 if self._filter.filter_event(calendar_event):
                     event_list.append(calendar_event)
@@ -141,11 +146,16 @@ class ParserRIE(ICalendarParser):
             return None
 
         return ParserEvent(
+            uid=temp_event.get("UID"),
             summary=temp_event.get("SUMMARY"),
             start=temp_start,
             end=temp_end,
             location=temp_event.get("LOCATION"),
             description=temp_event.get("DESCRIPTION"),
+            # rrule=temp_event.get("RRULE"),
+            recurrence_id=ParserRIE.get_date(
+                temp_event.get("RECURRENCE-ID").dt
+            ),
         )
 
     @staticmethod

@@ -76,7 +76,12 @@ class ParserICS(ICalendarParser):
                 #    summary = event.summary
                 # elif hasattr(event, "name"):
                 summary = event.name
+                rrule = None
+                for extra in event.extra:
+                    if extra.name == "RRULE":
+                        rrule = extra.value
                 calendar_event: ParserEvent = ParserEvent(
+                    uid=event.uid,
                     summary=summary,
                     start=ParserICS.get_date(
                         event.begin, event.all_day, offset_hours
@@ -86,6 +91,14 @@ class ParserICS(ICalendarParser):
                     ),
                     location=event.location,
                     description=event.description,
+                    rrule=rrule,
+                    recurrence_id=(
+                        ParserICS.get_date(
+                            event.begin, event.all_day, offset_hours
+                        )
+                        if rrule
+                        else None
+                    ),
                 )
                 if self._filter.filter_event(calendar_event):
                     event_list.append(calendar_event)
@@ -145,7 +158,12 @@ class ParserICS(ICalendarParser):
         # summary = temp_event.summary
         # elif hasattr(event, "name"):
         summary = temp_event.name
+        rrule = None
+        for extra in temp_event.extra:
+            if extra.name == "RRULE":
+                rrule = extra.value
         return ParserEvent(
+            uid=temp_event.uid,
             summary=summary,
             start=ParserICS.get_date(
                 temp_event.begin, temp_event.all_day, offset_hours
@@ -155,6 +173,14 @@ class ParserICS(ICalendarParser):
             ),
             location=temp_event.location,
             description=temp_event.description,
+            rrule=rrule,
+            recurrence_id=(
+                ParserICS.get_date(
+                    temp_event.begin, temp_event.all_day, offset_hours
+                )
+                if rrule
+                else None
+            ),
         )
 
     @staticmethod
