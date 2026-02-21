@@ -1,27 +1,28 @@
 """Provide GetParser class."""
 
+from __future__ import annotations
+
 from .icalendarparser import ICalendarParser
-from .parsers.parser_ics import ParserICS
 from .parsers.parser_rie import ParserRIE
 
 
 class GetParser:  # pylint: disable=R0903
-    """Provide get_parser to return an instance of ICalendarParser.
+    """Return an instance of the requested parser.
 
-    The class provides a static method , get_instace, to get a parser instance.
-    The non static methods allow this class to act as an "interface" for the
-    parser classes.
+    NOTE: ParserICS is imported lazily to avoid importing the optional `ics`
+    dependency at Home Assistant startup.
     """
 
     @staticmethod
     def get_parser(parser: str, *args) -> ICalendarParser | None:
         """Get an instance of the requested parser."""
-        # parser_cls = ICalendarParser.get_class(parser)
-        # if parser_cls is not None:
-        # return parser_cls(*args)
         if parser == "rie":
             return ParserRIE(*args)
+
         if parser == "ics":
+            # Lazy import to prevent startup crash if `ics`/`tatsu` combo is broken
+            from .parsers.parser_ics import ParserICS  # pylint: disable=import-outside-toplevel
+
             return ParserICS(*args)
 
         return None
