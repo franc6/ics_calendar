@@ -1,3 +1,9 @@
+## 5.1.7 2026/02/24
+- Fixed #256
+
+### NOTE
+The ICS parser is now deprecatd, and will be removed when it either cannot be used at all, or its requirements interfere too much with HA itself or other integrations.  ICS hasn't been updated in over 3 years, and the pre-release that included some important fixes hasn't been fully released, also in more than 3 years.  You can continue to use it, but eventually, it won't work anymore. :(
+
 ## 5.1.6 2025/12/30
 - Fixed #244
 
