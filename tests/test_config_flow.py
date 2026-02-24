@@ -176,7 +176,9 @@ class TestICSCalendarConfigFlow:
         # Arrange
         expected = {
             "data_schema": config_flow.CALENDAR_OPTS_SCHEMA,
-            "description_placeholders": None,
+            "description_placeholders": {
+                "filterdoc": config_flow.FILTER_DOC_URL
+            },
             "errors": {},
             "flow_id": ANY,
             "handler": DOMAIN,
@@ -201,7 +203,9 @@ class TestICSCalendarConfigFlow:
         # Arrange
         expected = {
             "data_schema": config_flow.CALENDAR_OPTS_SCHEMA,
-            "description_placeholders": None,
+            "description_placeholders": {
+                "filterdoc": config_flow.FILTER_DOC_URL
+            },
             "errors": {},
             "flow_id": ANY,
             "handler": DOMAIN,

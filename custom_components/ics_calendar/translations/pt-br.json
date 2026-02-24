@@ -68,8 +68,8 @@
             "empty_url": "A URL não pode estar vazia.",
             "download_interval_too_small": "O intervalo de download deve ser de pelo menos 15.",
             "exclude_include_cannot_be_the_same": "As strings de exclusão e inclusão não podem ser as mesmas.",
-            "exclude_must_be_array": "A opção de exclusão deve ser um array de strings ou expressões regulares. Veja https://github.com/franc6/ics_calendar/blob/releases/README.md#filters para mais informações.",
-            "include_must_be_array": "A opção de inclusão deve ser um array de strings ou expressões regulares. Veja https://github.com/franc6/ics_calendar/blob/releases/README.md#filters para mais informações."
+            "exclude_must_be_array": "A opção de exclusão deve ser um array de strings ou expressões regulares. Veja {filterdoc} para mais informações.",
+            "include_must_be_array": "A opção de inclusão deve ser um array de strings ou expressões regulares. Veja {filterdoc} para mais informações."
         },
         "abort": {
         }

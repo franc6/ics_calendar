@@ -88,6 +88,10 @@ TIMEOUT_OPTS_SCHEMA = vol.Schema(
     {vol.Optional(CONF_CONNECTION_TIMEOUT, default=None): cv.positive_float}
 )
 
+FILTER_DOC_URL = (
+    "https://github.com/franc6/ics_calendar/blob/releases/README.md#filters"
+)
+
 
 def is_array_string(arr_str: str) -> bool:
     """Return true if arr_str starts with [ and ends with ]."""
@@ -231,6 +235,7 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=CALENDAR_OPTS_SCHEMA,
             errors=errors,
             last_step=False,
+            description_placeholders={"filterdoc": FILTER_DOC_URL},
         )
 
     async def async_step_connect_opts(
