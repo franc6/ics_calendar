@@ -1,6 +1,24 @@
 """Provide GetParser class."""
 
+import logging
+
 from .icalendarparser import ICalendarParser
+from .parsers.parser_rie import ParserRIE
+
+_LOGGER = logging.getLogger(__name__)
+
+try:
+    from .parsers.parser_ics import ParserICS
+
+    _ICS_IMPORT_ERROR = None
+except ImportError as err:
+    _ICS_IMPORT_ERROR = err
+    _LOGGER.error(
+        "ics parser failed to load: %s. "
+        "Check that tatsu<5.8.0 is installed, or switch to the "
+        "'rie' parser in your calendar configuration.",
+        err,
+    )
 
 
 class GetParser:  # pylint: disable=R0903
@@ -18,10 +36,14 @@ class GetParser:  # pylint: disable=R0903
         # if parser_cls is not None:
         # return parser_cls(*args)
         if parser == "rie":
-            from .parsers.parser_rie import ParserRIE  # noqa: PLC0415
             return ParserRIE(*args)
         if parser == "ics":
-            from .parsers.parser_ics import ParserICS  # noqa: PLC0415
+            if _ICS_IMPORT_ERROR is not None:
+                raise ImportError(
+                    f"ics parser is unavailable: {_ICS_IMPORT_ERROR}. "
+                    "Check that tatsu<5.8.0 is installed, or switch to the "
+                    "'rie' parser in your calendar configuration."
+                ) from _ICS_IMPORT_ERROR
             return ParserICS(*args)
 
         return None
