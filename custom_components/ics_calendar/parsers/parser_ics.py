@@ -70,40 +70,39 @@ class ParserICS(ICalendarParser):
             for event in self._calendar.timeline.included(ar_start, ar_end):
                 if event.all_day and not include_all_day:
                     continue
-                summary: str = ""
-                # ics 0.8 uses 'summary' reliably, older versions use 'name'
-                # if hasattr(event, "summary"):
-                #    summary = event.summary
-                # elif hasattr(event, "name"):
-                summary = event.name
-                rrule = None
-                for extra in event.extra:
-                    if extra.name == "RRULE":
-                        rrule = extra.value
-                calendar_event: ParserEvent = ParserEvent(
-                    uid=event.uid,
-                    summary=summary,
-                    start=ParserICS.get_date(
-                        event.begin, event.all_day, offset_hours
-                    ),
-                    end=ParserICS.get_date(
-                        event.end, event.all_day, offset_hours
-                    ),
-                    location=event.location,
-                    description=event.description,
-                    rrule=rrule,
-                    recurrence_id=(
-                        ParserICS.get_date(
-                            event.begin, event.all_day, offset_hours
-                        )
-                        if rrule
-                        else None
-                    ),
-                )
+                calendar_event = self._get_calendar_event(event, offset_hours)
+
                 if self._filter.filter_event(calendar_event):
                     event_list.append(calendar_event)
 
         return event_list
+
+    def _get_calendar_event(self, event, offset_hours) -> ParserEvent:
+        summary: str = ""
+        # ics 0.8 uses 'summary' reliably, older versions use 'name'
+        # if hasattr(event, "summary"):
+        #    summary = event.summary
+        # elif hasattr(event, "name"):
+        summary = event.name
+        rrule = None
+        for extra in event.extra:
+            if extra.name == "RRULE":
+                rrule = extra.value
+        calendar_event: ParserEvent = ParserEvent(
+            uid=event.uid,
+            summary=summary,
+            start=ParserICS.get_date(event.begin, event.all_day, offset_hours),
+            end=ParserICS.get_date(event.end, event.all_day, offset_hours),
+            location=event.location,
+            description=event.description,
+            rrule=rrule,
+            recurrence_id=(
+                ParserICS.get_date(event.begin, event.all_day, offset_hours)
+                if rrule
+                else None
+            ),
+        )
+        return calendar_event
 
     def get_current_event(  # noqa: $701
         self,

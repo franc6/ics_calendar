@@ -248,15 +248,15 @@ def datetime_hook(pairs):
 
 
 @pytest.fixture
-def rie_parser():
+async def rie_parser(hass):
     """Fixture for rie parser."""
-    return GetParser.get_parser("rie")
+    return await GetParser.get_parser_async(hass, "rie")
 
 
 @pytest.fixture
-def ics_parser():
+async def ics_parser(hass):
     """Fixture for ics parser."""
-    return GetParser.get_parser("ics")
+    return await GetParser.get_parser_async(hass, "ics")
 
 
 @pytest.fixture

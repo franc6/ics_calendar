@@ -172,6 +172,11 @@ class ICSCalendarEntity(CalendarEntity):
         self._attr_name = device_data[CONF_NAME]
         self._last_call = None
 
+    async def async_added_to_hass(self) -> None:
+        """Run when entity is added to hass."""
+        await super().async_added_to_hass()
+        await self.data.async_init()
+
     @property
     def event(self) -> Optional[CalendarEvent]:
         """Return the current or next upcoming event or None.
@@ -268,10 +273,13 @@ class ICSCalendarData:  # pylint: disable=R0902
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self._summary_prefix: str = device_data[CONF_PREFIX]
         self._summary_default: str = device_data[CONF_SUMMARY_DEFAULT]
-        self.parser = GetParser.get_parser(device_data[CONF_PARSER])
-        self.parser.set_filter(
-            Filter(device_data[CONF_EXCLUDE], device_data[CONF_INCLUDE])
+        # Store parser config for async initialization
+        self._parser_type = device_data[CONF_PARSER]
+        self._parser_filter_config = (
+            device_data[CONF_EXCLUDE],
+            device_data[CONF_INCLUDE],
         )
+        self.parser = None  # Will be initialized in async_init
         self.offset = None
         self.event = None
         self._hass = hass
@@ -295,6 +303,23 @@ class ICSCalendarData:  # pylint: disable=R0902
         if device_data.get(CONF_SET_TIMEOUT):
             self._calendar_data.timeout(
                 device_data.get(CONF_CONNECTION_TIMEOUT)
+            )
+
+    async def async_init(self):
+        """Async initialization for the parser.
+
+        This must be called after __init__ to properly initialize the parser
+        without blocking the event loop.
+        """
+        if self.parser is None:
+            self.parser = await GetParser.get_parser_async(
+                self._hass, self._parser_type
+            )
+            self.parser.set_filter(
+                Filter(
+                    self._parser_filter_config[0],
+                    self._parser_filter_config[1],
+                )
             )
 
     async def async_get_events(
@@ -367,7 +392,7 @@ class ICSCalendarData:  # pylint: disable=R0902
                 parser_event.end,
                 parser_event.all_day,
             )
-            (summary, offset) = extract_offset(parser_event.summary, OFFSET)
+            summary, offset = extract_offset(parser_event.summary, OFFSET)
             parser_event.summary = self._summary_prefix + summary
             if not parser_event.summary:
                 parser_event.summary = self._summary_default
