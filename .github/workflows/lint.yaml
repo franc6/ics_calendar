@@ -23,6 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          rm -rf .venv
           uv sync --prerelease=allow --dev --extra tests
 
       - name: Run isort --check
