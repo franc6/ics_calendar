@@ -25,6 +25,7 @@ jobs:
         run: |
           rm -rf .venv
           uv sync --prerelease=allow --dev --extra tests
+          ls -la .venv
 
       - name: Run isort --check
         run: |
