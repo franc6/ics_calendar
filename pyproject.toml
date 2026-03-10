@@ -37,7 +37,7 @@ dev = [
     'flake8>=7.3.0',
     'flake8-pyproject',
     'pydocstyle',
-    'pylint>=3.3.3',
+    'pylint>=4',
     'radon'
 ]
 
@@ -148,7 +148,7 @@ py-version = "3.10"
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
-suggestion-mode = true
+#suggestion-mode = true
 
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.

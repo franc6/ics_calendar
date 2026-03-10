@@ -22,24 +22,24 @@ class GetParser:  # pylint: disable=R0903
         """
         if parser == "rie":
 
-            def _load_parser():
+            def _load_rie_parser():
                 from .parsers.parser_rie import (  # pylint: disable=C0415
                     ParserRIE,
                 )
 
                 return ParserRIE(*args)
 
-            return await hass.async_add_executor_job(_load_parser)
+            return await hass.async_add_executor_job(_load_rie_parser)
 
         if parser == "ics":
 
-            def _load_parser():
+            def _load_ics_parser():
                 from .parsers.parser_ics import (  # pylint: disable=C0415
                     ParserICS,
                 )
 
                 return ParserICS(*args)
 
-            return await hass.async_add_executor_job(_load_parser)
+            return await hass.async_add_executor_job(_load_ics_parser)
 
         return None
