@@ -866,7 +866,10 @@ class TestCalendar:
                 target={"entity_id": "calendar.noallday"},
                 blocking=True,
             )
-        assert str(exc_info.value) == "service_not_supported"
+        assert (
+            str(exc_info.value)
+            == "Entity calendar.noallday does not support action calendar.create_event"
+        )
 
     @pytest.mark.asyncio
     async def test_delete_event_raises_error(
@@ -894,7 +897,7 @@ class TestCalendar:
                 target={"entity_id": "calendar.noallday"},
                 blocking=True,
             )
-        assert str(exc_info.value) == "service_not_found"
+        assert str(exc_info.value) == "Action calendar.delete_event not found"
 
     @pytest.mark.asyncio
     async def test_update_event_raises_error(
@@ -927,7 +930,7 @@ class TestCalendar:
                 target={"entity_id": "calendar.noallday"},
                 blocking=True,
             )
-        assert str(exc_info.value) == "service_not_found"
+        assert str(exc_info.value) == "Action calendar.update_event not found"
 
     @pytest.mark.asyncio
     @patch(
