@@ -392,7 +392,7 @@ class ICSCalendarData:  # pylint: disable=R0902
                 parser_event.end,
                 parser_event.all_day,
             )
-            (summary, offset) = extract_offset(parser_event.summary, OFFSET)
+            summary, offset = extract_offset(parser_event.summary, OFFSET)
             parser_event.summary = self._summary_prefix + summary
             if not parser_event.summary:
                 parser_event.summary = self._summary_default
