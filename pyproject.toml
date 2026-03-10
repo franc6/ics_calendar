@@ -34,7 +34,7 @@ tests = [
 dev = [
     'black>26',
     'isort',
-    'flake8',
+    'flake8>=7.3.0',
     'flake8-pyproject',
     'pydocstyle',
     'pylint>=3.3.3',
