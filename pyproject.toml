@@ -11,7 +11,7 @@ dependencies = [
     'ics == 0.7.2',
     'arrow',
     'httpx_auth >= 0.22.0, <= 0.23.1',
-    'tatsu>=4.2.6,<5.8.0' # This is to continue supporting ics
+    'tatsu>=4.2.6,<5.19.0' # This is to continue supporting ics
 ]
 
 [project.optional-dependencies]
