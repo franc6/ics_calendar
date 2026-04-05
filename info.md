@@ -5,6 +5,8 @@ Provides a component for ICS (icalendar) calendars for Home Assistant
 
 > **NOTE**: This component is intended for use with simple hosting of ICS files.  If your server supports CalDAV, please use the caldav calendar platform instead.  This one might work, but probably not well.
 
+> **NOTE**: Because https://www.home-assistant.io/integrations/remote_calendar now exists, this project will eventually close.  I may or may not add some of the features that project is missing.  This will stick around for at least a couple more releases, since I know some people will be unable to use the Remote Calendar integration due to its current limitations.  If anyone thinks it's worth keeping this project going even after Remote Calendar gets close to feature parity, I'm willing to transfer ownership.  I just have no desire to work on a project that's duplicating something else that exists.
+
 ## Warning when installing in HA in a container
 A number of users have reported problems when running HA in a container.  If you see any of these messages in your log,
 ```
@@ -115,14 +117,6 @@ You can also include multiple entries for exclude or include.
 
 > **NOTE**: If you want to include only events that include a specific string, you **must** use an exclude filter that excludes everything in addition to your include filter.  E.g. "['/.*/']"
 
-## URL Templates
-If your ICS url requires specifying the current year and/or month, you can now use templates to specify the current year and month.  E.g. if you set your url to:
-```yaml
-url: "https://www.a-url?year={year}&month={month}"
-```
-
-The "{year}" part will be replaced with the current 4 digit year, and the "{month}" will be replaced with the current 2 digit month.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=02", in November 2024, the URL will be "https://www.a-url?year=2024&month=11".
-
 ### Examples
 ```yaml
 ics_calendar:
@@ -134,5 +128,20 @@ ics_calendar:
 ```
 
 This example will exclude any event whose summary or description includes "test" in a case insensitive manner, or if the summary or description is "regex".  However, if the summary or description includes "keepme" (case insensitive), the event will be included anyway.
+
+## URL Templates
+If your ICS url requires specifying the current year and/or month, you can now use templates to specify the current year and month.  E.g. if you set your url to:
+```yaml
+url: "https://www.a-url?year={year}&month={month}"
+```
+
+The "{year}" part will be replaced with the current 4 digit year, and the "{month}" part will be replaced with the current 2 digit month.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=02", in November 2024, the URL will be "https://www.a-url?year=2024&month=11".
+
+You can also specify positive and negative offsets for the year and month templates. E.g. if you set your url to:
+```yaml
+url: "https://www.a-url?year={year+1}&month={month-3}"
+```
+
+The "{year+1}" part will be replaced with the next 4 digit year, and the "{month-3}" part will be replaced with the 2 digit month of three months ago.  So in February 2023, the URL will be "https://www.a-url?year=2023&month=11", in November 2024, the URL will be "https://www.a-url?year=2025&month=8".
 
 [![Buy me some pizza](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/qpunYPZx5)

@@ -1,40 +1,43 @@
 [project]
 name = "ics_calendar"
-version = "5.1.2"
+version = "5.1.8"
 readme = "README.md"
-requires-python = "==3.12.*"
+requires-python = ">=3.14.2,<3.15"
 dependencies = [
-    'icalendar ~= 6.1',
+    'icalendar ~= 6.3',
     'python-dateutil >= 2.9.0.post0',
-    'pytz >= 2024.1',
-    'recurring_ical_events ~= 3.4, >= 3.4.1',
+    'pytz >= 2025.2',
+    'recurring_ical_events ~= 3.8',
     'ics == 0.7.2',
     'arrow',
-    'httpx_auth >= 0.22.0, <= 0.23.1'
+    'httpx_auth >= 0.22.0, <= 0.23.1',
+    'tatsu>=4.2.6,<5.8.0' # This is to continue supporting ics
 ]
 
 [project.optional-dependencies]
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.205',
+    'pytest-homeassistant-custom-component>=0.13.317',
     'pytest-helpers-namespace>=2021.12.29',
-    'pytest-httpx>=0.34.0,<=0.35.0',
+    'pytest-httpx>=0.36.0',
     'pytest-mock',
     'pytest-asyncio',
     'pytest-aiohttp',
     'aiohttp_cors',
-    'aiotask_context'
+    'aiotask_context',
+    #'pyobjc-core>=12.1',
+    'mashumaro>=3.20',
 ]
 
-[tool.uv]
-dev-dependencies = [
-    'black',
+[dependency-groups]
+dev = [
+    'black>26',
     'isort',
-    'flake8',
+    'flake8>=7.3.0',
     'flake8-pyproject',
     'pydocstyle',
-    'pylint>=3.3.3',
+    'pylint>=4',
     'radon'
 ]
 
@@ -145,7 +148,7 @@ py-version = "3.10"
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
-suggestion-mode = true
+#suggestion-mode = true
 
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.

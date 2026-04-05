@@ -14,7 +14,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
         with:
-          version: "0.4.20"
+          version: "0.10.9"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -23,7 +23,9 @@ jobs:
 
       - name: Install dependencies
         run: |
+          rm -rf .venv
           uv sync --prerelease=allow --dev --extra tests
+          ls -la .venv
 
       - name: Run isort --check
         run: |

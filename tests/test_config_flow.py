@@ -79,6 +79,16 @@ class TestICSCalendarConfigFlow:
         # Assert
         assert expected == config_flow.format_url(url)
 
+    def test_format_url_works_for_template_offset(self):
+        """Test that format_url works with a URL that has a template."""
+        # Arrange
+        expected = "https://localhost/{year-1}/{month+1}test%20calendar.ics"
+        url = "https://localhost/{year-1}/{month+1}test calendar.ics"
+
+        # Act
+        # Assert
+        assert expected == config_flow.format_url(url)
+
     def test_format_url_works_if_encoded(self):
         """Test that format_url works with a URL that is already encoded."""
         # Arrange
@@ -166,7 +176,9 @@ class TestICSCalendarConfigFlow:
         # Arrange
         expected = {
             "data_schema": config_flow.CALENDAR_OPTS_SCHEMA,
-            "description_placeholders": None,
+            "description_placeholders": {
+                "filterdoc": config_flow.FILTER_DOC_URL
+            },
             "errors": {},
             "flow_id": ANY,
             "handler": DOMAIN,
@@ -191,7 +203,9 @@ class TestICSCalendarConfigFlow:
         # Arrange
         expected = {
             "data_schema": config_flow.CALENDAR_OPTS_SCHEMA,
-            "description_placeholders": None,
+            "description_placeholders": {
+                "filterdoc": config_flow.FILTER_DOC_URL
+            },
             "errors": {},
             "flow_id": ANY,
             "handler": DOMAIN,
@@ -463,6 +477,7 @@ class TestICSCalendarConfigFlow:
             "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
             "options": {},
             "result": ANY,
+            "subentries": (),
             "title": data[CONF_NAME],
             "type": FlowResultType.CREATE_ENTRY,
             "version": config_flow.ICSCalendarConfigFlow.VERSION,
@@ -626,6 +641,7 @@ class TestICSCalendarConfigFlow:
             "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
             "options": {},
             "result": ANY,
+            "subentries": (),
             "title": data[CONF_NAME],
             "type": FlowResultType.CREATE_ENTRY,
             "version": config_flow.ICSCalendarConfigFlow.VERSION,
@@ -703,6 +719,7 @@ class TestICSCalendarConfigFlow:
             "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
             "options": {},
             "result": ANY,
+            "subentries": (),
             "title": data[CONF_NAME],
             "type": FlowResultType.CREATE_ENTRY,
             "version": config_flow.ICSCalendarConfigFlow.VERSION,
@@ -880,6 +897,7 @@ class TestICSCalendarConfigFlow:
             "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
             "options": {},
             "result": ANY,
+            "subentries": (),
             "title": data[CONF_NAME],
             "type": FlowResultType.CREATE_ENTRY,
             "version": config_flow.ICSCalendarConfigFlow.VERSION,
@@ -966,7 +984,7 @@ class TestICSCalendarConfigFlow:
             CONF_USER_AGENT: "user-agent",
             CONF_ACCEPT_HEADER: "accept",
             CONF_SET_TIMEOUT: True,
-            CONF_CONNECTION_TIMEOUT: 50,
+            CONF_CONNECTION_TIMEOUT: 50.0,
             CONF_SUMMARY_DEFAULT: CONF_SUMMARY_DEFAULT_DEFAULT,
         }
         expected = {
@@ -979,6 +997,7 @@ class TestICSCalendarConfigFlow:
             "minor_version": config_flow.ICSCalendarConfigFlow.MINOR_VERSION,
             "options": {},
             "result": ANY,
+            "subentries": (),
             "title": data[CONF_NAME],
             "type": FlowResultType.CREATE_ENTRY,
             "version": config_flow.ICSCalendarConfigFlow.VERSION,

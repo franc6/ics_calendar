@@ -90,6 +90,10 @@ TIMEOUT_OPTS_SCHEMA = vol.Schema(
     {vol.Optional(CONF_CONNECTION_TIMEOUT, default=None): cv.positive_float}
 )
 
+FILTER_DOC_URL = (
+    "https://github.com/franc6/ics_calendar/blob/releases/README.md#filters"
+)
+
 
 def is_array_string(arr_str: str) -> bool:
     """Return true if arr_str starts with [ and ends with ]."""
@@ -100,11 +104,25 @@ def format_url(url: str) -> str:
     """Format a URL using quote() and ensure any templates are not quoted."""
     is_quoted = bool(re.search("%[0-9A-Fa-f][0-9A-Fa-f]", url))
     if not is_quoted:
-        has_template = "{year}" in url or "{month}" in url
+        year_match = re.search("\\{(year([-+][0-9]+)?)\\}", url)
+        month_match = re.search("\\{(month([-+][0-9]+)?)\\}", url)
+        has_template: bool = year_match or month_match
         url = quote(url, safe=":/?&=")
         if has_template:
-            url = re.sub("%7[Bb]year%7[Dd]", "{year}", url)
-            url = re.sub("%7[Bb]month%7[Dd]", "{month}", url)
+            year_template = year_match.group(1)
+            month_template = month_match.group(1)
+            year_template1 = year_template.replace("+", "%2[Bb]")
+            month_template1 = month_template.replace("+", "%2[Bb]")
+            url = re.sub(
+                f"%7[Bb]{year_template1}%7[Dd]",
+                f"{{{year_template}}}",
+                url,
+            )
+            url = re.sub(
+                f"%7[Bb]{month_template1}%7[Dd]",
+                f"{{{month_template}}}",
+                url,
+            )
     if url.startswith("webcal://"):
         url = re.sub("^webcal://", "https://", url)
 
@@ -219,6 +237,7 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=CALENDAR_OPTS_SCHEMA,
             errors=errors,
             last_step=False,
+            description_placeholders={"filterdoc": FILTER_DOC_URL},
         )
 
     async def async_step_connect_opts(
@@ -274,14 +293,14 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
 
-            if not errors:
-                self.data.update(user_input)
-                if user_input.get(CONF_SET_TIMEOUT, False):
-                    return await self.async_step_timeout_opts()
-                return self.async_create_entry(
-                    title=self.data[CONF_NAME],
-                    data=self.data,
-                )
+            # if not errors:
+            self.data.update(user_input)
+            if user_input.get(CONF_SET_TIMEOUT, False):
+                return await self.async_step_timeout_opts()
+            return self.async_create_entry(
+                title=self.data[CONF_NAME],
+                data=self.data,
+            )
 
         return self.async_show_form(
             step_id="adv_connect_opts",
@@ -296,12 +315,12 @@ class ICSCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
 
-            if not errors:
-                self.data.update(user_input)
-                return self.async_create_entry(
-                    title=self.data[CONF_NAME],
-                    data=self.data,
-                )
+            # if not errors:
+            self.data.update(user_input)
+            return self.async_create_entry(
+                title=self.data[CONF_NAME],
+                data=self.data,
+            )
 
         return self.async_show_form(
             step_id="timeout_opts",

@@ -22,8 +22,6 @@ CALENDAR_DATA_2 = "2 calendar data"
 CALENDAR_NAME = "TESTcalendar"
 
 TEST_URL = "http://127.0.0.1/test/allday.ics"
-TEST_TEMPLATE_URL = "http://127.0.0.1/test/{year}/{month}/allday.ics"
-TEST_TEMPLATE_URL_REPLACED = "http://127.0.0.1/test/2022/01/allday.ics"
 
 
 def set_calendar_data(calendar_data: CalendarData, data: str):
@@ -62,9 +60,9 @@ class MockHTTPHandlerTimeoutValue:
 class TestCalendarData:
     """Test the CalendarData class."""
 
-    def test_set_headers_none(self, logger, hass):
-        """Test set_headers without user name, password, or user agent."""
-        calendar_data = CalendarData(
+    def test_headers_none(self, logger, hass):
+        """Test headers without user name, password, or user agent."""
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -72,17 +70,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("", "", "", "")
+        ).headers("", "", "", "")
 
     def test_set_accept_header(self, logger, hass):
         """Test setting accept header by itself.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -90,17 +87,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("", "", "", "text/calendar")
+        ).headers("", "", "", "text/calendar")
 
     def test_set_user_agent(self, logger, hass):
         """Test setting user agent by itself.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -108,17 +104,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("", "", "Mozilla/5.0", "")
+        ).headers("", "", "Mozilla/5.0", "")
 
     def test_set_username_and_password(self, logger, hass):
         """Test setting user name and password by themselves.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -126,17 +121,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("username", "password", "", "")
+        ).headers("username", "password", "", "")
 
     def test_set_username_password_and_user_agent(self, logger, hass):
         """Test setting user name and password with user agent.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -144,17 +138,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("username", "password", "Mozilla/5.0", "")
+        ).headers("username", "password", "Mozilla/5.0", "")
 
     def test_set_username_password_and_accept_header(self, logger, hass):
         """Test setting user name and password with accept header.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -162,17 +155,16 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers("username", "password", "", "text/calendar")
+        ).headers("username", "password", "", "text/calendar")
 
     def test_set_all_headers(self, logger, hass):
         """Test setting all headers.
 
-        This doesn't do much, since set_headers has no failure conditions.  We
+        This doesn't do much, since headers has no failure conditions.  We
         could test that it actually does what it's supposed to do, except that
         means checking the implementation.
         """
-        calendar_data = CalendarData(
+        CalendarData(
             httpx.AsyncClient(),
             logger,
             {
@@ -180,10 +172,7 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        calendar_data.set_headers(
-            "username", "password", "Mozilla/5.0", "text/calendar"
-        )
+        ).headers("username", "password", "Mozilla/5.0", "text/calendar")
 
     def test_get(self, logger, hass):
         """Test get method retrieves cached data."""
@@ -219,38 +208,76 @@ class TestCalendarData:
         assert calendar_data.get() == CALENDAR_DATA
 
     @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "expected_url,url",
+        [
+            (
+                "http://127.0.0.1/test/2022/01/allday.ics",
+                "http://127.0.0.1/test/{year}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/10/allday.ics",
+                "http://127.0.0.1/test/{year+3}/{month-15}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2022/04/allday.ics",
+                "http://127.0.0.1/test/{year-1}/{month+15}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2025/02/allday.ics",
+                "http://127.0.0.1/test/{year+1}/{month+25}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2022/02/allday.ics",
+                "http://127.0.0.1/test/{year}/{month+1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/12/allday.ics",
+                "http://127.0.0.1/test/{year}/{month-1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/10/allday.ics",
+                "http://127.0.0.1/test/{year}/{month-3}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/12/allday.ics",
+                "http://127.0.0.1/test/{year}/{month+23}/allday.ics",
+            ),
+        ],
+    )
     @patch(
         "custom_components.ics_calendar.calendardata.hanow",
         return_value=dtparser.parse("2022-01-01T00:00:00"),
     )
     async def test_download_calendar_interprets_templates(
-        self, mock_hanow, logger, httpx_mock, hass
+        self, mock_hanow, expected_url, url, logger, httpx_mock, hass
     ):
         """Test download_calendar sets cache from the mocked HTTPHandler.
 
         This test relies on the success of test_get!
         """
+        print(expected_url)
         httpx_mock.add_response(
             is_optional=True,
-            url=TEST_TEMPLATE_URL_REPLACED,
+            url=expected_url,
             content=BINARY_CALENDAR_DATA,
         )
         httpx_mock.add_exception(
             BaseException("URL contains {year} template!"),
             is_optional=True,
-            url=re.compile(".*[{]year[}]"),
+            url=re.compile(".*[{]year([-+][0-9]+)?[}]"),
         )
         httpx_mock.add_exception(
             BaseException("URL contains {month} template!"),
             is_optional=True,
-            url=re.compile(".*[{]month[}]"),
+            url=re.compile(".*[{]month([-+][0-9]+)?[}]"),
         )
         calendar_data = CalendarData(
             httpx.AsyncClient(),
             logger,
             {
                 "name": CALENDAR_NAME,
-                "url": TEST_TEMPLATE_URL,
+                "url": url,
                 "min_update_time": timedelta(minutes=5),
             },
         )
@@ -325,6 +352,7 @@ class TestCalendarData:
 
         This test relies on the success of test_get!
         """
+        timeout = 1.5
         calendar_data = CalendarData(
             httpx.AsyncClient(),
             logger,
@@ -333,9 +361,7 @@ class TestCalendarData:
                 "url": TEST_URL,
                 "min_update_time": timedelta(minutes=5),
             },
-        )
-        timeout = 1.5
-        calendar_data.set_timeout(timeout)
+        ).timeout(timeout)
         httpx_mock.add_exception(
             httpx.TimeoutException("timeout"),
             match_extensions={

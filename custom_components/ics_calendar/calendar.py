@@ -48,6 +48,7 @@ from .const import (
 )
 from .filter import Filter
 from .getparser import GetParser
+from .parserevent import ParserEvent
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -173,6 +174,11 @@ class ICSCalendarEntity(CalendarEntity):
         self._attr_name = device_data[CONF_NAME]
         self._last_call = None
 
+    async def async_added_to_hass(self) -> None:
+        """Run when entity is added to hass."""
+        await super().async_added_to_hass()
+        await self.data.async_init()
+
     @property
     def event(self) -> Optional[CalendarEvent]:
         """Return the current or next upcoming event or None.
@@ -220,7 +226,7 @@ class ICSCalendarEntity(CalendarEntity):
     async def async_update(self):
         """Get the current or next event."""
         await self.data.async_update()
-        self._event = self.data.event
+        self._event: CalendarEvent | None = self.data.event
         self._attr_extra_state_attributes = {
             "offset_reached": (
                 is_offset_reached(
@@ -269,10 +275,13 @@ class ICSCalendarData:  # pylint: disable=R0902
         self.include_all_day = device_data[CONF_INCLUDE_ALL_DAY]
         self._summary_prefix: str = device_data[CONF_PREFIX]
         self._summary_default: str = device_data[CONF_SUMMARY_DEFAULT]
-        self.parser = GetParser.get_parser(device_data[CONF_PARSER])
-        self.parser.set_filter(
-            Filter(device_data[CONF_EXCLUDE], device_data[CONF_INCLUDE])
+        # Store parser config for async initialization
+        self._parser_type = device_data[CONF_PARSER]
+        self._parser_filter_config = (
+            device_data[CONF_EXCLUDE],
+            device_data[CONF_INCLUDE],
         )
+        self.parser = None  # Will be initialized in async_init
         self.offset = None
         self.event = None
         self._hass = hass
@@ -287,19 +296,33 @@ class ICSCalendarData:  # pylint: disable=R0902
                     minutes=device_data[CONF_DOWNLOAD_INTERVAL]
                 ),
             },
-        )
-
-        self._calendar_data.set_headers(
+        ).headers(
             device_data[CONF_USERNAME],
             device_data[CONF_PASSWORD],
             device_data[CONF_USER_AGENT],
             device_data[CONF_ACCEPT_HEADER],
             device_data[CONF_ADDITIONAL_HEADERS],
         )
-
         if device_data.get(CONF_SET_TIMEOUT):
-            self._calendar_data.set_timeout(
-                device_data[CONF_CONNECTION_TIMEOUT]
+            self._calendar_data.timeout(
+                device_data.get(CONF_CONNECTION_TIMEOUT)
+            )
+
+    async def async_init(self):
+        """Async initialization for the parser.
+
+        This must be called after __init__ to properly initialize the parser
+        without blocking the event loop.
+        """
+        if self.parser is None:
+            self.parser = await GetParser.get_parser_async(
+                self._hass, self._parser_type
+            )
+            self.parser.set_filter(
+                Filter(
+                    self._parser_filter_config[0],
+                    self._parser_filter_config[1],
+                )
             )
 
     async def async_get_events(
@@ -312,10 +335,12 @@ class ICSCalendarData:  # pylint: disable=R0902
         :param end_date: The last starting date to consider
         :type end_date: datetime
         """
-        event_list = []
+        event_list: list[ParserEvent] = []
         if await self._calendar_data.download_calendar():
             _LOGGER.debug("%s: Setting calendar content", self.name)
-            self.parser.set_content(self._calendar_data.get())
+            await self._hass.async_add_executor_job(
+                lambda: self.parser.set_content(self._calendar_data.get())
+            )
         try:
             event_list = self.parser.get_event_list(
                 start=start_date,
@@ -329,23 +354,29 @@ class ICSCalendarData:  # pylint: disable=R0902
                 self.name,
                 exc_info=True,
             )
-            event_list = []
+            event_list: list[ParserEvent] = []
 
         for event in event_list:
             event.summary = self._summary_prefix + event.summary
             if not event.summary:
                 event.summary = self._summary_default
+            # Since we skipped the validation code earlier, invoke it now,
+            # before passing the object outside this component
+            event.validate()
 
         return event_list
 
     async def async_update(self):
         """Get the current or next event."""
         _LOGGER.debug("%s: Update was called", self.name)
+        parser_event: ParserEvent | None = None
         if await self._calendar_data.download_calendar():
             _LOGGER.debug("%s: Setting calendar content", self.name)
-            self.parser.set_content(self._calendar_data.get())
+            await self._hass.async_add_executor_job(
+                lambda: self.parser.set_content(self._calendar_data.get())
+            )
         try:
-            self.event = self.parser.get_current_event(
+            parser_event: ParserEvent | None = self.parser.get_current_event(
                 include_all_day=self.include_all_day,
                 now=hanow(),
                 days=self._days,
@@ -355,20 +386,24 @@ class ICSCalendarData:  # pylint: disable=R0902
             _LOGGER.error(
                 "update: %s: Failed to parse ICS!", self.name, exc_info=True
             )
-        if self.event is not None:
+        if parser_event is not None:
             _LOGGER.debug(
                 "%s: got event: %s; start: %s; end: %s; all_day: %s",
                 self.name,
-                self.event.summary,
-                self.event.start,
-                self.event.end,
-                self.event.all_day,
+                parser_event.summary,
+                parser_event.start,
+                parser_event.end,
+                parser_event.all_day,
             )
-            (summary, offset) = extract_offset(self.event.summary, OFFSET)
-            self.event.summary = self._summary_prefix + summary
-            if not self.event.summary:
-                self.event.summary = self._summary_default
+            summary, offset = extract_offset(parser_event.summary, OFFSET)
+            parser_event.summary = self._summary_prefix + summary
+            if not parser_event.summary:
+                parser_event.summary = self._summary_default
             self.offset = offset
+            # Invoke validation here, since it was skipped when creating the
+            # ParserEvent
+            parser_event.validate()
+            self.event: CalendarEvent = parser_event
             return True
 
         _LOGGER.debug("%s: No event found!", self.name)

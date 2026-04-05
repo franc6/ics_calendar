@@ -1,27 +1,45 @@
 """Provide GetParser class."""
 
 from .icalendarparser import ICalendarParser
-from .parsers.parser_ics import ParserICS
-from .parsers.parser_rie import ParserRIE
 
 
 class GetParser:  # pylint: disable=R0903
-    """Provide get_parser to return an instance of ICalendarParser.
+    """Provide get_parser_async to return an instance of ICalendarParser.
 
-    The class provides a static method , get_instace, to get a parser instance.
-    The non static methods allow this class to act as an "interface" for the
-    parser classes.
+    The class provides a static method, get_parser_async, to get a parser
+    instance.  The non static methods allow this class to act as an "interface"
+    for the parser classes.
     """
 
     @staticmethod
-    def get_parser(parser: str, *args) -> ICalendarParser | None:
-        """Get an instance of the requested parser."""
-        # parser_cls = ICalendarParser.get_class(parser)
-        # if parser_cls is not None:
-        # return parser_cls(*args)
+    async def get_parser_async(
+        hass, parser: str, *args
+    ) -> ICalendarParser | None:
+        """Get an instance of the requested parser asynchronously.
+
+        This method loads the parser module in an executor to avoid blocking
+        the event loop during timezone data loading.
+        """
         if parser == "rie":
-            return ParserRIE(*args)
+
+            def _load_rie_parser():
+                from .parsers.parser_rie import (  # pylint: disable=C0415
+                    ParserRIE,
+                )
+
+                return ParserRIE(*args)
+
+            return await hass.async_add_executor_job(_load_rie_parser)
+
         if parser == "ics":
-            return ParserICS(*args)
+
+            def _load_ics_parser():
+                from .parsers.parser_ics import (  # pylint: disable=C0415
+                    ParserICS,
+                )
+
+                return ParserICS(*args)
+
+            return await hass.async_add_executor_job(_load_ics_parser)
 
         return None

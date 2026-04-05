@@ -2,15 +2,15 @@
 
 import pytest
 from dateutil import parser as dtparser
-from homeassistant.components.calendar import CalendarEvent
 
 from custom_components.ics_calendar.filter import Filter
+from custom_components.ics_calendar.parserevent import ParserEvent
 
 
 @pytest.fixture()
-def calendar_event() -> CalendarEvent:
-    """Fixture to return a CalendarEvent."""
-    return CalendarEvent(
+def calendar_event() -> ParserEvent:
+    """Fixture to return a ParserEvent."""
+    return ParserEvent(
         summary="summary",
         start=dtparser.parse("2020-01-01T0:00:00").astimezone(),
         end=dtparser.parse("2020-01-01T0:00:00").astimezone(),
@@ -27,7 +27,7 @@ class TestFilter:
         filt = Filter("", "")
         assert filt.filter("summary", "description") is True
 
-    def test_filter_event_empty(self, calendar_event: CalendarEvent) -> None:
+    def test_filter_event_empty(self, calendar_event: ParserEvent) -> None:
         """Test that an empty filter works on an event."""
         filt = Filter("", "")
         assert filt.filter_event(calendar_event) is True

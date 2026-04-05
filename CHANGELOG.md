@@ -1,3 +1,37 @@
+## 5.1.8 2026/03/10
+- Fixed #263, thanks @gieljnssns!
+
+### NOTE
+The ICS parser is now deprecatd, and will be removed when it either cannot be used at all, or its requirements interfere too much with HA itself or other integrations.  ICS hasn't been updated in over 3 years, and the pre-release that included some important fixes hasn't been fully released, also in more than 3 years.  You can continue to use it, but eventually, it won't work anymore. :(
+
+## !!! IMPORTANT NOTE !!!
+Because https://www.home-assistant.io/integrations/remote_calendar now exists, this project will eventually close.  I may or may not add some of the features that project is missing.  This project will stick around for at least a couple more releases, since I know some people will be unable to use the Remote Calendar integration due to its current limitations.  If anyone thinks it's worth keeping this project going even after Remote Calendar gets close to feature parity, I'm willing to transfer ownership.  I just have no desire to work on a project that's duplicating something else that exists.
+
+## 5.1.7 2026/02/24
+- Fixed #259, thanks @Sarker3, @Pingfragger, and @kurtnern84!
+- Fixed #260, thanks @Sarker3, @Pingfragger, and @kurtnern84!
+
+## 5.1.6 2025/12/30
+- Fixed #244
+
+### NOTE
+The fix for #244 needs more testing, but I think it's working.  Please do not open a new issue, instead, re-open issue #244 if this doesn't work for you.
+
+## 5.1.5 2025/06/18
+- Fixed #252
+
+## 5.1.4 2025/06/10
+- Added Spanish translation, thanks @cvc90!
+- Added ability to use offsets in URL templates (fixed #239)
+- Fixed  #237
+- Fixed #247 Thanks for the fix, @gieljnssns!
+- Internal updates and improvements that don't affect the functionality
+
+## 5.1.3 2025/02/13
+- Updated recurring_ical_events to latest for bug fixes and to prevent 2.5.0 from being used. Big thanks to @ccMatrix, @cookie050, and the many others who reported the problem and determined the correct fix!
+- Updated dependencies for tests.
+- Issue #191 should also be fixed, thanks to @niccokunzmann for the updates in recurring_ical_events.
+
 ## 5.1.2 2025/01/30
 - Updated httpx_auth version for HA 2025.2.0b0 and later, thanks, @TheZoker and @gieljnssns!
 

@@ -4,11 +4,11 @@ from datetime import date, datetime, timedelta
 from typing import Optional, Union
 
 import recurring_ical_events as rie
-from homeassistant.components.calendar import CalendarEvent
 from icalendar import Calendar
 
 from ..filter import Filter
 from ..icalendarparser import ICalendarParser
+from ..parserevent import ParserEvent
 from ..utility import compare_event_dates
 
 
@@ -46,7 +46,7 @@ class ParserRIE(ICalendarParser):
         end: datetime,
         include_all_day: bool,
         offset_hours: int = 0,
-    ) -> list[CalendarEvent]:
+    ) -> list[ParserEvent]:
         """Get a list of events.
 
         Gets the events from start to end, including or excluding all day
@@ -60,9 +60,9 @@ class ParserRIE(ICalendarParser):
         :param offset_hours the number of hours to offset the event
         :type offset_hours int
         :returns a list of events, or an empty list
-        :rtype list[CalendarEvent]
+        :rtype list[ParserEvent]
         """
-        event_list: list[CalendarEvent] = []
+        event_list: list[ParserEvent] = []
 
         if self._calendar is not None:
             for event in rie.of(self._calendar, skip_bad_series=True).between(
@@ -74,12 +74,17 @@ class ParserRIE(ICalendarParser):
                 if all_day and not include_all_day:
                     continue
 
-                calendar_event: CalendarEvent = CalendarEvent(
+                calendar_event: ParserEvent = ParserEvent(
+                    uid=event.get("UID"),
                     summary=event.get("SUMMARY"),
                     start=start,
                     end=end,
                     location=event.get("LOCATION"),
                     description=event.get("DESCRIPTION"),
+                    # rrule=event.get("RRULE"),
+                    recurrence_id=ParserRIE.get_date(
+                        event.get("RECURRENCE-ID").dt
+                    ),
                 )
                 if self._filter.filter_event(calendar_event):
                     event_list.append(calendar_event)
@@ -92,7 +97,7 @@ class ParserRIE(ICalendarParser):
         now: datetime,
         days: int,
         offset_hours: int = 0,
-    ) -> Optional[CalendarEvent]:
+    ) -> Optional[ParserEvent]:
         """Get the current or next event.
 
         Gets the current event, or the next upcoming event with in the
@@ -105,7 +110,7 @@ class ParserRIE(ICalendarParser):
         :type int
         :param offset_hours the number of hours to offset the event
         :type offset_hours int
-        :returns a CalendarEvent or None
+        :returns a ParserEvent or None
         """
         if self._calendar is None:
             return None
@@ -140,12 +145,17 @@ class ParserRIE(ICalendarParser):
         if temp_event is None:
             return None
 
-        return CalendarEvent(
+        return ParserEvent(
+            uid=temp_event.get("UID"),
             summary=temp_event.get("SUMMARY"),
             start=temp_start,
             end=temp_end,
             location=temp_event.get("LOCATION"),
             description=temp_event.get("DESCRIPTION"),
+            # rrule=temp_event.get("RRULE"),
+            recurrence_id=ParserRIE.get_date(
+                temp_event.get("RECURRENCE-ID").dt
+            ),
         )
 
     @staticmethod
