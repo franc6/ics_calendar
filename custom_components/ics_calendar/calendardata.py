@@ -6,6 +6,7 @@ from math import floor
 
 import httpx
 import httpx_auth
+import json
 from homeassistant.util.dt import now as hanow
 
 # from urllib.error import ContentTooShortError, HTTPError, URLError
@@ -97,6 +98,7 @@ class CalendarData:  # pylint: disable=R0902
         password: str,
         user_agent: str,
         accept_header: str,
+        additional_headers: str,
     ):
         """Set a user agent, accept header, and/or user name and password.
 
@@ -119,6 +121,12 @@ class CalendarData:  # pylint: disable=R0902
             self._auth = httpx_auth.Basic(
                 user_name, password
             ) + DigestWithMultiAuth(user_name, password)
+
+        try:
+            for key, value in json.loads(additional_headers):
+                self._headers.append((key, value))
+        except Exception as e:
+            self.logger.error("%s: failed to set additional headers (%s)", self.name, str(e))
 
         if user_agent != "":
             self._headers.append(("User-agent", user_agent))

@@ -46,6 +46,7 @@
             },
             "adv_connect_opts": {
                 "data": {
+                    "additional_headers": "Additional header to use, e.g. `[['Cookie','my-cookie'],['Header2','my-header']]`",
                     "accept_header": "Custom Accept header for broken servers",
                     "user_agent": "Custom User-agent header",
                     "set_connection_timeout": "Change connection timeout?"
