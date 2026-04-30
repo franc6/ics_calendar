@@ -345,7 +345,7 @@ class ICSCalendarData:  # pylint: disable=R0902
                 include_all_day=self.include_all_day,
                 offset_hours=self._offset_hours,
             )
-        except:  # pylint: disable=W0702
+        except Exception:  # pylint: disable=W0702
             _LOGGER.error(
                 "async_get_events: %s: Failed to parse ICS!",
                 self.name,
@@ -379,7 +379,7 @@ class ICSCalendarData:  # pylint: disable=R0902
                 days=self._days,
                 offset_hours=self._offset_hours,
             )
-        except:  # pylint: disable=W0702
+        except Exception:  # pylint: disable=W0702
             _LOGGER.error(
                 "update: %s: Failed to parse ICS!", self.name, exc_info=True
             )
