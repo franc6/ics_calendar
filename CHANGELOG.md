@@ -1,4 +1,4 @@
-## 5.2.0 2026/05/29
+## 5.2.0 2026/05/28
 - Fixed #222 and #161 This is a major update to allow reconfiguring calendars (finally!)
 
 ### NOTE
