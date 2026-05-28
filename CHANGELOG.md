@@ -1,11 +1,14 @@
-## 5.1.8 2026/03/10
-- Fixed #263, thanks @gieljnssns!
+## 5.2.0 2026/05/28
+- Fixed #222 and #161 This is a major update to allow reconfiguring calendars (finally!)
 
 ### NOTE
 The ICS parser is now deprecatd, and will be removed when it either cannot be used at all, or its requirements interfere too much with HA itself or other integrations.  ICS hasn't been updated in over 3 years, and the pre-release that included some important fixes hasn't been fully released, also in more than 3 years.  You can continue to use it, but eventually, it won't work anymore. :(
 
 ## !!! IMPORTANT NOTE !!!
 Because https://www.home-assistant.io/integrations/remote_calendar now exists, this project will eventually close.  I may or may not add some of the features that project is missing.  This project will stick around for at least a couple more releases, since I know some people will be unable to use the Remote Calendar integration due to its current limitations.  If anyone thinks it's worth keeping this project going even after Remote Calendar gets close to feature parity, I'm willing to transfer ownership.  I just have no desire to work on a project that's duplicating something else that exists.
+
+## 5.1.8 2026/03/10
+- Fixed #263, thanks @gieljnssns!
 
 ## 5.1.7 2026/02/24
 - Fixed #259, thanks @Sarker3, @Pingfragger, and @kurtnern84!

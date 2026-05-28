@@ -10,14 +10,27 @@
         "step": {
             "user": {
                 "data": {
-                    "name": "Name",
-                    "days": "Days",
-                    "include_all_day": "Include all day events?"
+                    "name": "Name"
                 },
                 "title": "Add Calendar"
             },
+            "reauth_confirm": {
+                "description": "Authorization failed for calendar. Please re-configured the calendar URL and/or authentication settings.",
+                "title": "Authorization Failure for ICS Calendar"
+            }
+        },
+        "error": {
+            "empty_name": "The calendar name must not be empty."
+        },
+        "abort": {
+        }
+    },
+    "options": {
+        "step": {
             "calendar_opts": {
                 "data": {
+                    "days": "Days",
+                    "include_all_day": "Include all day events?",
                     "exclude": "Exclude filter",
                     "include": "Include filter",
                     "prefix": "String to prefix all event summaries",
@@ -57,21 +70,14 @@
                     "connection_timeout": "Connection timeout in seconds"
                 },
                 "title": "Connection Timeout Options"
-            },
-            "reauth_confirm": {
-                "description": "Authorization failed for calendar. Please re-configured the calendar URL and/or authentication settings.",
-                "title": "Authorization Failure for ICS Calendar"
             }
         },
         "error": {
-            "empty_name": "The calendar name must not be empty.",
             "empty_url": "The url must not be empty.",
             "download_interval_too_small": "The download interval must be at least 15.",
             "exclude_include_cannot_be_the_same": "The exclude and include strings must not be the same",
             "exclude_must_be_array": "The exclude option must be an array of strings or regular expressions. See {filterdoc} for more information.",
             "include_must_be_array": "The include option must be an array of strings or regular expressions. See {filterdoc} for more information."
-        },
-        "abort": {
         }
     }
 }

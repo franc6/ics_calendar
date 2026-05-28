@@ -1,6 +1,6 @@
 [project]
 name = "ics_calendar"
-version = "5.1.8"
+version = "5.2.0"
 readme = "README.md"
 requires-python = ">=3.14.2,<3.15"
 dependencies = [
@@ -18,7 +18,7 @@ dependencies = [
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.317',
+    'pytest-homeassistant-custom-component>=0.13.333',
     'pytest-helpers-namespace>=2021.12.29',
     'pytest-httpx>=0.36.0',
     'pytest-mock',

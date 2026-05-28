@@ -1,6 +1,6 @@
 """Constants for ics_calendar platform."""
 
-VERSION = "5.1.8"
+VERSION = "5.2.0"
 DOMAIN = "ics_calendar"
 
 CONF_DEVICE_ID = "device_id"
@@ -22,3 +22,6 @@ CONF_SUMMARY_DEFAULT = "summary_default"
 # translate/*.json files. :(
 # See also https://github.com/home-assistant/core/issues/125075
 CONF_SUMMARY_DEFAULT_DEFAULT = "No title"
+
+STORAGE_VERSION_MAJOR = 1
+STORAGE_VERSION_MINOR = 1
