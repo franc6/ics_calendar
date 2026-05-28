@@ -39,6 +39,8 @@ from .const import (
     CONF_SUMMARY_DEFAULT_DEFAULT,
     CONF_USER_AGENT,
     DOMAIN,
+    STORAGE_VERSION_MAJOR,
+    STORAGE_VERSION_MINOR,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -112,8 +114,47 @@ CONFIG_SCHEMA = vol.Schema(
 )
 
 STORAGE_KEY = DOMAIN
-STORAGE_VERSION_MAJOR = 1
-STORAGE_VERSION_MINOR = 0
+
+_DEFAULT_OPTIONS = {
+    CONF_URL: "",
+    CONF_ADV_CONNECT_OPTS: False,
+    CONF_SET_TIMEOUT: False,
+    CONF_REQUIRES_AUTH: False,
+    CONF_INCLUDE_ALL_DAY: False,
+    CONF_USERNAME: "",
+    CONF_PASSWORD: "",
+    CONF_PARSER: "rie",
+    CONF_PREFIX: "",
+    CONF_DAYS: 1,
+    CONF_DOWNLOAD_INTERVAL: 15,
+    CONF_USER_AGENT: "",
+    CONF_EXCLUDE: "",
+    CONF_INCLUDE: "",
+    CONF_OFFSET_HOURS: 0,
+    CONF_ACCEPT_HEADER: "",
+    CONF_CONNECTION_TIMEOUT: 300.0,
+    CONF_SUMMARY_DEFAULT: CONF_SUMMARY_DEFAULT_DEFAULT,
+}
+
+
+def _has_auth(values: dict) -> bool:
+    """Return True if either credential field holds a non-empty value."""
+    return bool(values.get(CONF_USERNAME)) or bool(values.get(CONF_PASSWORD))
+
+
+def _has_custom_timeout(values: dict) -> bool:
+    """Return True if CONNECTION_TIMEOUT is set to a non-default value."""
+    timeout = values.get(CONF_CONNECTION_TIMEOUT)
+    return timeout is not None and timeout != 300.0
+
+
+def _has_adv_opts(values: dict) -> bool:
+    """Return True if any advanced-connection field is set."""
+    return (
+        bool(values.get(CONF_USER_AGENT))
+        or bool(values.get(CONF_ACCEPT_HEADER))
+        or bool(values.get(CONF_SET_TIMEOUT))
+    )
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -177,75 +218,67 @@ def _async_find_matching_config_entry(hass):
     return None
 
 
+def _migrate_v1_0_to_v1_1(old_data: dict) -> tuple[dict, dict]:
+    """Return (new_data, new_options) for the 1.0 → 1.1 migration.
+
+    The UI-gating flags are recomputed from actual values rather than
+    carried over, because pre-1.1 entries may have stored flag values that
+    no longer reflect their actual settings.
+    """
+    new_options = {k: v for k, v in old_data.items() if k != CONF_NAME}
+    new_data = {CONF_NAME: old_data.get(CONF_NAME, "")}
+    new_options[CONF_REQUIRES_AUTH] = _has_auth(new_options)
+    new_options[CONF_SET_TIMEOUT] = _has_custom_timeout(new_options)
+    new_options[CONF_ADV_CONNECT_OPTS] = _has_adv_opts(new_options)
+    return new_data, new_options
+
+
 async def async_migrate_entry(hass, entry: ConfigEntry):
     """Migrate old config entry."""
-    # Don't downgrade entries
     if entry.version > STORAGE_VERSION_MAJOR:
         return False
-
-    if entry.version == STORAGE_VERSION_MAJOR:
-        new_data = {**entry.data}
-
+    if entry.version == STORAGE_VERSION_MAJOR and entry.minor_version < 1:
+        new_data, new_options = _migrate_v1_0_to_v1_1(entry.data)
         hass.config_entries.async_update_entry(
             entry,
             data=new_data,
+            options=new_options,
             minor_version=STORAGE_VERSION_MINOR,
             version=STORAGE_VERSION_MAJOR,
         )
-
     return True
+
+
+async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Reload entry when options change."""
+    await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Implement async_setup_entry."""
     full_data: dict = add_missing_defaults(entry)
-    hass.config_entries.async_update_entry(entry=entry, data=full_data)
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = full_data
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
 
 
-def add_missing_defaults(
-    entry: ConfigEntry,
-) -> dict:
-    """Initialize missing data."""
-    data = {
-        CONF_NAME: "",
-        CONF_URL: "",
-        CONF_ADV_CONNECT_OPTS: False,
-        CONF_SET_TIMEOUT: False,
-        CONF_REQUIRES_AUTH: False,
-        CONF_INCLUDE_ALL_DAY: False,
-        CONF_REQUIRES_AUTH: False,
-        CONF_USERNAME: "",
-        CONF_PASSWORD: "",
-        CONF_PARSER: "rie",
-        CONF_PREFIX: "",
-        CONF_DAYS: 1,
-        CONF_DOWNLOAD_INTERVAL: 15,
-        CONF_USER_AGENT: "",
-        CONF_EXCLUDE: "",
-        CONF_INCLUDE: "",
-        CONF_OFFSET_HOURS: 0,
-        CONF_ACCEPT_HEADER: "",
-        CONF_CONNECTION_TIMEOUT: 300.0,
-        CONF_SUMMARY_DEFAULT: CONF_SUMMARY_DEFAULT_DEFAULT,
-    }
+def add_missing_defaults(entry: ConfigEntry) -> dict:
+    """Merge data & options on top of defaults.
+
+    Derive any flags absent from the actual values.
+    """
+    data = {CONF_NAME: "", **_DEFAULT_OPTIONS}
     data.update(entry.data)
-
-    if CONF_USERNAME in entry.data or CONF_PASSWORD in entry.data:
+    data.update(entry.options)
+    if CONF_REQUIRES_AUTH not in entry.options and _has_auth(data):
         data[CONF_REQUIRES_AUTH] = True
-    if (
-        CONF_USER_AGENT in entry.data
-        or CONF_ACCEPT_HEADER in entry.data
-        or CONF_CONNECTION_TIMEOUT in entry.data
-    ):
-        data[CONF_ADV_CONNECT_OPTS] = True
-    if CONF_CONNECTION_TIMEOUT in entry.data:
+    if CONF_SET_TIMEOUT not in entry.options and _has_custom_timeout(data):
         data[CONF_SET_TIMEOUT] = True
-
+    if CONF_ADV_CONNECT_OPTS not in entry.options and _has_adv_opts(data):
+        data[CONF_ADV_CONNECT_OPTS] = True
     return data
 
 

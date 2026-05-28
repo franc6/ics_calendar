@@ -10,14 +10,27 @@
         "step": {
             "user": {
                 "data": {
-                    "name": "Nombre",
-                    "days": "Días",
-                    "include_all_day": "¿Incluir eventos de todo el día?"
+                    "name": "Nombre"
                 },
                 "title": "Agregar calendario"
             },
+            "reauth_confirm": {
+                "description": "Error de autorización para el calendario. Vuelva a configurar la URL del calendario y/o los ajustes de autenticación.",
+                "title": "Fallo de autorización para ICS Calendar"
+            }
+        },
+        "error": {
+            "empty_name": "El nombre del calendario no debe estar vacío."
+        },
+        "abort": {
+        }
+    },
+    "options": {
+        "step": {
             "calendar_opts": {
                 "data": {
+                    "days": "Días",
+                    "include_all_day": "¿Incluir eventos de todo el día?",
                     "exclude": "Excluir filtro",
                     "include": "Incluir filtro",
                     "prefix": "Cadena que precederá a todos los resúmenes de eventos",
@@ -57,21 +70,14 @@
                     "connection_timeout": "Tiempo de espera de la conexión en segundos"
                 },
                 "title": "Opciones de tiempo de espera de la conexión"
-            },
-            "reauth_confirm": {
-                "description": "Error de autorización para el calendario. Vuelva a configurar la URL del calendario y/o los ajustes de autenticación.",
-                "title": "Fallo de autorización para ICS Calendar"
             }
         },
         "error": {
-            "empty_name": "El nombre del calendario no debe estar vacío.",
             "empty_url": "La url no debe estar vacía.",
             "download_interval_too_small": "El intervalo de descarga debe ser de al menos 15.",
             "exclude_include_cannot_be_the_same": "Las cadenas de exclusión e inclusión no deben ser las mismas",
             "exclude_must_be_array": "La opción de exclusión debe ser una matriz de cadenas o expresiones regulares. Consulte {filterdoc} para obtener más información.",
             "include_must_be_array": "La opción de inclusión debe ser un array de cadenas o expresiones regulares. Consulte {filterdoc} para obtener más información."
-        },
-        "abort": {
         }
     }
 }

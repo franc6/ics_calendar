@@ -22,3 +22,6 @@ CONF_SUMMARY_DEFAULT = "summary_default"
 # translate/*.json files. :(
 # See also https://github.com/home-assistant/core/issues/125075
 CONF_SUMMARY_DEFAULT_DEFAULT = "No title"
+
+STORAGE_VERSION_MAJOR = 1
+STORAGE_VERSION_MINOR = 1

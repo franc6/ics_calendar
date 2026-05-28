@@ -10,14 +10,27 @@
         "step": {
             "user": {
                 "data": {
-                    "name": "Nome",
-                    "days": "Dias",
-                    "include_all_day": "Incluir eventos de dia inteiro?"
+                    "name": "Nome"
                 },
                 "title": "Adicionar Calendário"
             },
+            "reauth_confirm": {
+                "description": "A autorização falhou para o calendário. Por favor, reconfigure a URL do calendário e/ou as configurações de autenticação.",
+                "title": "Falha de Autorização para o ICS Calendar"
+            }
+        },
+        "error": {
+            "empty_name": "O nome do calendário não pode estar vazio."
+        },
+        "abort": {
+        }
+    },
+    "options": {
+        "step": {
             "calendar_opts": {
                 "data": {
+                    "days": "Dias",
+                    "include_all_day": "Incluir eventos de dia inteiro?",
                     "exclude": "Filtro de exclusão",
                     "include": "Filtro de inclusão",
                     "prefix": "Texto para prefixar todos os resumos de eventos",
@@ -57,21 +70,14 @@
                     "connection_timeout": "Tempo limite de conexão em segundos"
                 },
                 "title": "Opções de Tempo Limite de Conexão"
-            },
-            "reauth_confirm": {
-                "description": "A autorização falhou para o calendário. Por favor, reconfigure a URL do calendário e/ou as configurações de autenticação.",
-                "title": "Falha de Autorização para o ICS Calendar"
             }
         },
         "error": {
-            "empty_name": "O nome do calendário não pode estar vazio.",
             "empty_url": "A URL não pode estar vazia.",
             "download_interval_too_small": "O intervalo de download deve ser de pelo menos 15.",
             "exclude_include_cannot_be_the_same": "As strings de exclusão e inclusão não podem ser as mesmas.",
             "exclude_must_be_array": "A opção de exclusão deve ser um array de strings ou expressões regulares. Veja {filterdoc} para mais informações.",
             "include_must_be_array": "A opção de inclusão deve ser um array de strings ou expressões regulares. Veja {filterdoc} para mais informações."
-        },
-        "abort": {
         }
     }
 }
