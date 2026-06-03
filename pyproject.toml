@@ -32,7 +32,7 @@ tests = [
 
 [dependency-groups]
 dev = [
-    'black>26',
+    'black>=26.5.1',
     'isort',
     'flake8>=7.3.0',
     'flake8-pyproject',
