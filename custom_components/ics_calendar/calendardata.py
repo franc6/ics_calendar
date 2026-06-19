@@ -177,7 +177,7 @@ class CalendarData:  # pylint: disable=R0902
             self.logger.error(
                 "%s: Error decoding data from url: %s", self.name, self.url
             )
-        except:  # pylint: disable=W0702
+        except Exception:  # pylint: disable=W0702
             self.logger.error(
                 "%s: Failed to open url!", self.name, exc_info=True
             )
