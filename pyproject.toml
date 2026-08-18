@@ -8,7 +8,7 @@ dependencies = [
     'python-dateutil >= 2.9.0.post0',
     'pytz >= 2026.2',
     'recurring_ical_events ~= 3.8',
-    'ics == 0.7.2',
+    'ics == 0.7.3',
     'arrow',
     'httpx_auth >= 0.22.0, <= 0.23.1',
     'tatsu>=4.2.6,<5.8.0' # This is to continue supporting ics
