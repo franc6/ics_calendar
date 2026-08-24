@@ -27,7 +27,7 @@ tests = [
     'aiohttp_cors',
     'aiotask_context',
     #'pyobjc-core>=12.1',
-    'mashumaro>=3.20',
+    'mashumaro>=3.22',
 ]
 
 [dependency-groups]
