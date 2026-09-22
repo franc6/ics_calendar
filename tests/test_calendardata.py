@@ -216,6 +216,30 @@ class TestCalendarData:
                 "http://127.0.0.1/test/{year}/{month}/allday.ics",
             ),
             (
+                "http://127.0.0.1/test/2023/allday.ics",
+                "http://127.0.0.1/test/{year+1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/allday.ics",
+                "http://127.0.0.1/test/{year-1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2025/allday.ics",
+                "http://127.0.0.1/test/{year+3}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2019/allday.ics",
+                "http://127.0.0.1/test/{year-3}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/01/allday.ics",
+                "http://127.0.0.1/test/{year+1}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/01/allday.ics",
+                "http://127.0.0.1/test/{year-1}/{month}/allday.ics",
+            ),
+            (
                 "http://127.0.0.1/test/2023/10/allday.ics",
                 "http://127.0.0.1/test/{year+3}/{month-15}/allday.ics",
             ),

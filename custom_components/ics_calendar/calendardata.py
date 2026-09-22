@@ -211,16 +211,16 @@ class CalendarData:  # pylint: disable=R0902
                 month = month - int(month_match.group(2))
             else:
                 month = month + int(month_match.group(2))
-            if month < 1:
-                year -= floor(abs(month) / 12) + 1
-                month = month % 12
-                if month == 0:
-                    month = 12
-            elif month > 12:
-                year += abs(floor(month / 12))
-                month = month % 12
-                if month == 0:
-                    month = 12
-                    year -= 1
             url = url.replace(month_match.group(0), "{month}")
+        if month < 1:
+            year -= floor(abs(month) / 12) + 1
+            month = month % 12
+            if month == 0:
+                month = 12
+        elif month > 12:
+            year += abs(floor(month / 12))
+            month = month % 12
+            if month == 0:
+                month = 12
+                year -= 1
         return (month, year, url)
