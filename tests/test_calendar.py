@@ -1,10 +1,14 @@
 """Test the calendar class."""
 
+import asyncio
 import copy
 from unittest.mock import ANY, AsyncMock, Mock, patch
 
 import pytest
 from dateutil import parser as dtparser
+from homeassistant.components.calendar.const import (
+    DATA_COMPONENT as CALENDAR_DATA_COMPONENT,
+)
 from homeassistant.const import STATE_OFF, STATE_ON
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.template import DATE_STR_FORMAT
@@ -815,7 +819,7 @@ class TestCalendar:
     ):
         """Test get_api_events when exception is thrown."""
         # Arrange
-        mock_event_list.side_effect = BaseException("Failed to get events")
+        mock_event_list.side_effect = Exception("Failed to get events")
         mocked_data = _mocked_calendar_data("tests/allday.ics")
         mock_calendardata(mocked_data)
 
@@ -825,6 +829,48 @@ class TestCalendar:
 
         events = await get_api_events("calendar.noallday")
         assert len(events) == 0
+
+    @pytest.mark.asyncio
+    @patch(
+        "custom_components.ics_calendar.calendar.hanow",
+        return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+    )
+    @patch(
+        "homeassistant.util.dt.now",
+        return_value=dtparser.parse("2022-01-03T00:00:01Z"),
+    )
+    @patch(
+        "custom_components.ics_calendar.parsers.parser_rie.ParserRIE"
+        ".get_event_list",
+        return_value=_mocked_event_list(),
+    )
+    async def test_get_events_cancelled_not_swallowed(
+        self,
+        mock_event_list,
+        mock_dt_now,
+        mock_now,
+        mock_calendardata,
+        hass,
+        noallday_config,
+    ):
+        """Test that async_get_events does not swallow CancelledError."""
+        # Arrange
+        mocked_data = _mocked_calendar_data("tests/allday.ics")
+        mock_calendardata(mocked_data)
+        assert await async_setup_component(hass, DOMAIN, noallday_config)
+        await hass.async_block_till_done()
+        entity = hass.data[CALENDAR_DATA_COMPONENT].get_entity(
+            "calendar.noallday"
+        )
+        mock_event_list.side_effect = asyncio.CancelledError()
+
+        # Act / Assert
+        with pytest.raises(asyncio.CancelledError):
+            await entity.async_get_events(
+                hass,
+                dtparser.parse("2022-01-01T00:00:00Z"),
+                dtparser.parse("2022-01-06T00:00:00Z"),
+            )
 
     @pytest.mark.asyncio
     async def test_create_event_raises_error(

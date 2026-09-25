@@ -1,5 +1,6 @@
 ## 5.2.1 2026/09/25
 - Fixed year offsets in URL templates being ignored without a month offset, thanks @bensynapse!
+- Updated bare `except:` clauses so that task cancellation is no longer swallowed and logged as a parse or download error, thanks @AmSach!
 - Updated dependencies
 
 ### NOTE
