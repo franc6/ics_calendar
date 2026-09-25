@@ -280,6 +280,71 @@ class TestCalendarData:
 
         This test relies on the success of test_get!
         """
+        await self._download_templated_url(
+            expected_url, url, logger, httpx_mock
+        )
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "expected_url,url",
+        [
+            (
+                "http://127.0.0.1/test/2022/12/allday.ics",
+                "http://127.0.0.1/test/{year}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/allday.ics",
+                "http://127.0.0.1/test/{year+1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/allday.ics",
+                "http://127.0.0.1/test/{year-1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/12/allday.ics",
+                "http://127.0.0.1/test/{year+1}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/12/allday.ics",
+                "http://127.0.0.1/test/{year-1}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2019/12/allday.ics",
+                "http://127.0.0.1/test/{year-3}/{month}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/01/allday.ics",
+                "http://127.0.0.1/test/{year}/{month+1}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2023/12/allday.ics",
+                "http://127.0.0.1/test/{year+2}/{month-12}/allday.ics",
+            ),
+            (
+                "http://127.0.0.1/test/2021/12/allday.ics",
+                "http://127.0.0.1/test/{year-2}/{month+12}/allday.ics",
+            ),
+        ],
+    )
+    @patch(
+        "custom_components.ics_calendar.calendardata.hanow",
+        return_value=dtparser.parse("2022-12-01T00:00:00"),
+    )
+    async def test_download_calendar_interprets_templates_in_december(
+        self, mock_hanow, expected_url, url, logger, httpx_mock, hass
+    ):
+        """Test templates when offsets land on a multiple of 12 months.
+
+        This test relies on the success of test_get!
+        """
+        await self._download_templated_url(
+            expected_url, url, logger, httpx_mock
+        )
+
+    async def _download_templated_url(
+        self, expected_url, url, logger, httpx_mock
+    ):
+        """Download url, and verify that expected_url was requested."""
         print(expected_url)
         httpx_mock.add_response(
             is_optional=True,

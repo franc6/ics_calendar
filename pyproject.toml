@@ -1,40 +1,40 @@
 [project]
 name = "ics_calendar"
-version = "5.2.0"
+version = "5.2.1"
 readme = "README.md"
 requires-python = ">=3.14.2,<3.15"
 dependencies = [
     'icalendar ~= 6.3',
     'python-dateutil >= 2.9.0.post0',
-    'pytz >= 2026.2',
-    'recurring_ical_events ~= 3.8',
-    'ics == 0.7.2',
+    'pytz >= 2026.4',
+    'recurring_ical_events ~= 3.8, >= 3.8.2',
+    'ics == 0.7.3',
     'arrow',
     'httpx_auth >= 0.22.0, <= 0.23.1',
-    'tatsu>=4.2.6,<5.8.0' # This is to continue supporting ics
+    'tatsu>=4.2.6,<5.15.0' # This is to continue supporting ics
 ]
 
 [project.optional-dependencies]
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.333',
+    'pytest-homeassistant-custom-component>=0.13.366',
     'pytest-helpers-namespace>=2021.12.29',
-    'pytest-httpx>=0.36.0',
+    'pytest-httpx>=0.36.2',
     'pytest-mock',
     'pytest-asyncio',
     'pytest-aiohttp',
     'aiohttp_cors',
     'aiotask_context',
     #'pyobjc-core>=12.1',
-    'mashumaro>=3.20',
+    'mashumaro>=3.22',
 ]
 
 [dependency-groups]
 dev = [
     'black>26',
     'isort',
-    'flake8>=7.3.0',
+    'flake8>=7.4.1',
     'flake8-pyproject',
     'pydocstyle',
     'pylint>=4',

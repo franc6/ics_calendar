@@ -53,18 +53,6 @@ def mock_http(hass):
     hass.http = Mock()
 
 
-@pytest.fixture(autouse=True)
-def mock_http_start_stop():
-    """Fixture to avoid stop/start of http server."""
-    with (
-        patch(
-            "homeassistant.components.http.start_http_server_and_save_config"
-        ),
-        patch("homeassistant.components.http.HomeAssistantHTTP.stop"),
-    ):
-        yield
-
-
 @pytest.fixture
 def mock_calendardata(monkeypatch):
     """Fixture to mock CalendarData."""
