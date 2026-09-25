@@ -2,6 +2,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar)
 [![Coverage](https://codecov.io/gh/franc6/ics_calendar/branch/releases/graph/badge.svg)](https://app.codecov.io/gh/franc6/ics_calendar/branch/releases)
+[![Codacy Grade](https://app.codacy.com/project/badge/Grade/bea1da37909f4ba9927ef7964d9c553b)](https://app.codacy.com/gh/franc6/ics_calendar/dashboard)
 ![Maintained:yes](https://img.shields.io/maintenance/yes/2026.svg)
 [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
 
@@ -96,8 +97,8 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the calendar (https and file URI schemes are supported)
-`accept_header` | `string` | An accept header for servers that are misconfigured, default is not set
-`connection_timeout` | `float` | `None` | Sets a timeout in seconds for the connection to download the calendar.  Use this if you have frequent connection issues with a calendar
+`accept_header` | `string` | `False' | An accept header for servers that are misconfigured, default is not set
+`connection_timeout` | `float` | `False` | Sets a timeout in seconds for the connection to download the calendar.  Use this if you have frequent connection issues with a calendar
 `days` | `positive integer` | `False` | The number of days to look ahead (only affects the attributes of the calendar entity), default is 1
 `download_interval` | `positive integer` | `False` | The time between downloading new calendar data, in minutes, default is 15
 `exclude` | `string` | `False` | Allows for filtering of events, see below

@@ -50,7 +50,7 @@ ics_calendar:
       password: !secret auth_calendar
 ```
 
-### Example in configuration.yaml with caldav and ics_calendar calendars:
+### Example in configuration.yaml with caldav and ics_calendar calendars
 
 Current configuration.yaml
 
@@ -97,7 +97,7 @@ ics_calendar:
       password: !secret auth_calendar
 ```
 
-### Example in external yaml file with only ics_calendar calendars:
+### Example in external yaml file with only ics_calendar calendars
 
 Current configuration.yaml
 

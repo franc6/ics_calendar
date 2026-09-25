@@ -1,5 +1,5 @@
 # ics_calendar
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration) [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar) [![Coverage](https://codecov.io/gh/franc6/ics_calendar/branch/releases/graph/badge.svg)](https://app.codecov.io/gh/franc6/ics_calendar/branch/releases) ![Maintained:yes](https://img.shields.io/maintenance/yes/2023.svg) [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration) [![ics_calendar](https://img.shields.io/github/v/release/franc6/ics_calendar.svg?1)](https://github.com/franc6/ics_calendar) [![Coverage](https://codecov.io/gh/franc6/ics_calendar/branch/releases/graph/badge.svg)](https://app.codecov.io/gh/franc6/ics_calendar/branch/releases) [![Codacy Grade](https://app.codacy.com/project/badge/Grade/bea1da37909f4ba9927ef7964d9c553b)](https://app.codacy.com/gh/franc6/ics_calendar/dashboard) ![Maintained:yes](https://img.shields.io/maintenance/yes/2026.svg) [![License](https://img.shields.io/github/license/franc6/ics_calendar.svg)](LICENSE)
 
 Provides a component for ICS (icalendar) calendars for Home Assistant
 
@@ -24,7 +24,6 @@ Then your problem stems from a dependency installation issue.  This problem is s
 3. you have made custom modifications to the container in order to resolve an earlier dependency problem, for this integration or another
 
 If you encounter a dependency installation problem, please see https://github.com/home-assistant/core/issues/127966 and https://github.com/home-assistant/core/pull/125808 which explain the problem in more detail, and the fix that was applied.  If those do not help you resolve the dependency problem, please note that the author will be unable to help.  Please do not open an issue on GitHub for this problem.  It's not a bug in ics_calendar, and it cannot be resolved by changing ics_calendar.  You can find the full list of runtime dependencies and versions in the [manifest.json](custom_components/ics_calendar/manifest.json) in the "requirements" value.
-
 
 ## Authentication
 This component supports HTTP Basic Auth and HTTP Digest Auth.  It does not support more advanced authentication methods.
@@ -60,8 +59,8 @@ Key | Type | Required | Description
 -- | -- | -- | --
 `name` | `string` | `True` | A name for the calendar
 `url` | `string` | `True` | The URL of the calendar (https and file URI schemes are supported)
-`accept_header` | `string` | An accept header for servers that are misconfigured, default is not set
-`connection_timeout` | `float` | `None` | Sets a timeout in seconds for the connection to download the calendar.  Use this if you have frequent connection issues with a calendar
+`accept_header` | `string` | `False' | An accept header for servers that are misconfigured, default is not set
+`connection_timeout` | `float` | `False` | Sets a timeout in seconds for the connection to download the calendar.  Use this if you have frequent connection issues with a calendar
 `days` | `positive integer` | `False` | The number of days to look ahead (only affects the attributes of the calendar entity), default is 1
 `download_interval` | `positive integer` | `False` | The time between downloading new calendar data, in minutes, default is 15
 `exclude` | `string` | `False` | Allows for filtering of events, see below
