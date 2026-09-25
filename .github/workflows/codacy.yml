@@ -45,6 +45,9 @@ jobs:
           # Check https://github.com/codacy/codacy-analysis-cli#project-token to get your project token from your Codacy repository
           # You can also omit the token and run the tools that support default configurations
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          # Only run bandit; pylint and flake8 run via lint.yaml with our
+          # own settings.  Excluded paths are set in .codacy.yml.
+          tool: bandit
           verbose: true
           output: results.sarif
           format: sarif

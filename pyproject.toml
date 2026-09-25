@@ -38,6 +38,7 @@ dev = [
     'flake8-pyproject',
     'pydocstyle',
     'pylint>=4',
+    'bandit',
     'radon'
 ]
 

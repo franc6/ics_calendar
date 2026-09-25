@@ -46,3 +46,7 @@ jobs:
       - name: Run pylint
         run: |
           uv run --prerelease=allow pylint custom_components/ics_calendar
+
+      - name: Run bandit
+        run: |
+          uv run --prerelease=allow bandit -r -q custom_components/ics_calendar

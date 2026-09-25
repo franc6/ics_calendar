@@ -115,14 +115,14 @@ class CalendarData:  # pylint: disable=R0902
         :param accept_header: The accept header string to use or ""
         :type accept_header: str
         """
-        if user_name != "" and password != "":
+        if user_name and password:
             self._auth = httpx_auth.Basic(
                 user_name, password
             ) + DigestWithMultiAuth(user_name, password)
 
-        if user_agent != "":
+        if user_agent:
             self._headers.append(("User-agent", user_agent))
-        if accept_header != "":
+        if accept_header:
             self._headers.append(("Accept", accept_header))
         return self
 

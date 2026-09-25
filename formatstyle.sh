@@ -26,3 +26,6 @@ pydocstyle -v custom_components/ics_calendar tests || exit
 
 echo "pylint checks"
 pylint custom_components/ics_calendar || exit
+
+echo "bandit security checks"
+bandit -r -q custom_components/ics_calendar || exit
