@@ -9,13 +9,13 @@ echo "Formatting json files"
 for i in custom_components/ics_calendar/*.json custom_components/ics_calendar/translations/*.json
 do
     echo "    $i"
-    python -m json.tool $i > /dev/null || exit
-    python -m json.tool $i > $i.new
-    if diff $i $i.new >/dev/null 2>/dev/null
+    python -m json.tool "$i" > /dev/null || exit
+    python -m json.tool "$i" > "$i.new"
+    if diff "$i" "$i.new" >/dev/null 2>/dev/null
     then
-        cat $i.new > $i
+        cat "$i.new" > "$i"
     fi
-    rm $i.new
+    rm "$i.new"
 done
 
 echo "flake8 style and complexity checks"
