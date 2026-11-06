@@ -32,8 +32,6 @@ from custom_components.ics_calendar import (
 )
 from custom_components.ics_calendar.const import CONF_SUMMARY_DEFAULT_DEFAULT
 
-pytest_plugins = "pytest_homeassistant_custom_component"
-
 # ---------------------------------------------------------------------------
 # Shared helpers
 # ---------------------------------------------------------------------------
@@ -743,7 +741,7 @@ class TestICSCalendarOptionsFlow:
         self, hass
     ) -> None:
         """Test that calendar_opts form fields show current option values."""
-        from pytest_homeassistant_custom_component.common import (
+        from pytest_homeassistant.common import (
             MockConfigEntry,
         )
 
@@ -788,7 +786,7 @@ class TestICSCalendarOptionsFlow:
         self, hass
     ) -> None:
         """Test that connect_opts form pre-populates the URL from existing options."""
-        from pytest_homeassistant_custom_component.common import (
+        from pytest_homeassistant.common import (
             MockConfigEntry,
         )
 
@@ -832,7 +830,7 @@ class TestAsyncMigrateEntry:
     @staticmethod
     def _migrate(hass, data):
         """Build a 1.0 entry from data and run the migration."""
-        from pytest_homeassistant_custom_component.common import (
+        from pytest_homeassistant.common import (
             MockConfigEntry,
         )
 
@@ -971,7 +969,7 @@ class TestAddMissingDefaults:
 
     @staticmethod
     def _entry(options):
-        from pytest_homeassistant_custom_component.common import (
+        from pytest_homeassistant.common import (
             MockConfigEntry,
         )
 

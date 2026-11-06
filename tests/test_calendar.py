@@ -19,8 +19,6 @@ from custom_components.ics_calendar.calendardata import CalendarData
 from custom_components.ics_calendar.const import DOMAIN
 from custom_components.ics_calendar.parserevent import ParserEvent
 
-pytest_plugins = "pytest_homeassistant_custom_component"
-
 CALENDARDATA_IMPORT_PATH = (
     "custom_components.ics_calendar.calendar.CalendarData"
 )
