@@ -18,7 +18,7 @@ dependencies = [
 tests = [
     'pytest',
     'pytest-cov',
-    'pytest-homeassistant-custom-component>=0.13.366',
+    'pytest-homeassistant==2026.11.0',
     'pytest-helpers-namespace>=2021.12.29',
     'pytest-httpx>=0.36.2',
     'pytest-mock',
@@ -590,6 +590,6 @@ ignored-argument-names = "_.*|^ignored_|^unused_"
 redefining-builtins-modules = ["six.moves", "past.builtins", "future.builtins", "builtins", "io"]
 
 [tool.pytest.ini_options]
-addopts = "--allow-unix-socket --cov=custom_components.ics_calendar --cov-branch --cov-report html --cov-report xml"
+addopts = "-p pytest_homeassistant -p no:respx --allow-unix-socket --cov=custom_components.ics_calendar --cov-branch --cov-report html --cov-report xml"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
